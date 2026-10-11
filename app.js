@@ -1,4 +1,4 @@
-/* Bajet Bulanan
+/* MyBajet
    Data disimpan dalam localStorage telefon/browser ini sahaja.
 
    Bentuk data (kunci "bajet-bulanan-v1"):
@@ -44,10 +44,13 @@
       semuaBayar: 'Semua dah selesai',
       masuk: 'Duit masuk',
       keluar: 'Duit keluar',
+      masukPendek: 'Masuk',
+      keluarPendek: 'Keluar',
       baki: 'Baki',
       petunjukBayar: 'Selesai',
       cara: 'Leret kiri atau tekan 2 kali untuk tanda selesai. Leret kanan untuk padam. Tekan lama nama kumpulan untuk selesaikan semua.',
-      jalurNota: 'Selesai {a} daripada {b} bayaran, RM {j}',
+      jalurNota: '{a} daripada {b} selesai',
+      jalurPenuh: 'Selesai {a} daripada {b} bayaran, RM {j}',
       jalurKosong: 'Belum ada bayaran dalam senarai',
       kosongMasuk: 'Belum ada duit masuk. Tekan Tambah item dan pilih Duit masuk.',
       kosongKeluar: 'Belum ada bayaran. Tekan Tambah item untuk masukkan bayaran bulanan.',
@@ -99,6 +102,10 @@
       gajiRasmi: 'Ikut pekeliling rasmi. Tukar nombor hari bulan kalau ada pindaan.',
       gajiSendiri: 'Diisi sendiri dalam telefon ini.',
       gajiTiada: 'Belum ada tarikh untuk {y}. Apps guna {d} hb setiap bulan sehingga diisi di sini.',
+      gajiAnggar: 'Anggaran sahaja, belum ada pekeliling {y}. Dikira daripada corak tarikh gaji tahun-tahun lepas dan tarikh perayaan {y}. Betulkan di sini bila pekeliling keluar.',
+      anggaran: ' (anggaran)',
+      akanAnggar: ' Tarikh ini anggaran.',
+      perayaan: { tbc: 'Tahun Baharu Cina', puasa: 'Hari Raya Puasa', haji: 'Hari Raya Haji', deepavali: 'Deepavali', krismas: 'Krismas', muharram: 'Awal Muharram' },
       gajiAsal: 'Guna tarikh asal',
       gajiRalat: 'Hari bulan untuk {b} mesti antara 1 dan {n}.',
       gajiDisimpan: 'Tarikh gaji {y} disimpan',
@@ -134,9 +141,9 @@
       importNota: 'Masukkan senarai awal, atau pulihkan dari salinan',
       tiadaData: 'Belum ada data untuk disimpan.',
       salinanDisimpan: 'Salinan disimpan sebagai {f}',
-      failRosak: 'Fail ini tak dapat dibaca. Pilih fail .json dari Bajet Bulanan.',
+      failRosak: 'Fail ini tak dapat dibaca. Pilih fail .json dari MyBajet.',
       failTiadaBulan: 'Fail ini tak ada data bulan di dalamnya.',
-      failBukan: 'Fail ini bukan fail Bajet Bulanan.',
+      failBukan: 'Fail ini bukan fail MyBajet.',
       sahGantiSemua: 'Ganti semua data dengan data dari fail?',
       sahGantiSemuaTeks: 'Semua bulan dalam apps ini akan diganti dengan isi fail.',
       sahGantiSenarai: 'Ganti senarai {s}?',
@@ -166,10 +173,13 @@
       semuaBayar: 'All paid',
       masuk: 'Money in',
       keluar: 'Money out',
+      masukPendek: 'In',
+      keluarPendek: 'Out',
       baki: 'Balance',
       petunjukBayar: 'Paid',
       cara: 'Swipe left or double tap to mark paid. Swipe right to delete. Press and hold a group name to mark the whole group paid.',
-      jalurNota: 'Paid {a} of {b} payments, RM {j}',
+      jalurNota: '{a} of {b} paid',
+      jalurPenuh: 'Paid {a} of {b} payments, RM {j}',
       jalurKosong: 'No payments in the list yet',
       kosongMasuk: 'No money in yet. Tap Add item and choose Money in.',
       kosongKeluar: 'No payments yet. Tap Add item to enter your monthly payments.',
@@ -221,6 +231,10 @@
       gajiRasmi: 'From the official circular. Change a day number if a date is revised.',
       gajiSendiri: 'Entered on this phone.',
       gajiTiada: 'No dates for {y} yet. The app uses the {d}th of every month until you enter them here.',
+      gajiAnggar: 'An estimate only; there is no circular for {y} yet. Worked out from the pattern of earlier years and the {y} festival dates. Correct it here when the circular is out.',
+      anggaran: ' (estimate)',
+      akanAnggar: ' These dates are an estimate.',
+      perayaan: { tbc: 'Chinese New Year', puasa: 'Hari Raya Puasa', haji: 'Hari Raya Haji', deepavali: 'Deepavali', krismas: 'Christmas', muharram: 'Awal Muharram' },
       gajiAsal: 'Use original dates',
       gajiRalat: 'The day for {b} must be between 1 and {n}.',
       gajiDisimpan: 'Payday dates for {y} saved',
@@ -256,9 +270,9 @@
       importNota: 'Load a starting list, or restore from a copy',
       tiadaData: 'There is no data to save yet.',
       salinanDisimpan: 'Copy saved as {f}',
-      failRosak: "This file can't be read. Choose a .json file from Bajet Bulanan.",
+      failRosak: "This file can't be read. Choose a .json file from MyBajet.",
       failTiadaBulan: 'This file has no month data in it.',
-      failBukan: "This isn't a Bajet Bulanan file.",
+      failBukan: "This isn't a MyBajet file.",
       sahGantiSemua: 'Replace all data with the file?',
       sahGantiSemuaTeks: 'Every month in this app will be replaced with what is in the file.',
       sahGantiSenarai: 'Replace the {s} list?',
@@ -329,9 +343,15 @@
   const gajiLalai = () => window.GAJI_LALAI || 25;
   const gajiRasmi = (y) => (window.TARIKH_GAJI || {})[y] || null;
 
+  const gajiAnggar = (y) => (window.TARIKH_GAJI_ANGGARAN || {})[y] || null;
+
+  // Dari mana tarikh gaji tahun y datang: diisi sendiri, pekeliling, anggaran, atau tiada (guna lalai).
+  const sumberGaji = (y) => (data.gaji[y] ? 'sendiri' : gajiRasmi(y) ? 'rasmi' : gajiAnggar(y) ? 'anggar' : 'tiada');
+  const gajiBelumPasti = (y) => { const s = sumberGaji(y); return s === 'anggar' || s === 'tiada'; };
+
   // Tarikh yang diisi sendiri dalam apps mengatasi tarikh dalam tarikh-gaji.js.
   function tarikhGaji(y, m) {
-    const tahun = data.gaji[y] || gajiRasmi(y);
+    const tahun = data.gaji[y] || gajiRasmi(y) || gajiAnggar(y);
     const hari = tahun && Number(tahun[m]) > 0 ? Number(tahun[m]) : gajiLalai();
     return new Date(y, m, hari);
   }
@@ -579,11 +599,10 @@
       .map((i) => '<i style="flex-grow:' + keSen(i.amount) + '"' + (selesai(i) ? ' class="bayar"' : '') + '></i>')
       .join('');
 
-    const nota = kira.length
-      ? t('jalurNota', { a: sudah.length, b: kira.length, j: fmt(jumlah(sudah)) })
-      : t('jalurKosong');
-    $('jalurNota').textContent = nota;
-    $('jalur').setAttribute('aria-label', nota);
+    $('jalurNota').textContent = kira.length ? t('jalurNota', { a: sudah.length, b: kira.length }) : t('jalurKosong');
+    $('jalur').setAttribute('aria-label', kira.length
+      ? t('jalurPenuh', { a: sudah.length, b: kira.length, j: fmt(jumlah(sudah)) })
+      : t('jalurKosong'));
 
     $('jumMasuk').textContent = fmt(masuk);
     $('jumKeluar').textContent = fmt(keluar);
@@ -603,7 +622,7 @@
     const lagi = bezaHari(gaji, hariIni());
 
     $('tajuk').textContent = namaSheet(lihat);
-    document.title = namaSheet(lihat) + ' | Bajet Bulanan';
+    document.title = namaSheet(lihat) + ' | MyBajet';
 
     let teks;
     if (lagi > 1) teks = t('gajiLagi', { t: tarikhPenuh(gaji), n: lagi });
@@ -611,6 +630,7 @@
     else if (lagi === 0) teks = t('gajiHariIni');
     else if (lihat === utama) teks = t('gajiDah', { t: tarikhPenuh(gaji) });
     else teks = t('gajiBiasa', { t: tarikhPenuh(gaji) });
+    if (gajiBelumPasti(y) && lagi !== 0) teks += t('anggaran');
     $('gaji').textContent = teks;
 
     $('btnSebelum').disabled = idx <= 0;
@@ -631,7 +651,7 @@
       const p = pecah(depan);
       $('akanTeks').textContent = t('akanMuncul', {
         s: namaSheet(depan), b: tarikhPenuh(tarikhBuka(p.y, p.m)), h: hariAwal(), g: tarikhPendek(tarikhGaji(p.y, p.m)),
-      });
+      }) + (gajiBelumPasti(p.y) ? t('akanAnggar') : '');
       $('btnAkan').textContent = t('sediaSekarang', { s: namaSheet(depan) });
       $('btnAkan').className = 'btn';
       tindakanAkan = 'sedia';
@@ -660,12 +680,13 @@
     const adaSheet = senaraiKunci().length > 0;
     $('mula').hidden = adaSheet;
     $('isi').hidden = !adaSheet;
+    $('ringkas').hidden = !adaSheet;
     $('btnTambah').hidden = !adaSheet;
     $('btnSebelum').hidden = !adaSheet;
     $('btnSelepas').hidden = !adaSheet;
     if (!adaSheet) {
-      $('tajuk').textContent = 'Bajet Bulanan';
-      document.title = 'Bajet Bulanan';
+      $('tajuk').textContent = 'MyBajet';
+      document.title = 'MyBajet';
       $('gaji').textContent = '';
       $('awal').hidden = true;
       $('btnSemasa').hidden = true;
@@ -1124,7 +1145,7 @@
   const hariDalamBulan = (y, m) => new Date(y, m + 1, 0).getDate();
 
   function hadTahunGaji() {
-    const rasmi = Object.keys(window.TARIKH_GAJI || {}).map(Number);
+    const rasmi = Object.keys(window.TARIKH_GAJI || {}).concat(Object.keys(window.TARIKH_GAJI_ANGGARAN || {})).map(Number);
     const sendiri = Object.keys(data.gaji).map(Number);
     const kini = hariIni().getFullYear();
     return {
@@ -1138,20 +1159,28 @@
     const had = hadTahunGaji();
     const sendiri = data.gaji[y];
     const rasmi = gajiRasmi(y);
+    const anggar = gajiAnggar(y);
     const utama = kunciUtama();
+    const perayaan = (window.PERAYAAN || {})[y] || [];
 
     $('gajiTahun').textContent = y;
     $('gajiSebelum').disabled = y <= had.min;
     $('gajiSelepas').disabled = y >= had.max;
-    $('gajiSumber').textContent = sendiri ? t('gajiSendiri') : rasmi ? t('gajiRasmi') : t('gajiTiada', { y, d: gajiLalai() });
-    $('gajiAsal').hidden = !(sendiri && rasmi);
+    $('gajiSumber').textContent = sendiri ? t('gajiSendiri')
+      : rasmi ? t('gajiRasmi')
+      : anggar ? t('gajiAnggar', { y })
+      : t('gajiTiada', { y, d: gajiLalai() });
+    $('gajiAsal').hidden = !(sendiri && (rasmi || anggar));
     $('gajiRalat').hidden = true;
 
     let h = '';
     for (let m = 0; m < 12; m += 1) {
       const d = tarikhGaji(y, m);
       h += '<li' + (utama === kunci(y, m) ? ' class="kini"' : '') + '>' +
-        '<label for="gajiHari' + m + '">' + esc(t('bulan')[m]) + '</label>' +
+        '<label for="gajiHari' + m + '">' + esc(t('bulan')[m]) +
+          perayaan.filter((p) => p[0] === m + 1).map((p) =>
+            '<small class="g-nota">' + esc((t('perayaan')[p[2]] || p[2]) + ', ' + p[1] + ' ' + t('bulanPendek')[m]) + '</small>').join('') +
+        '</label>' +
         '<input id="gajiHari' + m + '" type="number" inputmode="numeric" min="1" max="' + hariDalamBulan(y, m) + '" value="' + d.getDate() + '" data-m="' + m + '">' +
         '<span class="g-hari">' + esc(t('hari')[d.getDay()]) + '</span>' +
       '</li>';
@@ -1231,7 +1260,7 @@
   $('btnEksport').addEventListener('click', () => {
     if (!senaraiKunci().length) { menu.close(); toast(t('tiadaData')); return; }
     const d = new Date();
-    const nama = 'bajet-bulanan-' + d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0') + '.json';
+    const nama = 'mybajet-' + d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0') + '.json';
     const isi = JSON.stringify({ app: 'bajet-bulanan', v: 1, disimpan: d.toISOString(), sheets: data.sheets, gaji: data.gaji }, null, 2);
     const url = URL.createObjectURL(new Blob([isi], { type: 'application/json' }));
     const a = document.createElement('a');

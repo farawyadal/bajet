@@ -1,4 +1,4 @@
-# Bajet Bulanan
+# MyBajet
 
 Apps ringkas untuk jejak duit masuk, duit keluar dan bayaran bulanan. Ia laman web biasa (HTML, CSS, JavaScript) yang boleh dipasang pada telefon macam apps, dan boleh dibuka tanpa internet selepas kali pertama.
 
@@ -26,7 +26,7 @@ Tekan tiga titik di atas kanan:
 
 - **Bahasa:** Melayu atau English. Nama item dan kumpulan yang ditaip sendiri tak diterjemah.
 - **Paparan:** Ikut sistem, Terang atau Gelap.
-- **Tarikh gaji:** senarai tarikh gaji setiap bulan, dan tempat isi tarikh tahun baru.
+- **Tarikh gaji:** senarai tarikh gaji setiap bulan dengan catatan perayaan, dan tempat isi atau betulkan tarikh.
 - **Data:** Simpan salinan dan Import fail.
 
 ## Fail dalam folder ini
@@ -67,6 +67,18 @@ Semua data disimpan dalam telefon itu sahaja, bukan di GitHub dan bukan di mana-
 
 Sebab itu, sekali-sekala tekan tiga titik > **Simpan salinan**. Untuk pulihkan, tiga titik > **Import fail** dan pilih fail salinan tadi.
 
+## Tarikh gaji 2028 ialah anggaran
+
+Pekeliling 2028 belum keluar, jadi tarikh 2028 dalam apps ialah **anggaran** dan dilabel begitu. Ia dikira daripada corak tarikh sebenar 2026 dan 2027 serta tarikh perayaan 2028:
+
+1. Asasnya 25 hb. Kalau 25 hb jatuh Jumaat, Sabtu atau Ahad, gaji pada Khamis sebelumnya. Kalau 25 hb cuti umum, gaji pada hari bekerja sebelumnya.
+2. Kalau perayaan utama (Tahun Baharu Cina, Hari Raya Puasa, Hari Raya Haji, Deepavali, Krismas) jatuh pada 17 hb atau lebih lewat dalam bulan itu, gaji dibayar 5 hari sebelum hari pertama perayaan.
+3. Jarak dari gaji sebelumnya tak lebih 35 hari; kalau lebih, gaji bulan itu ditarik awal.
+
+Peraturan ini padan 23 daripada 24 bulan sebenar 2026 dan 2027; yang satu lagi tersasar sehari. Tarikh Hari Raya dan Awal Muharram 2028 pula bergantung pada anak bulan, jadi Februari dan Mei boleh berubah sehari. Oktober dan November paling tak pasti, sebab Deepavali jatuh betul-betul pada 17 hb.
+
+Bila pekeliling sebenar keluar, betulkan tarikh itu dengan salah satu cara di bawah.
+
 ## Kemas kini tarikh gaji tahun baru
 
 Cara paling senang ialah dalam apps: tekan baris tarikh gaji di bawah nama bulan (atau tiga titik > **Lihat dan isi tarikh gaji**), pergi ke tahun baru, taip hari bulan gaji untuk setiap bulan, dan **Simpan**. Tarikh yang diisi begini disimpan dalam telefon dan ikut sekali dalam fail **Simpan salinan**. Tarikh 2026 dan 2027 pun boleh dipinda di situ kalau ada perubahan.
@@ -87,7 +99,7 @@ Untuk tengok apa jadi pada tarikh tertentu, tambah `?hari=TTTT-BB-HH` di hujung 
 
 ## English
 
-A small app for tracking monthly money in, money out and routine payments. It is a plain web page that installs on a phone like an app and works offline after the first visit.
+MyBajet is a small app for tracking monthly money in, money out and routine payments. It is a plain web page that installs on a phone like an app and works offline after the first visit.
 
 - Money in is light blue, money out is pink, and paid items are green. Only money out can be marked paid.
 - Swipe an item left, or double tap it, to mark it paid; do it again to unmark. Swipe right to delete (the app asks first).
@@ -97,4 +109,4 @@ A small app for tracking monthly money in, money out and routine payments. It is
 - To get the list ready sooner, use **Prepare the (next month) sheet now** below the list. The main page stays on the current month until two days before payday.
 - Tap the three dots for settings: language (Melayu or English), appearance (System, Light or Dark), payday dates, and saving or importing a copy of your data.
 - All data stays on the phone. Nothing is sent to GitHub or any server, so save a copy now and then.
-- Payday dates for 2026 and 2027 are built in. Enter a new year's dates in the app (tap the payday line under the month name), or add one line to `tarikh-gaji.js`.
+- Payday dates for 2026 and 2027 are built in. The 2028 dates are an estimate, labelled as such, until the official circular is out. Enter or correct a year's dates in the app (tap the payday line under the month name), or edit `tarikh-gaji.js`.

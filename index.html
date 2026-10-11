@@ -3,12 +3,12 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Bajet Bulanan</title>
+<title>MyBajet</title>
 <meta name="description" content="Jejak duit masuk, duit keluar dan bayaran bulanan.">
 <meta name="theme-color" content="#F6F7FB">
 <meta name="color-scheme" content="light dark">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-title" content="Bajet">
+<meta name="apple-mobile-web-app-title" content="MyBajet">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" href="icon-192.png">
@@ -28,9 +28,11 @@ try {
 
 <div class="bingkai">
 
+  <!-- Bahagian atas: kekal nampak walaupun senarai ditatal -->
+  <div class="lekat">
   <header class="atas">
     <div class="bulan-nav">
-      <h1 id="tajuk">Bajet Bulanan</h1>
+      <h1 id="tajuk">MyBajet</h1>
       <button class="ikon-btn" id="btnSebelum" type="button" data-i18n-aria="bulanSebelum" aria-label="Bulan sebelum">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
       </button>
@@ -42,9 +44,27 @@ try {
       </button>
     </div>
     <button class="gaji" id="gaji" type="button"></button>
-    <p class="awal" id="awal" hidden></p>
-    <button class="ke-semasa" id="btnSemasa" type="button" data-i18n="keSemasa" hidden>Pergi ke bulan semasa</button>
   </header>
+
+  <section class="ringkas" id="ringkas" hidden>
+    <div class="belum">
+      <div class="belum-kiri">
+        <span class="belum-label" id="belumLabel"></span>
+        <span class="jalur-nota" id="jalurNota"></span>
+      </div>
+      <strong class="belum-angka" id="belumAngka"></strong>
+    </div>
+    <div class="jalur" id="jalur" role="img"></div>
+    <dl class="tiga">
+      <div class="t-masuk"><dt data-i18n="masukPendek">Masuk</dt><dd id="jumMasuk"></dd></div>
+      <div class="t-keluar"><dt data-i18n="keluarPendek">Keluar</dt><dd id="jumKeluar"></dd></div>
+      <div class="t-baki"><dt data-i18n="baki">Baki</dt><dd id="jumBaki"></dd></div>
+    </dl>
+  </section>
+  </div>
+
+  <p class="awal" id="awal" hidden></p>
+  <button class="ke-semasa" id="btnSemasa" type="button" data-i18n="keSemasa" hidden>Pergi ke bulan semasa</button>
 
   <!-- Skrin pertama: belum ada senarai -->
   <section class="mula" id="mula" hidden>
@@ -58,20 +78,6 @@ try {
   </section>
 
   <div id="isi" hidden>
-
-    <section class="ringkas">
-      <div class="belum">
-        <span class="belum-label" id="belumLabel"></span>
-        <strong class="belum-angka" id="belumAngka"></strong>
-      </div>
-      <div class="jalur" id="jalur" role="img"></div>
-      <p class="jalur-nota" id="jalurNota"></p>
-      <dl class="tiga">
-        <div class="t-masuk"><dt data-i18n="masuk">Duit masuk</dt><dd id="jumMasuk"></dd></div>
-        <div class="t-keluar"><dt data-i18n="keluar">Duit keluar</dt><dd id="jumKeluar"></dd></div>
-        <div class="t-baki"><dt data-i18n="baki">Baki</dt><dd id="jumBaki"></dd></div>
-      </dl>
-    </section>
 
     <p class="petunjuk">
       <span class="cap masuk"></span><span data-i18n="masuk">Duit masuk</span>

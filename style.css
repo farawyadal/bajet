@@ -1,4 +1,4 @@
-/* Bajet Bulanan
+/* MyBajet
    Tiga warna bawa semua makna: biru muda = duit masuk, pink = duit keluar,
    hijau = selesai (duit keluar sahaja). Yang lain kekal senyap.
 
@@ -137,15 +137,27 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .bingkai {
   max-width: 560px;
   margin: 0 auto;
-  padding: calc(10px + env(safe-area-inset-top)) 14px 120px;
+  padding: 0 14px 120px;
 }
 
-/* ---------- Kepala: tukar bulan ---------- */
+/* ---------- Bahagian atas: padat dan melekat ---------- */
+
+/* Kekal di atas walaupun senarai ditatal. Margin negatif supaya latarnya
+   menutup penuh lebar bingkai dan baris tak nampak di tepi. */
+.lekat {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  margin: 0 -14px;
+  padding: calc(4px + env(safe-area-inset-top)) 14px 10px;
+  background: var(--kertas);
+  border-bottom: 1px solid var(--garis);
+}
 
 .bulan-nav {
   display: flex;
   align-items: center;
-  gap: 2px;
+  gap: 0;
 }
 
 .bulan-nav h1 {
@@ -154,7 +166,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
   margin: 0;
   padding-left: 2px;
   font-family: var(--angka);
-  font-size: 1.625rem;
+  font-size: 1.3125rem;
   font-weight: 700;
   letter-spacing: -0.01em;
   line-height: 1.15;
@@ -162,11 +174,11 @@ button { font: inherit; color: inherit; cursor: pointer; }
 
 .gaji {
   display: block;
-  margin: 0;
-  padding: 2px 2px 4px;
+  margin: -4px 0 0;
+  padding: 0 2px 2px;
   border: 0;
   background: transparent;
-  font-size: 0.9375rem;
+  font-size: 0.8125rem;
   color: var(--dakwat-2);
   text-align: left;
   text-decoration: underline dotted;
@@ -176,8 +188,8 @@ button { font: inherit; color: inherit; cursor: pointer; }
 
 .ikon-btn {
   flex: none;
-  width: 44px;
-  height: 44px;
+  width: 40px;
+  height: 40px;
   display: grid;
   place-items: center;
   border: 0;
@@ -213,22 +225,25 @@ button { font: inherit; color: inherit; cursor: pointer; }
   font-weight: 600;
 }
 
-/* ---------- Ringkasan ---------- */
+/* ---------- Ringkasan (dalam bahagian melekat) ---------- */
 
-.ringkas { margin-top: 22px; }
+.ringkas { margin-top: 8px; }
 
 .belum {
   display: flex;
-  align-items: baseline;
+  align-items: center;
   justify-content: space-between;
   gap: 12px;
 }
 
-.belum-label { font-size: 1rem; font-weight: 600; }
+.belum-kiri { display: grid; min-width: 0; }
+.belum-label { font-size: 0.9375rem; font-weight: 600; line-height: 1.25; }
+.jalur-nota { font-size: 0.8125rem; color: var(--dakwat-2); line-height: 1.25; }
 
 .belum-angka {
+  flex: none;
   font-family: var(--angka);
-  font-size: clamp(2rem, 9.5vw, 2.75rem);
+  font-size: clamp(1.5rem, 7.2vw, 1.875rem);
   font-weight: 700;
   letter-spacing: -0.02em;
   line-height: 1;
@@ -236,7 +251,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
   white-space: nowrap;
 }
 .belum-angka small {
-  font-size: 0.45em;
+  font-size: 0.5em;
   font-weight: 600;
   letter-spacing: 0;
   margin-right: 0.25em;
@@ -244,13 +259,13 @@ button { font: inherit; color: inherit; cursor: pointer; }
 }
 
 /* Jalur bayaran: satu petak bagi setiap bayaran, lebar ikut jumlah.
-   Pink = belum, kuning = dah bayar. */
+   Pink = belum, hijau = selesai. */
 .jalur {
   display: flex;
   gap: 2px;
-  height: 16px;
-  margin-top: 12px;
-  border-radius: 4px;
+  height: 10px;
+  margin-top: 8px;
+  border-radius: 3px;
   overflow: hidden;
 }
 .jalur i {
@@ -262,29 +277,24 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .jalur i.bayar { background: var(--bayar-pekat); }
 .jalur:empty { background: var(--garis); }
 
-.jalur-nota {
-  margin: 6px 0 0;
-  font-size: 0.875rem;
-  color: var(--dakwat-2);
-}
-
+/* Duit masuk, duit keluar, baki: sebaris, dan turun baris kalau skrin sempit. */
 .tiga {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
-  margin: 18px 0 0;
-  padding-top: 14px;
-  border-top: 1px solid var(--garis);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 2px 14px;
+  margin: 8px 0 0;
 }
-.tiga div { min-width: 0; }
+.tiga div { display: flex; align-items: baseline; gap: 5px; min-width: 0; }
 .tiga dt {
-  font-size: 0.8125rem;
+  font-size: 0.75rem;
   color: var(--dakwat-2);
+  white-space: nowrap;
 }
 .tiga dd {
-  margin: 2px 0 0;
+  margin: 0;
   font-family: var(--angka);
-  font-size: 1.0625rem;
+  font-size: 0.875rem;
   font-weight: 700;
   font-variant-numeric: tabular-nums;
   white-space: nowrap;
@@ -293,13 +303,12 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .tiga .t-keluar dt::before {
   content: "";
   display: inline-block;
-  width: 9px; height: 9px;
-  margin-right: 5px;
+  width: 8px; height: 8px;
+  margin-right: 4px;
   border-radius: 2px;
   background: var(--masuk-pekat);
 }
 .tiga .t-keluar dt::before { background: var(--keluar-pekat); }
-.tiga .t-baki { text-align: right; }
 .tiga .t-baki.kurang dd { color: var(--keluar-teks); }
 
 /* ---------- Petunjuk warna ---------- */
@@ -309,7 +318,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
   flex-wrap: wrap;
   align-items: center;
   gap: 4px 6px;
-  margin: 22px 0 0;
+  margin: 14px 0 0;
   font-size: 0.8125rem;
   color: var(--dakwat-2);
 }
@@ -763,6 +772,7 @@ dialog.helai::backdrop { background: var(--tirai); }
 }
 .gaji-senarai input:focus { outline: none; border-color: var(--dakwat); box-shadow: 0 0 0 2px var(--dakwat); }
 .g-hari { font-size: 0.9375rem; color: var(--dakwat-2); font-weight: 400; }
+.g-nota { display: block; font-size: 0.75rem; font-weight: 400; color: var(--dakwat-2); line-height: 1.2; }
 .menu-senarai { display: grid; gap: 8px; }
 .menu-item {
   display: block;

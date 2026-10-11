@@ -1,6 +1,6 @@
 {
-  "name": "Bajet Bulanan",
-  "short_name": "Bajet",
+  "name": "MyBajet",
+  "short_name": "MyBajet",
   "description": "Jejak duit masuk, duit keluar dan bayaran bulanan.",
   "lang": "ms",
   "start_url": "./",
