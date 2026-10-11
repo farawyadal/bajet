@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="ms">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Bajet Bulanan</title>
+<meta name="description" content="Jejak duit masuk, duit keluar dan bayaran bulanan.">
+<meta name="theme-color" content="#F6F7FB">
+<meta name="color-scheme" content="light">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Bajet">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" href="icon-192.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="bingkai">
+
+  <header class="atas">
+    <div class="bulan-nav">
+      <h1 id="tajuk">Bajet Bulanan</h1>
+      <button class="ikon-btn" id="btnSebelum" type="button" aria-label="Bulan sebelum">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
+      </button>
+      <button class="ikon-btn" id="btnSelepas" type="button" aria-label="Bulan selepas">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
+      </button>
+      <button class="ikon-btn" id="btnMenu" type="button" aria-label="Menu">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="5" cy="12" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="19" cy="12" r="1.6"/></svg>
+      </button>
+    </div>
+    <p class="gaji" id="gaji"></p>
+    <button class="ke-semasa" id="btnSemasa" type="button" hidden>Pergi ke bulan semasa</button>
+  </header>
+
+  <!-- Skrin pertama: belum ada senarai -->
+  <section class="mula" id="mula" hidden>
+    <div class="mula-jalur" aria-hidden="true"><i></i><i></i><i></i></div>
+    <h2>Belum ada senarai bayaran</h2>
+    <p>Import senarai sedia ada, atau mula kosong dan tambah item satu per satu. Senarai disimpan dalam telefon ini sahaja.</p>
+    <div class="mula-btn">
+      <button class="btn utama" id="btnImportMula" type="button">Import senarai</button>
+      <button class="btn" id="btnKosong" type="button">Mula dengan senarai kosong</button>
+    </div>
+  </section>
+
+  <div id="isi" hidden>
+
+    <section class="ringkas" aria-label="Ringkasan bulan">
+      <div class="belum">
+        <span class="belum-label" id="belumLabel">Belum bayar</span>
+        <strong class="belum-angka" id="belumAngka"></strong>
+      </div>
+      <div class="jalur" id="jalur" role="img"></div>
+      <p class="jalur-nota" id="jalurNota"></p>
+      <dl class="tiga">
+        <div class="t-masuk"><dt>Duit masuk</dt><dd id="jumMasuk"></dd></div>
+        <div class="t-keluar"><dt>Duit keluar</dt><dd id="jumKeluar"></dd></div>
+        <div class="t-baki"><dt>Baki</dt><dd id="jumBaki"></dd></div>
+      </dl>
+    </section>
+
+    <p class="petunjuk">
+      <span class="cap masuk"></span>Duit masuk
+      <span class="cap keluar"></span>Duit keluar
+      <span class="cap bayar"></span>Dah bayar, tekan 2 kali
+    </p>
+
+    <main id="senarai"></main>
+
+    <p class="akan-datang" id="akanDatang"></p>
+  </div>
+
+</div>
+
+<button class="tambah" id="btnTambah" type="button" hidden>
+  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+  Tambah item
+</button>
+
+<!-- Borang tambah / edit -->
+<dialog class="helai" id="borang" aria-labelledby="borangTajuk">
+  <form id="borangForm" method="dialog" novalidate>
+    <h2 id="borangTajuk">Tambah item</h2>
+
+    <fieldset class="jenis">
+      <legend>Jenis</legend>
+      <label class="pil masuk"><input type="radio" name="jenis" value="in"><span>Duit masuk</span></label>
+      <label class="pil keluar"><input type="radio" name="jenis" value="out" checked><span>Duit keluar</span></label>
+    </fieldset>
+
+    <label class="medan">
+      <span>Nama</span>
+      <input id="fNama" type="text" maxlength="80" autocomplete="off" enterkeyhint="next" placeholder="cth. Bil TNB">
+    </label>
+
+    <label class="medan">
+      <span>Jumlah (RM)</span>
+      <input id="fJumlah" type="text" inputmode="decimal" autocomplete="off" enterkeyhint="done" placeholder="0.00">
+    </label>
+
+    <label class="medan" id="medanKumpulan">
+      <span>Kumpulan</span>
+      <input id="fKumpulan" type="text" maxlength="40" autocomplete="off" list="senaraiKumpulan" placeholder="cth. Bil, Transfer, Simpan">
+      <datalist id="senaraiKumpulan"></datalist>
+    </label>
+
+    <label class="medan">
+      <span>Catatan</span>
+      <textarea id="fCatatan" rows="2" maxlength="300" placeholder="Tak wajib"></textarea>
+    </label>
+
+    <label class="semak">
+      <input id="fBayar" type="checkbox">
+      <span id="fBayarTeks">Dah bayar</span>
+    </label>
+
+    <p class="ralat" id="borangRalat" role="alert" hidden></p>
+
+    <div class="borang-btn">
+      <button class="btn bahaya" id="btnPadam" type="button" hidden>Padam</button>
+      <span class="renggang"></span>
+      <button class="btn" id="btnBatal" type="button">Batal</button>
+      <button class="btn utama" id="btnSimpan" type="submit">Simpan</button>
+    </div>
+  </form>
+</dialog>
+
+<!-- Menu -->
+<dialog class="helai" id="menu" aria-labelledby="menuTajuk">
+  <h2 id="menuTajuk">Data</h2>
+  <p class="menu-nota">Semua data disimpan dalam telefon ini sahaja. Simpan salinan sekali-sekala supaya tak hilang kalau tukar telefon atau padam data browser.</p>
+  <div class="menu-senarai">
+    <button class="menu-item" id="btnEksport" type="button">
+      <strong>Simpan salinan</strong>
+      <span>Muat turun semua bulan sebagai satu fail</span>
+    </button>
+    <button class="menu-item" id="btnImport" type="button">
+      <strong>Import fail</strong>
+      <span>Masukkan senarai awal, atau pulihkan dari salinan</span>
+    </button>
+  </div>
+  <div class="borang-btn">
+    <span class="renggang"></span>
+    <button class="btn" id="btnTutupMenu" type="button">Tutup</button>
+  </div>
+</dialog>
+
+<input type="file" id="failImport" accept=".json,application/json" hidden>
+
+<div class="toast" id="toast" role="status" aria-live="polite" hidden>
+  <span id="toastTeks"></span>
+  <button id="toastBtn" type="button" hidden>Buat asal</button>
+</div>
+
+<script src="tarikh-gaji.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,17 @@
+{
+  "name": "Bajet Bulanan",
+  "short_name": "Bajet",
+  "description": "Jejak duit masuk, duit keluar dan bayaran bulanan.",
+  "lang": "ms",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#F6F7FB",
+  "theme_color": "#F6F7FB",
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
