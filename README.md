@@ -51,7 +51,7 @@ Untuk kemas kini apps kemudian, upload fail baru dengan nama yang sama ke repo i
 
 ## Pasang pada telefon
 
-- **Android (Chrome):** buka alamat apps, tekan menu tiga titik, pilih **Add to Home screen** atau **Install app**.
+- **Android (Chrome):** buka alamat apps dan tekan butang anak panah ke bawah di sebelah tiga titik dalam apps. Butang itu muncul bila Chrome sedia memasang, dan hilang selepas apps dipasang. Kalau ia tak muncul, guna menu tiga titik Chrome > **Add to Home screen** atau **Install app**.
 - **iPhone (Safari):** buka alamat apps, tekan butang Share, pilih **Add to Home Screen**.
 
 ## Masukkan senarai

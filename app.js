@@ -33,6 +33,8 @@
       bulanSebelum: 'Bulan sebelum',
       bulanSelepas: 'Bulan selepas',
       tetapan: 'Tetapan',
+      pasang: 'Pasang MyBajet pada telefon',
+      dipasang: 'MyBajet dah dipasang',
       keSemasa: 'Pergi ke bulan semasa',
 
       mulaTajuk: 'Belum ada senarai bayaran',
@@ -162,6 +164,8 @@
       bulanSebelum: 'Previous month',
       bulanSelepas: 'Next month',
       tetapan: 'Settings',
+      pasang: 'Install MyBajet on this phone',
+      dipasang: 'MyBajet installed',
       keSemasa: 'Go to the current month',
 
       mulaTajuk: 'No payment list yet',
@@ -1364,6 +1368,32 @@
   document.addEventListener('visibilitychange', () => {
     if (document.visibilityState !== 'visible') return;
     if (!semakBulanBaru() && senaraiKunci().length) paparKepala();
+  });
+
+  /* ---------- Butang pasang ---------- */
+
+  // Pelayar hantar "beforeinstallprompt" bila apps boleh dipasang. Simpan ia dan
+  // tunjuk butang sendiri, supaya pemasangan boleh dimulakan terus dari dalam apps.
+  let pasangTunda = null;
+
+  window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    pasangTunda = e;
+    $('btnPasang').hidden = false;
+  });
+
+  $('btnPasang').addEventListener('click', async () => {
+    const e = pasangTunda;
+    if (!e) return;
+    pasangTunda = null;          // satu tawaran hanya boleh diguna sekali
+    $('btnPasang').hidden = true;
+    try { e.prompt(); await e.userChoice; } catch (err) { /* pengguna batal, tak mengapa */ }
+  });
+
+  window.addEventListener('appinstalled', () => {
+    pasangTunda = null;
+    $('btnPasang').hidden = true;
+    toast(t('dipasang'));
   });
 
   if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost')) {
