@@ -1,7 +1,9 @@
 /* Simpan fail apps dalam telefon supaya boleh buka tanpa internet.
    Papar dari simpanan dulu (laju), kemudian ambil versi baru di belakang tabir.
    Jadi bila fail di GitHub dikemas kini, perubahan nampak pada bukaan seterusnya. */
-const CACHE = 'bajet-bulanan-v2';
+// Apps lain di alamat github.io yang sama ada simpanan sendiri; hanya urus yang bermula dengan awalan ini.
+const AWALAN = 'bajet-bulanan-';
+const CACHE = AWALAN + 'v3';
 const FAIL = [
   './',
   'index.html',
@@ -21,7 +23,7 @@ self.addEventListener('install', (e) => {
 self.addEventListener('activate', (e) => {
   e.waitUntil(
     caches.keys()
-      .then((ks) => Promise.all(ks.filter((k) => k !== CACHE).map((k) => caches.delete(k))))
+      .then((ks) => Promise.all(ks.filter((k) => k.startsWith(AWALAN) && k !== CACHE).map((k) => caches.delete(k))))
       .then(() => self.clients.claim())
   );
 });
