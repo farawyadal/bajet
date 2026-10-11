@@ -41,7 +41,7 @@ try {
         <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="5" cy="12" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="19" cy="12" r="1.6"/></svg>
       </button>
     </div>
-    <p class="gaji" id="gaji"></p>
+    <button class="gaji" id="gaji" type="button"></button>
     <p class="awal" id="awal" hidden></p>
     <button class="ke-semasa" id="btnSemasa" type="button" data-i18n="keSemasa" hidden>Pergi ke bulan semasa</button>
   </header>
@@ -76,8 +76,9 @@ try {
     <p class="petunjuk">
       <span class="cap masuk"></span><span data-i18n="masuk">Duit masuk</span>
       <span class="cap keluar"></span><span data-i18n="keluar">Duit keluar</span>
-      <span class="cap bayar"></span><span data-i18n="petunjukBayar">Dah bayar, tekan 2 kali</span>
+      <span class="cap bayar"></span><span data-i18n="petunjukBayar">Selesai</span>
     </p>
+    <p class="cara" data-i18n="cara">Leret kiri atau tekan 2 kali untuk tanda selesai. Leret kanan untuk padam. Tekan lama nama kumpulan untuk selesaikan semua.</p>
 
     <main id="senarai"></main>
 
@@ -126,9 +127,9 @@ try {
       <textarea id="fCatatan" rows="2" maxlength="300" data-i18n-ph="fCatatanPh" placeholder="Tak wajib"></textarea>
     </label>
 
-    <label class="semak">
+    <label class="semak" id="medanBayar">
       <input id="fBayar" type="checkbox">
-      <span id="fBayarTeks">Dah bayar</span>
+      <span id="fBayarTeks">Dah selesai</span>
     </label>
 
     <p class="ralat" id="borangRalat" role="alert" hidden></p>
@@ -159,6 +160,14 @@ try {
     <label class="pil"><input type="radio" name="tema" value="gelap"><span data-i18n="temaGelap">Gelap</span></label>
   </fieldset>
 
+  <h3 data-i18n="tarikhGaji">Tarikh gaji</h3>
+  <div class="menu-senarai">
+    <button class="menu-item" id="btnGaji" type="button">
+      <strong data-i18n="gajiLihat">Lihat dan isi tarikh gaji</strong>
+      <span data-i18n="gajiLihatNota">Semak tarikh gaji setiap bulan, dan isi tarikh tahun baru bila pekeliling keluar.</span>
+    </button>
+  </div>
+
   <h3 data-i18n="data">Data</h3>
   <p class="menu-nota" data-i18n="dataNota">Semua data disimpan dalam telefon ini sahaja. Simpan salinan sekali-sekala supaya tak hilang kalau tukar telefon atau padam data browser.</p>
   <div class="menu-senarai">
@@ -174,6 +183,40 @@ try {
   <div class="borang-btn">
     <span class="renggang"></span>
     <button class="btn" id="btnTutupMenu" type="button" data-i18n="tutup">Tutup</button>
+  </div>
+</dialog>
+
+<!-- Tarikh gaji -->
+<dialog class="helai" id="gajiHelai" aria-labelledby="gajiTajuk">
+  <h2 id="gajiTajuk" data-i18n="tarikhGaji">Tarikh gaji</h2>
+  <div class="tahun-nav">
+    <button class="ikon-btn" id="gajiSebelum" type="button" data-i18n-aria="tahunSebelum" aria-label="Tahun sebelum">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
+    </button>
+    <strong id="gajiTahun"></strong>
+    <button class="ikon-btn" id="gajiSelepas" type="button" data-i18n-aria="tahunSelepas" aria-label="Tahun selepas">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
+    </button>
+  </div>
+  <p class="menu-nota" id="gajiSumber"></p>
+  <ol class="gaji-senarai" id="gajiSenarai"></ol>
+  <p class="ralat" id="gajiRalat" role="alert" hidden></p>
+  <div class="borang-btn">
+    <button class="btn" id="gajiAsal" type="button" data-i18n="gajiAsal" hidden>Guna tarikh asal</button>
+    <span class="renggang"></span>
+    <button class="btn" id="gajiTutup" type="button" data-i18n="tutup">Tutup</button>
+    <button class="btn utama" id="gajiSimpan" type="button" data-i18n="simpan">Simpan</button>
+  </div>
+</dialog>
+
+<!-- Pengesahan (padam, selesai semua, ganti data) -->
+<dialog class="helai" id="sah" aria-labelledby="sahTajuk">
+  <h2 id="sahTajuk"></h2>
+  <p class="menu-nota" id="sahTeks"></p>
+  <div class="borang-btn">
+    <span class="renggang"></span>
+    <button class="btn" id="sahTidak" type="button" data-i18n="batal">Batal</button>
+    <button class="btn utama" id="sahYa" type="button"></button>
   </div>
 </dialog>
 

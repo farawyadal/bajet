@@ -40,13 +40,14 @@
       mulaImport: 'Import senarai',
       mulaKosong: 'Mula dengan senarai kosong',
 
-      belum: 'Belum bayar',
-      semuaBayar: 'Semua dah bayar',
+      belum: 'Belum selesai',
+      semuaBayar: 'Semua dah selesai',
       masuk: 'Duit masuk',
       keluar: 'Duit keluar',
       baki: 'Baki',
-      petunjukBayar: 'Dah bayar, tekan 2 kali',
-      jalurNota: 'Dah bayar {a} daripada {b} bayaran, RM {j}',
+      petunjukBayar: 'Selesai',
+      cara: 'Leret kiri atau tekan 2 kali untuk tanda selesai. Leret kanan untuk padam. Tekan lama nama kumpulan untuk selesaikan semua.',
+      jalurNota: 'Selesai {a} daripada {b} bayaran, RM {j}',
       jalurKosong: 'Belum ada bayaran dalam senarai',
       kosongMasuk: 'Belum ada duit masuk. Tekan Tambah item dan pilih Duit masuk.',
       kosongKeluar: 'Belum ada bayaran. Tekan Tambah item untuk masukkan bayaran bulanan.',
@@ -64,8 +65,7 @@
       fKumpulanPh: 'cth. Bil, Transfer, Simpan',
       fCatatan: 'Catatan',
       fCatatanPh: 'Tak wajib',
-      dahBayar: 'Dah bayar',
-      dahMasuk: 'Dah masuk',
+      dahBayar: 'Dah selesai',
       padam: 'Padam',
       batal: 'Batal',
       simpan: 'Simpan',
@@ -76,6 +76,33 @@
       disimpan: 'Disimpan',
       ditambah: '{n} ditambah',
       dipadam: '{n} dipadam',
+
+      aksiSelesai: 'Selesai',
+      aksiBatalSelesai: 'Batal selesai',
+      sahPadamTajuk: 'Padam {n}?',
+      sahPadamTeks: 'Item ini dibuang dari senarai {s} sahaja. Bulan lain tak terusik.',
+      semuaAria: 'Selesaikan semua dalam {g}',
+      sahSemuaTajuk: 'Selesaikan semua dalam {g}?',
+      sahSemuaTeks: '{n} bayaran berjumlah RM {j} akan ditanda selesai.',
+      sahSemuaYa: 'Selesai semua',
+      sahBatalSemuaTajuk: 'Batalkan tanda selesai dalam {g}?',
+      sahBatalSemuaTeks: 'Semua {n} bayaran dalam kumpulan ini akan jadi belum selesai.',
+      sahBatalSemuaYa: 'Batalkan semua',
+      semuaSelesai: '{g}: {n} bayaran ditanda selesai',
+      semuaBatal: '{g}: tanda selesai dibatalkan',
+
+      tarikhGaji: 'Tarikh gaji',
+      gajiLihat: 'Lihat dan isi tarikh gaji',
+      gajiLihatNota: 'Semak tarikh gaji setiap bulan, dan isi tarikh tahun baru bila pekeliling keluar.',
+      tahunSebelum: 'Tahun sebelum',
+      tahunSelepas: 'Tahun selepas',
+      gajiRasmi: 'Ikut pekeliling rasmi. Tukar nombor hari bulan kalau ada pindaan.',
+      gajiSendiri: 'Diisi sendiri dalam telefon ini.',
+      gajiTiada: 'Belum ada tarikh untuk {y}. Apps guna {d} hb setiap bulan sehingga diisi di sini.',
+      gajiAsal: 'Guna tarikh asal',
+      gajiRalat: 'Hari bulan untuk {b} mesti antara 1 dan {n}.',
+      gajiDisimpan: 'Tarikh gaji {y} disimpan',
+      gajiDipulih: 'Tarikh gaji {y} kembali ikut pekeliling',
 
       gajiLagi: 'Gaji masuk {t}, lagi {n} hari',
       gajiEsok: 'Gaji masuk esok, {t}',
@@ -110,8 +137,11 @@
       failRosak: 'Fail ini tak dapat dibaca. Pilih fail .json dari Bajet Bulanan.',
       failTiadaBulan: 'Fail ini tak ada data bulan di dalamnya.',
       failBukan: 'Fail ini bukan fail Bajet Bulanan.',
-      sahGantiSemua: 'Ganti semua data dalam apps ini dengan data dari fail?',
-      sahGantiSenarai: 'Ganti senarai {s} dengan senarai dari fail?',
+      sahGantiSemua: 'Ganti semua data dengan data dari fail?',
+      sahGantiSemuaTeks: 'Semua bulan dalam apps ini akan diganti dengan isi fail.',
+      sahGantiSenarai: 'Ganti senarai {s}?',
+      sahGantiSenaraiTeks: 'Senarai bulan ini akan diganti dengan senarai dari fail.',
+      ganti: 'Ganti',
       dipulihkan: 'Data dipulihkan, {n} bulan',
       dimasukkan: '{n} item dimasukkan ke {s}',
       takDapatSimpan: 'Tak dapat simpan. Storan browser penuh atau disekat.',
@@ -137,7 +167,8 @@
       masuk: 'Money in',
       keluar: 'Money out',
       baki: 'Balance',
-      petunjukBayar: 'Paid, double tap',
+      petunjukBayar: 'Paid',
+      cara: 'Swipe left or double tap to mark paid. Swipe right to delete. Press and hold a group name to mark the whole group paid.',
       jalurNota: 'Paid {a} of {b} payments, RM {j}',
       jalurKosong: 'No payments in the list yet',
       kosongMasuk: 'No money in yet. Tap Add item and choose Money in.',
@@ -157,7 +188,6 @@
       fCatatan: 'Note',
       fCatatanPh: 'Optional',
       dahBayar: 'Paid',
-      dahMasuk: 'Received',
       padam: 'Delete',
       batal: 'Cancel',
       simpan: 'Save',
@@ -168,6 +198,33 @@
       disimpan: 'Saved',
       ditambah: '{n} added',
       dipadam: '{n} deleted',
+
+      aksiSelesai: 'Paid',
+      aksiBatalSelesai: 'Not paid',
+      sahPadamTajuk: 'Delete {n}?',
+      sahPadamTeks: 'This removes the item from the {s} list only. Other months are not affected.',
+      semuaAria: 'Mark everything in {g} as paid',
+      sahSemuaTajuk: 'Mark everything in {g} as paid?',
+      sahSemuaTeks: '{n} payments totalling RM {j} will be marked paid.',
+      sahSemuaYa: 'Mark all paid',
+      sahBatalSemuaTajuk: 'Unmark everything in {g}?',
+      sahBatalSemuaTeks: 'All {n} payments in this group will go back to not paid.',
+      sahBatalSemuaYa: 'Unmark all',
+      semuaSelesai: '{g}: {n} payments marked paid',
+      semuaBatal: '{g}: paid marks removed',
+
+      tarikhGaji: 'Payday dates',
+      gajiLihat: 'View and enter payday dates',
+      gajiLihatNota: 'Check each month\'s payday, and enter a new year\'s dates when the circular is out.',
+      tahunSebelum: 'Previous year',
+      tahunSelepas: 'Next year',
+      gajiRasmi: 'From the official circular. Change a day number if a date is revised.',
+      gajiSendiri: 'Entered on this phone.',
+      gajiTiada: 'No dates for {y} yet. The app uses the {d}th of every month until you enter them here.',
+      gajiAsal: 'Use original dates',
+      gajiRalat: 'The day for {b} must be between 1 and {n}.',
+      gajiDisimpan: 'Payday dates for {y} saved',
+      gajiDipulih: 'Payday dates for {y} back to the circular',
 
       gajiLagi: 'Payday {t}, in {n} days',
       gajiEsok: 'Payday tomorrow, {t}',
@@ -202,8 +259,11 @@
       failRosak: "This file can't be read. Choose a .json file from Bajet Bulanan.",
       failTiadaBulan: 'This file has no month data in it.',
       failBukan: "This isn't a Bajet Bulanan file.",
-      sahGantiSemua: 'Replace all data in this app with the data from the file?',
-      sahGantiSenarai: 'Replace the {s} list with the list from the file?',
+      sahGantiSemua: 'Replace all data with the file?',
+      sahGantiSemuaTeks: 'Every month in this app will be replaced with what is in the file.',
+      sahGantiSenarai: 'Replace the {s} list?',
+      sahGantiSenaraiTeks: 'This month\'s list will be replaced with the list from the file.',
+      ganti: 'Replace',
       dipulihkan: 'Data restored, {n} months',
       dimasukkan: '{n} items added to {s}',
       takDapatSimpan: "Couldn't save. Browser storage is full or blocked.",
@@ -266,9 +326,13 @@
 
   const hariAwal = () => (Number.isFinite(window.HARI_AWAL) ? window.HARI_AWAL : 2);
 
+  const gajiLalai = () => window.GAJI_LALAI || 25;
+  const gajiRasmi = (y) => (window.TARIKH_GAJI || {})[y] || null;
+
+  // Tarikh yang diisi sendiri dalam apps mengatasi tarikh dalam tarikh-gaji.js.
   function tarikhGaji(y, m) {
-    const tahun = (window.TARIKH_GAJI || {})[y];
-    const hari = tahun && Number(tahun[m]) > 0 ? Number(tahun[m]) : (window.GAJI_LALAI || 25);
+    const tahun = data.gaji[y] || gajiRasmi(y);
+    const hari = tahun && Number(tahun[m]) > 0 ? Number(tahun[m]) : gajiLalai();
     return new Date(y, m, hari);
   }
 
@@ -320,7 +384,7 @@
 
   /* ---------- Simpanan ---------- */
 
-  let data = { v: 1, sheets: {} };
+  let data = { v: 1, sheets: {}, gaji: {} };
   let lihat = null; // kunci sheet yang sedang dipapar
 
   const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
@@ -349,12 +413,24 @@
     return keluar;
   }
 
+  // Tarikh gaji yang diisi sendiri: { 2028: [12 hari bulan] }
+  function bersihGaji(g) {
+    const keluar = {};
+    Object.keys(g || {}).forEach((y) => {
+      const a = g[y];
+      if (!/^\d{4}$/.test(y) || !Array.isArray(a) || a.length !== 12) return;
+      const hari = a.map((h) => Math.round(Number(h)));
+      if (hari.every((h, m) => h >= 1 && h <= new Date(Number(y), m + 1, 0).getDate())) keluar[y] = hari;
+    });
+    return keluar;
+  }
+
   function muat() {
     try {
       const mentah = localStorage.getItem(KUNCI_SIMPAN);
       if (!mentah) return;
       const j = JSON.parse(mentah);
-      if (j && j.sheets) data = { v: 1, sheets: bersihSheets(j.sheets) };
+      if (j && j.sheets) data = { v: 1, sheets: bersihSheets(j.sheets), gaji: bersihGaji(j.gaji) };
     } catch (e) {
       console.warn('Tak dapat baca data tersimpan', e);
     }
@@ -406,6 +482,8 @@
   const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 
   const IKON_TANDA = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>';
+  const IKON_SEMUA = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M1.5 12.5l4.5 4.5 9.5-9.5"/><path d="M11.5 16l1 1 9.5-9.5"/></svg>';
+  const IKON_TONG = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M9 7V4h6v3M6.5 7l1 13h9l1-13"/></svg>';
   const IKON_EDIT = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20h4L19 9l-4-4L4 16v4z"/><path d="M13.5 6.5l4 4"/></svg>';
 
   // Duit keluar disusun ikut kumpulan, mengikut turutan kumpulan mula-mula muncul.
@@ -417,20 +495,31 @@
       if (!peta.has(g)) peta.set(g, []);
       peta.get(g).push(i);
     });
-    return Array.from(peta, ([nama, senarai]) => ({ nama: nama || t('tanpaKumpulan'), senarai }));
+    return Array.from(peta, ([kunciKumpulan, senarai]) => ({ kunci: kunciKumpulan, nama: kunciKumpulan || t('tanpaKumpulan'), senarai }));
   }
 
+  // Hanya duit keluar boleh ditanda selesai.
+  const selesai = (i) => i.type === 'out' && i.paid;
+
   function htmlBaris(i) {
-    const kelas = 'baris ' + (i.type === 'in' ? 'masuk' : 'keluar') + (i.paid ? ' bayar' : '');
+    const keluar = i.type === 'out';
+    const kelas = 'baris ' + (keluar ? 'keluar' : 'masuk') + (selesai(i) ? ' bayar' : '');
     const catatan = i.note ? '<small class="catatan">' + esc(i.note) + '</small>' : '';
     return (
       '<li class="' + kelas + '" data-id="' + i.id + '">' +
-        '<button class="baris-utama" type="button" aria-pressed="' + i.paid + '">' +
-          '<span class="tanda">' + IKON_TANDA + '</span>' +
-          '<span class="nama">' + esc(i.name) + catatan + '</span>' +
-          '<span class="amaun">' + fmt(keSen(i.amount)) + '</span>' +
-        '</button>' +
-        '<button class="baris-edit" type="button" data-edit="' + i.id + '" aria-label="' + esc(t('editAria', { n: i.name })) + '">' + IKON_EDIT + '</button>' +
+        // Lapisan bawah: kelihatan bila baris dileret.
+        '<div class="baris-bawah" aria-hidden="true">' +
+          '<span class="aksi aksi-padam">' + IKON_TONG + esc(t('padam')) + '</span>' +
+          (keluar ? '<span class="aksi aksi-selesai">' + esc(t('aksiSelesai')) + IKON_TANDA + '</span>' : '') +
+        '</div>' +
+        '<div class="baris-isi">' +
+          '<button class="baris-utama" type="button"' + (keluar ? ' aria-pressed="' + selesai(i) + '"' : '') + '>' +
+            (keluar ? '<span class="tanda">' + IKON_TANDA + '</span>' : '') +
+            '<span class="nama">' + esc(i.name) + catatan + '</span>' +
+            '<span class="amaun">' + fmt(keSen(i.amount)) + '</span>' +
+          '</button>' +
+          '<button class="baris-edit" type="button" data-edit="' + i.id + '" aria-label="' + esc(t('editAria', { n: i.name })) + '">' + IKON_EDIT + '</button>' +
+        '</div>' +
       '</li>'
     );
   }
@@ -454,7 +543,12 @@
     h += '<section class="bahagian"><div class="bahagian-kepala"><h2>' + esc(t('keluar')) + '</h2><span>' + fmt(jumlah(keluar)) + '</span></div>';
     if (kumpulan.length) {
       kumpulan.forEach((k) => {
-        h += '<div class="kumpulan"><span>' + esc(k.nama) + '</span><span>' + fmt(jumlah(k.senarai)) + '</span></div>';
+        const penuh = k.senarai.every((i) => i.paid);
+        h += '<div class="kumpulan" data-kumpulan="' + esc(k.kunci) + '">' +
+          '<span class="kumpulan-nama">' + esc(k.nama) + '</span>' +
+          '<span class="kumpulan-jumlah">' + fmt(jumlah(k.senarai)) + '</span>' +
+          '<button class="kumpulan-semua' + (penuh ? ' penuh' : '') + '" type="button" aria-label="' + esc(t('semuaAria', { g: k.nama })) + '">' + IKON_SEMUA + '</button>' +
+        '</div>';
         h += '<ul class="baris-senarai">' + k.senarai.map(htmlBaris).join('') + '</ul>';
       });
     } else {
@@ -471,7 +565,7 @@
     const keluarSemua = items.filter((i) => i.type === 'out');
     const keluar = jumlah(keluarSemua);
     const kira = keluarSemua.filter((i) => keSen(i.amount) > 0); // RM0 tak dikira sebagai bayaran
-    const sudah = kira.filter((i) => i.paid);
+    const sudah = kira.filter(selesai);
     const belum = keluar - jumlah(sudah);
     const baki = masuk - keluar;
 
@@ -482,7 +576,7 @@
     // Petak jalur ikut turutan paparan.
     const turutan = kumpulKeluar(items).flatMap((k) => k.senarai).filter((i) => keSen(i.amount) > 0);
     $('jalur').innerHTML = turutan
-      .map((i) => '<i style="flex-grow:' + keSen(i.amount) + '"' + (i.paid ? ' class="bayar"' : '') + '></i>')
+      .map((i) => '<i style="flex-grow:' + keSen(i.amount) + '"' + (selesai(i) ? ' class="bayar"' : '') + '></i>')
       .join('');
 
     const nota = kira.length
@@ -607,34 +701,146 @@
     if (f) f();
   });
 
-  /* ---------- Tanda dah bayar (tekan 2 kali) ---------- */
+  /* ---------- Pengesahan ---------- */
+
+  const sah = $('sah');
+  let sahSelesai = null;
+
+  // Tunjuk soalan ya/tidak. Pulangkan Promise<boolean>.
+  function sahkan(o) {
+    return new Promise((resolve) => {
+      $('sahTajuk').textContent = o.tajuk;
+      $('sahTeks').textContent = o.teks || '';
+      $('sahTeks').hidden = !o.teks;
+      $('sahYa').textContent = o.ya;
+      $('sahYa').className = 'btn ' + (o.bahaya ? 'bahaya-penuh' : 'utama');
+      sahSelesai = resolve;
+      sah.returnValue = '';
+      sah.showModal();
+      $('sahTidak').focus(); // lalai yang selamat
+    });
+  }
+
+  $('sahYa').addEventListener('click', () => sah.close('ya'));
+  $('sahTidak').addEventListener('click', () => sah.close(''));
+  sah.addEventListener('close', () => {
+    const f = sahSelesai;
+    sahSelesai = null;
+    if (f) f(sah.returnValue === 'ya');
+  });
+
+  /* ---------- Tanda selesai: tekan 2 kali atau leret kiri ---------- */
 
   const cari = (id) => sheetLihat().items.find((i) => i.id === id);
 
+  const getar = (ms) => { if (navigator.vibrate) { try { navigator.vibrate(ms); } catch (e) { /* tak penting */ } } };
+
+  // Kemas kini baris sedia ada sahaja (bukan lukis semula) supaya sapuan hijau kelihatan.
+  function kemasBaris(item) {
+    const li = $('senarai').querySelector('li[data-id="' + item.id + '"]');
+    if (!li) return;
+    li.classList.toggle('bayar', selesai(item));
+    li.querySelector('.baris-utama').setAttribute('aria-pressed', String(selesai(item)));
+    const label = li.querySelector('.aksi-selesai');
+    if (label) label.firstChild.nodeValue = selesai(item) ? t('aksiBatalSelesai') : t('aksiSelesai');
+  }
+
+  const itemKumpulan = (g) => sheetLihat().items.filter((i) => i.type === 'out' && (i.group || '') === g);
+
+  function kemasKumpulan(g) {
+    $('senarai').querySelectorAll('.kumpulan').forEach((k) => {
+      if (k.dataset.kumpulan !== g) return;
+      k.querySelector('.kumpulan-semua').classList.toggle('penuh', itemKumpulan(g).every((i) => i.paid));
+    });
+  }
+
   function togolBayar(id) {
     const item = cari(id);
-    if (!item) return;
+    if (!item || item.type !== 'out') return;
     item.paid = !item.paid;
     simpan();
-    // Kemas kini baris sedia ada sahaja supaya sapuan kuning kelihatan.
-    const li = $('senarai').querySelector('li[data-id="' + id + '"]');
-    if (li) {
-      li.classList.toggle('bayar', item.paid);
-      li.querySelector('.baris-utama').setAttribute('aria-pressed', String(item.paid));
-    }
+    kemasBaris(item);
+    kemasKumpulan(item.group || '');
     paparRingkas();
-    if (navigator.vibrate) { try { navigator.vibrate(12); } catch (e) { /* tak penting */ } }
+    getar(12);
+  }
+
+  // Selesaikan (atau batalkan) semua bayaran dalam satu kumpulan, selepas disahkan.
+  async function selesaiSemua(g) {
+    const sheet = lihat;
+    const items = itemKumpulan(g);
+    if (!items.length) return;
+    const nama = g || t('tanpaKumpulan');
+    const belum = items.filter((i) => !i.paid);
+    const batal = belum.length === 0; // semua dah selesai: tawar batalkan
+    const sasaran = batal ? items : belum;
+
+    const ok = await sahkan(batal
+      ? { tajuk: t('sahBatalSemuaTajuk', { g: nama }), teks: t('sahBatalSemuaTeks', { n: items.length }), ya: t('sahBatalSemuaYa') }
+      : { tajuk: t('sahSemuaTajuk', { g: nama }), teks: t('sahSemuaTeks', { n: belum.length, j: fmt(jumlah(belum)) }), ya: t('sahSemuaYa') });
+    if (!ok || lihat !== sheet) return;
+
+    const asal = sasaran.map((i) => [i, i.paid]);
+    sasaran.forEach((i) => { i.paid = !batal; });
+    simpan();
+    sasaran.forEach(kemasBaris);
+    kemasKumpulan(g);
+    paparRingkas();
+    getar(20);
+    toast(batal ? t('semuaBatal', { g: nama }) : t('semuaSelesai', { g: nama, n: sasaran.length }), () => {
+      asal.forEach(([i, p]) => { i.paid = p; });
+      simpan();
+      papar();
+    });
+  }
+
+  // Padam item selepas disahkan. Masih boleh "Buat asal" dari toast.
+  async function padamItem(id) {
+    const sheet = lihat;
+    const item = cari(id);
+    if (!item) return;
+    const ok = await sahkan({
+      tajuk: t('sahPadamTajuk', { n: item.name }),
+      teks: t('sahPadamTeks', { s: namaSheet(sheet) }),
+      ya: t('padam'),
+      bahaya: true,
+    });
+    if (!ok) return;
+    const s = data.sheets[sheet];
+    const pos = s ? s.items.findIndex((i) => i.id === id) : -1;
+    if (pos < 0) return;
+    const [dibuang] = s.items.splice(pos, 1);
+    simpan();
+    if (borang.open) borang.close();
+    papar();
+    toast(t('dipadam', { n: dibuang.name }), () => {
+      const semula = data.sheets[sheet];
+      if (!semula) return;
+      semula.items.splice(Math.min(pos, semula.items.length), 0, dibuang);
+      simpan();
+      papar();
+    });
   }
 
   let ketukAkhir = { id: null, masa: 0 };
+  let leretTamat = 0; // masa leretan terakhir tamat, supaya ia tak dikira sebagai ketukan
+  let tahanTamat = 0; // sama, untuk tekan lama
+  let tahanAktif = false; // jari masih menekan selepas tekan lama dikesan
 
   $('senarai').addEventListener('click', (e) => {
+    if (Date.now() - leretTamat < 400 || Date.now() - tahanTamat < 700) return;
+
+    const semua = e.target.closest('.kumpulan-semua');
+    if (semua) { selesaiSemua(semua.parentElement.dataset.kumpulan); return; }
+
     const edit = e.target.closest('[data-edit]');
     if (edit) { bukaBorang(edit.dataset.edit); return; }
 
     const utama = e.target.closest('.baris-utama');
     if (!utama) return;
-    const id = utama.parentElement.dataset.id;
+    const li = utama.closest('li');
+    if (!li.classList.contains('keluar')) return; // duit masuk tak ditanda
+    const id = li.dataset.id;
 
     // Papan kekunci (Enter / Space): terus tanda.
     if (e.detail === 0) { togolBayar(id); return; }
@@ -647,6 +853,95 @@
     }
   });
 
+  /* ---------- Leret baris: kiri = selesai, kanan = padam ---------- */
+
+  let seret = null;
+
+  function tamatSeret(buat) {
+    if (!seret) return;
+    const s = seret;
+    seret = null;
+    s.li.classList.remove('menyeret', 'lepas-had');
+    s.isi.style.transform = '';
+    if (!s.aktif) return;
+    leretTamat = Date.now();
+    // Biar baris meluncur balik dulu, kemudian buang kelas arah.
+    setTimeout(() => s.li.classList.remove('leret-kiri', 'leret-kanan'), 220);
+    if (!buat || Math.abs(s.dx) < s.had) return;
+    if (s.dx < 0) togolBayar(s.id); else padamItem(s.id);
+  }
+
+  $('senarai').addEventListener('pointerdown', (e) => {
+    if (e.pointerType === 'mouse' && e.button !== 0) return;
+    const li = e.target.closest('li.baris');
+    if (!li) return;
+    seret = {
+      li, id: li.dataset.id, isi: li.querySelector('.baris-isi'), pid: e.pointerId,
+      x: e.clientX, y: e.clientY, dx: 0, aktif: false,
+      bolehSelesai: li.classList.contains('keluar'),
+      had: Math.min(120, li.offsetWidth * 0.3),
+    };
+  });
+
+  $('senarai').addEventListener('pointermove', (e) => {
+    if (!seret || e.pointerId !== seret.pid) return;
+    const dx = e.clientX - seret.x;
+    const dy = e.clientY - seret.y;
+    if (!seret.aktif) {
+      if (Math.abs(dy) > 10 && Math.abs(dy) > Math.abs(dx)) { seret = null; return; } // menatal, bukan leret
+      if (Math.abs(dx) < 12) return;
+      seret.aktif = true;
+      seret.li.classList.add('menyeret');
+      try { seret.li.setPointerCapture(e.pointerId); } catch (err) { /* tak penting */ }
+    }
+    // Duit masuk tak boleh ditanda selesai: leret kiri hanya bergerak sedikit.
+    const d = dx < 0 && !seret.bolehSelesai ? dx * 0.12 : dx;
+    seret.dx = dx < 0 && !seret.bolehSelesai ? 0 : dx;
+    seret.isi.style.transform = 'translateX(' + d + 'px)';
+    seret.li.classList.toggle('leret-kiri', d < 0);
+    seret.li.classList.toggle('leret-kanan', d > 0);
+    const lepas = Math.abs(seret.dx) >= seret.had;
+    if (lepas && !seret.li.classList.contains('lepas-had')) getar(8);
+    seret.li.classList.toggle('lepas-had', lepas);
+  });
+
+  $('senarai').addEventListener('pointerup', (e) => { if (seret && e.pointerId === seret.pid) tamatSeret(true); });
+  $('senarai').addEventListener('pointercancel', (e) => { if (seret && e.pointerId === seret.pid) tamatSeret(false); });
+
+  /* ---------- Tekan lama nama kumpulan: selesaikan semua ---------- */
+
+  let tahan = null;
+
+  function batalTahan() {
+    if (tahan) { clearTimeout(tahan.masa); tahan = null; }
+  }
+
+  $('senarai').addEventListener('pointerdown', (e) => {
+    const k = e.target.closest('.kumpulan');
+    if (!k || e.target.closest('.kumpulan-semua')) return;
+    batalTahan();
+    tahan = {
+      x: e.clientX, y: e.clientY,
+      masa: setTimeout(() => {
+        tahan = null;
+        tahanAktif = true;
+        tahanTamat = Date.now();
+        getar(20);
+        selesaiSemua(k.dataset.kumpulan);
+      }, 550),
+    };
+  });
+  $('senarai').addEventListener('pointermove', (e) => {
+    if (tahan && Math.hypot(e.clientX - tahan.x, e.clientY - tahan.y) > 10) batalTahan();
+  });
+  ['pointerup', 'pointercancel', 'pointerleave'].forEach((n) => $('senarai').addEventListener(n, batalTahan));
+  $('senarai').addEventListener('contextmenu', (e) => { if (e.target.closest('.kumpulan')) e.preventDefault(); });
+  // Bila jari diangkat selepas tekan lama, ada pelayar yang hantar satu "klik".
+  // Tandakan masa itu supaya klik tersebut tak menutup soalan yang baru dibuka.
+  ['pointerup', 'pointercancel'].forEach((n) => document.addEventListener(n, () => {
+    if (tahanAktif) { tahanAktif = false; tahanTamat = Date.now(); }
+  }, true));
+
   /* ---------- Borang tambah / edit ---------- */
 
   const borang = $('borang');
@@ -657,7 +952,8 @@
   function kemasBorangIkutJenis() {
     const masuk = jenisDipilih() === 'in';
     $('medanKumpulan').hidden = masuk;
-    $('fBayarTeks').textContent = masuk ? t('dahMasuk') : t('dahBayar');
+    $('medanBayar').hidden = masuk; // hanya duit keluar ditanda selesai
+    $('fBayarTeks').textContent = t('dahBayar');
   }
 
   function bukaBorang(id) {
@@ -673,7 +969,7 @@
     $('fJumlah').value = item ? (item.amount ? item.amount.toFixed(2) : '') : '';
     $('fKumpulan').value = item ? item.group : '';
     $('fCatatan').value = item ? item.note : '';
-    $('fBayar').checked = item ? item.paid : false;
+    $('fBayar').checked = item ? selesai(item) : false;
 
     const kumpulan = Array.from(new Set(sheetLihat().items.map((i) => i.group).filter(Boolean)));
     $('senaraiKumpulan').innerHTML = kumpulan.map((g) => '<option value="' + esc(g) + '">').join('');
@@ -702,13 +998,14 @@
     const amaun = bacaJumlah($('fJumlah').value);
     if (amaun === null) { ralatBorang(t('ralatJumlah'), $('fJumlah')); return; }
 
+    const jenis = jenisDipilih();
     const nilai = {
-      type: jenisDipilih(),
+      type: jenis,
       name: nama.slice(0, 80),
       amount: amaun,
       group: $('fKumpulan').value.trim().slice(0, 40),
       note: $('fCatatan').value.trim().slice(0, 300),
-      paid: $('fBayar').checked,
+      paid: jenis === 'out' && $('fBayar').checked,
     };
 
     const items = sheetLihat().items;
@@ -730,23 +1027,7 @@
 
   $('btnBatal').addEventListener('click', () => borang.close());
 
-  $('btnPadam').addEventListener('click', () => {
-    const items = sheetLihat().items;
-    const pos = items.findIndex((i) => i.id === sedangEdit);
-    if (pos < 0) { borang.close(); return; }
-    const sheetAsal = lihat;
-    const [dibuang] = items.splice(pos, 1);
-    simpan();
-    borang.close();
-    papar();
-    toast(t('dipadam', { n: dibuang.name }), () => {
-      const s = data.sheets[sheetAsal];
-      if (!s) return;
-      s.items.splice(Math.min(pos, s.items.length), 0, dibuang);
-      simpan();
-      papar();
-    });
-  });
+  $('btnPadam').addEventListener('click', () => { padamItem(sedangEdit); });
 
   $('btnTambah').addEventListener('click', () => bukaBorang(null));
 
@@ -754,6 +1035,7 @@
   document.querySelectorAll('dialog.helai').forEach((d) => {
     d.addEventListener('click', (e) => {
       if (e.target !== d) return;
+      if (tahanAktif || Date.now() - tahanTamat < 700) return; // klik sisa daripada tekan lama
       const r = d.getBoundingClientRect();
       const dalam = e.clientX >= r.left && e.clientX <= r.right && e.clientY >= r.top && e.clientY <= r.bottom;
       if (!dalam) d.close();
@@ -834,6 +1116,112 @@
     gunaTema();
   }));
 
+  /* ---------- Tarikh gaji: senarai dan isian ---------- */
+
+  const gajiHelai = $('gajiHelai');
+  let gajiTahun = null;
+
+  const hariDalamBulan = (y, m) => new Date(y, m + 1, 0).getDate();
+
+  function hadTahunGaji() {
+    const rasmi = Object.keys(window.TARIKH_GAJI || {}).map(Number);
+    const sendiri = Object.keys(data.gaji).map(Number);
+    const kini = hariIni().getFullYear();
+    return {
+      min: Math.min(kini, ...rasmi, ...sendiri),
+      max: Math.max(kini + 2, ...rasmi.map((y) => y + 1), ...sendiri.map((y) => y + 1)),
+    };
+  }
+
+  function paparGaji() {
+    const y = gajiTahun;
+    const had = hadTahunGaji();
+    const sendiri = data.gaji[y];
+    const rasmi = gajiRasmi(y);
+    const utama = kunciUtama();
+
+    $('gajiTahun').textContent = y;
+    $('gajiSebelum').disabled = y <= had.min;
+    $('gajiSelepas').disabled = y >= had.max;
+    $('gajiSumber').textContent = sendiri ? t('gajiSendiri') : rasmi ? t('gajiRasmi') : t('gajiTiada', { y, d: gajiLalai() });
+    $('gajiAsal').hidden = !(sendiri && rasmi);
+    $('gajiRalat').hidden = true;
+
+    let h = '';
+    for (let m = 0; m < 12; m += 1) {
+      const d = tarikhGaji(y, m);
+      h += '<li' + (utama === kunci(y, m) ? ' class="kini"' : '') + '>' +
+        '<label for="gajiHari' + m + '">' + esc(t('bulan')[m]) + '</label>' +
+        '<input id="gajiHari' + m + '" type="number" inputmode="numeric" min="1" max="' + hariDalamBulan(y, m) + '" value="' + d.getDate() + '" data-m="' + m + '">' +
+        '<span class="g-hari">' + esc(t('hari')[d.getDay()]) + '</span>' +
+      '</li>';
+    }
+    $('gajiSenarai').innerHTML = h;
+  }
+
+  function bukaGaji(tahun) {
+    const had = hadTahunGaji();
+    gajiTahun = Math.min(had.max, Math.max(had.min, tahun || hariIni().getFullYear()));
+    paparGaji();
+    gajiHelai.showModal();
+    $('gajiTutup').focus();
+  }
+
+  // Tunjuk hari (Isnin, Selasa...) sebaik sahaja nombor ditukar.
+  $('gajiSenarai').addEventListener('input', (e) => {
+    const inp = e.target.closest('input');
+    if (!inp) return;
+    $('gajiRalat').hidden = true;
+    const m = Number(inp.dataset.m);
+    const h = Number(inp.value);
+    const sah2 = Number.isInteger(h) && h >= 1 && h <= hariDalamBulan(gajiTahun, m);
+    inp.parentElement.querySelector('.g-hari').textContent = sah2 ? t('hari')[new Date(gajiTahun, m, h).getDay()] : '';
+  });
+
+  $('gajiSebelum').addEventListener('click', () => { gajiTahun -= 1; paparGaji(); });
+  $('gajiSelepas').addEventListener('click', () => { gajiTahun += 1; paparGaji(); });
+  $('gajiTutup').addEventListener('click', () => gajiHelai.close());
+
+  function selepasTukarGaji() {
+    simpan();
+    if (!semakBulanBaru()) papar();
+  }
+
+  $('gajiSimpan').addEventListener('click', () => {
+    const y = gajiTahun;
+    const hari = [];
+    for (const inp of $('gajiSenarai').querySelectorAll('input')) {
+      const m = Number(inp.dataset.m);
+      const h = Number(inp.value);
+      const maks = hariDalamBulan(y, m);
+      if (!Number.isInteger(h) || h < 1 || h > maks) {
+        $('gajiRalat').textContent = t('gajiRalat', { b: t('bulan')[m], n: maks });
+        $('gajiRalat').hidden = false;
+        inp.focus();
+        return;
+      }
+      hari.push(h);
+    }
+    const rasmi = gajiRasmi(y);
+    // Sama dengan pekeliling: tak perlu simpan salinan sendiri.
+    if (rasmi && hari.every((h, m) => h === Number(rasmi[m]))) delete data.gaji[y];
+    else data.gaji[y] = hari;
+    selepasTukarGaji();
+    gajiHelai.close();
+    toast(t('gajiDisimpan', { y }));
+  });
+
+  $('gajiAsal').addEventListener('click', () => {
+    const y = gajiTahun;
+    delete data.gaji[y];
+    selepasTukarGaji();
+    paparGaji();
+    toast(t('gajiDipulih', { y }));
+  });
+
+  $('btnGaji').addEventListener('click', () => { menu.close(); bukaGaji(lihat ? pecah(lihat).y : null); });
+  $('gaji').addEventListener('click', () => { if (lihat) bukaGaji(pecah(lihat).y); });
+
   if (window.matchMedia) {
     const mq = window.matchMedia('(prefers-color-scheme: dark)');
     const dengar = () => { if (tetapan.tema === 'sistem') gunaTema(); };
@@ -844,7 +1232,7 @@
     if (!senaraiKunci().length) { menu.close(); toast(t('tiadaData')); return; }
     const d = new Date();
     const nama = 'bajet-bulanan-' + d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0') + '.json';
-    const isi = JSON.stringify({ app: 'bajet-bulanan', v: 1, disimpan: d.toISOString(), sheets: data.sheets }, null, 2);
+    const isi = JSON.stringify({ app: 'bajet-bulanan', v: 1, disimpan: d.toISOString(), sheets: data.sheets, gaji: data.gaji }, null, 2);
     const url = URL.createObjectURL(new Blob([isi], { type: 'application/json' }));
     const a = document.createElement('a');
     a.href = url;
@@ -876,8 +1264,8 @@
       // Salinan penuh: ganti semua bulan.
       const baru = bersihSheets(j.sheets);
       if (!Object.keys(baru).length) { toast(t('failTiadaBulan')); return; }
-      if (senaraiKunci().length && !confirm(t('sahGantiSemua'))) return;
-      data = { v: 1, sheets: baru };
+      if (senaraiKunci().length && !(await sahkan({ tajuk: t('sahGantiSemua'), teks: t('sahGantiSemuaTeks'), ya: t('ganti'), bahaya: true }))) return;
+      data = { v: 1, sheets: baru, gaji: bersihGaji(j.gaji) };
       simpan();
       sediakanSheet();
       catatUtama();
@@ -888,7 +1276,7 @@
       // Senarai sahaja: jadikan senarai bulan yang sedang dipapar.
       const k = senaraiKunci().length ? lihat : kunciSemasa(hariIni());
       const sedia = data.sheets[k];
-      if (sedia && sedia.items.length && !confirm(t('sahGantiSenarai', { s: namaSheet(k) }))) return;
+      if (sedia && sedia.items.length && !(await sahkan({ tajuk: t('sahGantiSenarai', { s: namaSheet(k) }), teks: t('sahGantiSenaraiTeks'), ya: t('ganti'), bahaya: true }))) return;
       data.sheets[k] = { items: j.items.map(bersihItem) };
       simpan();
       catatUtama();

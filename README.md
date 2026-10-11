@@ -6,14 +6,16 @@ Apps ringkas untuk jejak duit masuk, duit keluar dan bayaran bulanan. Ia laman w
 
 ## Cara guna
 
-- Duit masuk berwarna hijau, duit keluar berwarna pink.
-- Tekan 2 kali pada item untuk tandakan dah bayar (jadi kuning). Tekan 2 kali lagi untuk buang tanda.
-- Tekan ikon pensel untuk edit atau padam item. Butang **Tambah item** untuk item baru.
+- Duit masuk berwarna biru muda, duit keluar berwarna pink, dan bayaran yang dah selesai berwarna hijau.
+- Tanda selesai: leret item ke kiri, atau tekan 2 kali. Buat sekali lagi untuk batalkan. Hanya duit keluar yang ditanda; duit masuk tidak.
+- Padam: leret item ke kanan. Apps akan tanya dulu sebelum padam, dan ada **Buat asal** selepas itu.
+- Selesaikan satu kumpulan sekali gus (contohnya semua dalam Bil): tekan lama nama kumpulan, atau tekan tanda berkembar di hujung baris nama kumpulan. Apps akan tanya dulu.
+- Tekan ikon pensel untuk edit item. Butang **Tambah item** untuk item baru.
 - Anak panah di atas untuk tengok bulan lain.
 
 ## Sheet bulan baru
 
-- 2 hari sebelum gaji, sheet bulan baru muncul sendiri di muka utama. Senarainya disalin dari bulan sebelumnya dan semua tanda dah bayar dikosongkan.
+- 2 hari sebelum gaji, sheet bulan baru muncul sendiri di muka utama. Senarainya disalin dari bulan sebelumnya dan semua tanda selesai dikosongkan.
 - Nak siapkan senarai lebih awal? Di bawah senarai ada butang **Sediakan sheet (bulan depan) sekarang**. Sheet itu boleh terus diedit, tapi muka utama kekal pada bulan semasa sehingga 2 hari sebelum gaji.
 - Sheet yang disediakan awal ialah salinan pada masa itu. Perubahan pada bulan semasa selepas itu tak ikut masuk. Kalau nak salin semula, buka sheet awal itu dan tekan **Padam sheet ini**, kemudian sediakan sekali lagi.
 - Hanya satu bulan ke depan boleh disediakan awal.
@@ -24,6 +26,7 @@ Tekan tiga titik di atas kanan:
 
 - **Bahasa:** Melayu atau English. Nama item dan kumpulan yang ditaip sendiri tak diterjemah.
 - **Paparan:** Ikut sistem, Terang atau Gelap.
+- **Tarikh gaji:** senarai tarikh gaji setiap bulan, dan tempat isi tarikh tahun baru.
 - **Data:** Simpan salinan dan Import fail.
 
 ## Fail dalam folder ini
@@ -66,7 +69,9 @@ Sebab itu, sekali-sekala tekan tiga titik > **Simpan salinan**. Untuk pulihkan, 
 
 ## Kemas kini tarikh gaji tahun baru
 
-Bila pekeliling tarikh gaji tahun depan keluar, buka `tarikh-gaji.js` di GitHub, tekan ikon pensel, dan tambah satu baris. Dua belas nombor itu ialah hari bulan gaji dari Januari hingga Disember:
+Cara paling senang ialah dalam apps: tekan baris tarikh gaji di bawah nama bulan (atau tiga titik > **Lihat dan isi tarikh gaji**), pergi ke tahun baru, taip hari bulan gaji untuk setiap bulan, dan **Simpan**. Tarikh yang diisi begini disimpan dalam telefon dan ikut sekali dalam fail **Simpan salinan**. Tarikh 2026 dan 2027 pun boleh dipinda di situ kalau ada perubahan.
+
+Cara kedua ialah dalam fail, supaya tarikh itu ada untuk semua telefon: buka `tarikh-gaji.js` di GitHub, tekan ikon pensel, dan tambah satu baris. Dua belas nombor itu ialah hari bulan gaji dari Januari hingga Disember:
 
 ```js
 2028: [25, 24, 23, 25, 25, 23, 25, 25, 25, 25, 24, 20],
@@ -84,10 +89,12 @@ Untuk tengok apa jadi pada tarikh tertentu, tambah `?hari=TTTT-BB-HH` di hujung 
 
 A small app for tracking monthly money in, money out and routine payments. It is a plain web page that installs on a phone like an app and works offline after the first visit.
 
-- Money in is green, money out is pink. Double tap an item to mark it paid (it turns yellow); double tap again to unmark.
-- The pencil icon edits or deletes an item. **Add item** adds a new one.
+- Money in is light blue, money out is pink, and paid items are green. Only money out can be marked paid.
+- Swipe an item left, or double tap it, to mark it paid; do it again to unmark. Swipe right to delete (the app asks first).
+- Press and hold a group name, or tap the double tick beside it, to mark the whole group paid.
+- The pencil icon edits an item. **Add item** adds a new one.
 - Two days before payday, the new month's sheet appears on the main page by itself, copied from the previous month with every paid mark cleared.
 - To get the list ready sooner, use **Prepare the (next month) sheet now** below the list. The main page stays on the current month until two days before payday.
-- Tap the three dots for settings: language (Melayu or English), appearance (System, Light or Dark), and saving or importing a copy of your data.
+- Tap the three dots for settings: language (Melayu or English), appearance (System, Light or Dark), payday dates, and saving or importing a copy of your data.
 - All data stays on the phone. Nothing is sent to GitHub or any server, so save a copy now and then.
-- Payday dates live in `tarikh-gaji.js`; add one line per year.
+- Payday dates for 2026 and 2027 are built in. Enter a new year's dates in the app (tap the payday line under the month name), or add one line to `tarikh-gaji.js`.

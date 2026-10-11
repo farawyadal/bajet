@@ -1,6 +1,6 @@
 /* Bajet Bulanan
-   Tiga warna bawa semua makna: hijau = duit masuk, pink = duit keluar,
-   kuning = dah bayar. Yang lain kekal senyap.
+   Tiga warna bawa semua makna: biru muda = duit masuk, pink = duit keluar,
+   hijau = selesai (duit keluar sahaja). Yang lain kekal senyap.
 
    Tema: tanpa atribut = ikut sistem; data-theme="light" atau "dark" pada <html>
    memaksa satu tema. Semua warna ditakrif sebagai token di bawah. */
@@ -12,23 +12,26 @@
   --dakwat-2: #56607A;
   --garis: #DBE0EA;
 
-  --masuk: #CDEFD2;
-  --masuk-pekat: #8FD49B;
-  --masuk-teks: #17603A;
+  --masuk: #D3E8FB;
+  --masuk-pekat: #8FC3F0;
+  --masuk-teks: #1A5587;
 
   --keluar: #FBD0DE;
   --keluar-pekat: #F3A6C2;
   --keluar-teks: #9C1F52;
 
-  --bayar: #FFE45C;
-  --bayar-pekat: #F2C500;
+  --bayar: #A9E4B4;
+  --bayar-pekat: #57C06F;
+  --bayar-teks: #17603A;
 
-  --baris-teks: #1A2238;   /* teks atas baris hijau dan pink */
-  --bayar-atas: #1A2238;   /* teks atas kuning */
+  --baris-teks: #1A2238;   /* teks atas baris biru dan pink */
+  --bayar-atas: #1A2238;   /* teks atas hijau */
+
+  --bahaya: #C62F3B;       /* latar leret-untuk-padam */
 
   --timbul: #1A2238;       /* butang utama, toast */
   --timbul-teks: #FFFFFF;
-  --timbul-aksen: #FFE45C;
+  --timbul-aksen: #8FE3A1;
 
   --tirai: rgba(26, 34, 56, 0.5);
   --bayang: rgba(26, 34, 56, 0.28);
@@ -39,8 +42,8 @@
   color-scheme: light;
 }
 
-/* Tema gelap. Baris hijau dan pink jadi pekat dengan teks cerah;
-   kuning kekal terang supaya "dah bayar" tetap menyerlah. */
+/* Tema gelap. Baris biru dan pink jadi pekat dengan teks cerah;
+   hijau kekal terang supaya "selesai" tetap menyerlah. */
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
     --kertas: #11141D;
@@ -49,23 +52,26 @@
     --dakwat-2: #A0A8BF;
     --garis: #3A425A;
 
-    --masuk: #1D4A31;
-    --masuk-pekat: #46A86C;
-    --masuk-teks: #86DBA2;
+    --masuk: #1B3D5F;
+    --masuk-pekat: #4E9BDD;
+    --masuk-teks: #8CC4F2;
 
     --keluar: #5A2641;
     --keluar-pekat: #C8608C;
     --keluar-teks: #F5A8C6;
 
-    --bayar: #E3C233;
-    --bayar-pekat: #E3C233;
+    --bayar: #62C985;
+    --bayar-pekat: #62C985;
+    --bayar-teks: #86DBA2;
 
     --baris-teks: #F1F3FA;
     --bayar-atas: #1A2238;
 
+    --bahaya: #B3263A;
+
     --timbul: #E8EBF4;
     --timbul-teks: #11141D;
-    --timbul-aksen: #7A5B00;
+    --timbul-aksen: #17603A;
 
     --tirai: rgba(0, 0, 0, 0.6);
     --bayang: rgba(0, 0, 0, 0.5);
@@ -80,23 +86,26 @@
   --dakwat-2: #A0A8BF;
   --garis: #3A425A;
 
-  --masuk: #1D4A31;
-  --masuk-pekat: #46A86C;
-  --masuk-teks: #86DBA2;
+  --masuk: #1B3D5F;
+  --masuk-pekat: #4E9BDD;
+  --masuk-teks: #8CC4F2;
 
   --keluar: #5A2641;
   --keluar-pekat: #C8608C;
   --keluar-teks: #F5A8C6;
 
-  --bayar: #E3C233;
-  --bayar-pekat: #E3C233;
+  --bayar: #62C985;
+  --bayar-pekat: #62C985;
+  --bayar-teks: #86DBA2;
 
   --baris-teks: #F1F3FA;
   --bayar-atas: #1A2238;
 
+  --bahaya: #B3263A;
+
   --timbul: #E8EBF4;
   --timbul-teks: #11141D;
-  --timbul-aksen: #7A5B00;
+  --timbul-aksen: #17603A;
 
   --tirai: rgba(0, 0, 0, 0.6);
   --bayang: rgba(0, 0, 0, 0.5);
@@ -152,10 +161,16 @@ button { font: inherit; color: inherit; cursor: pointer; }
 }
 
 .gaji {
+  display: block;
   margin: 0;
-  padding-left: 2px;
+  padding: 2px 2px 4px;
+  border: 0;
+  background: transparent;
   font-size: 0.9375rem;
   color: var(--dakwat-2);
+  text-align: left;
+  text-decoration: underline dotted;
+  text-underline-offset: 3px;
 }
 .gaji:empty { display: none; }
 
@@ -308,6 +323,12 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .cap.keluar { background: var(--keluar); }
 .cap.bayar { background: var(--bayar); }
 
+.cara {
+  margin: 6px 0 0;
+  font-size: 0.8125rem;
+  color: var(--dakwat-2);
+}
+
 /* ---------- Senarai ---------- */
 
 .bahagian { margin-top: 22px; }
@@ -332,37 +353,97 @@ button { font: inherit; color: inherit; cursor: pointer; }
   font-variant-numeric: tabular-nums;
 }
 
+/* Kepala kumpulan. Tekan lama, atau tekan butang tanda di hujung, untuk selesaikan semua. */
 .kumpulan {
   display: flex;
-  align-items: baseline;
-  justify-content: space-between;
+  align-items: center;
   gap: 12px;
-  margin: 14px 0 5px;
-  padding: 0 46px 0 4px;
+  margin: 8px 0 1px;
+  padding: 0 0 0 4px;
   font-size: 0.8125rem;
   font-weight: 600;
   color: var(--dakwat-2);
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
 }
-.kumpulan:first-of-type { margin-top: 0; }
-.kumpulan span:last-child { font-variant-numeric: tabular-nums; }
+.kumpulan:first-of-type { margin-top: -6px; }
+.kumpulan-nama { flex: 1; min-width: 0; overflow-wrap: anywhere; }
+.kumpulan-jumlah { font-variant-numeric: tabular-nums; }
+.kumpulan-semua {
+  flex: none;
+  width: 44px;
+  height: 40px;
+  margin-left: -8px;
+  display: grid;
+  place-items: center;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--dakwat-2);
+}
+.kumpulan-semua:active { background: var(--garis); }
+.kumpulan-semua svg {
+  width: 20px; height: 20px;
+  fill: none; stroke: currentColor; stroke-width: 2.2;
+  stroke-linecap: round; stroke-linejoin: round;
+  opacity: 0.7;
+}
+.kumpulan-semua.penuh { color: var(--bayar-teks); }
+.kumpulan-semua.penuh svg { opacity: 1; stroke-width: 2.8; }
 
 .baris-senarai { list-style: none; margin: 0; padding: 0; }
 
 .baris {
   --warna: var(--keluar);
-  display: flex;
-  align-items: stretch;
+  position: relative;
+  overflow: hidden;
   margin-bottom: 3px;
   border-radius: 6px;
   color: var(--baris-teks);
-  /* Lapisan kuning di atas warna asal; ia "disapu" dari kiri bila ditanda. */
+  touch-action: pan-y; /* tatal menegak oleh pelayar; leret mendatar oleh apps */
+  transition: color 0.2s;
+}
+.baris.masuk { --warna: var(--masuk); }
+.baris.bayar { color: var(--bayar-atas); }
+
+/* Lapisan bawah: label tindakan yang nampak bila baris dileret. */
+.baris-bawah {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+  font-weight: 700;
+  visibility: hidden;
+}
+.aksi { display: flex; align-items: center; gap: 8px; opacity: 0.75; }
+.aksi svg {
+  width: 20px; height: 20px;
+  fill: none; stroke: currentColor; stroke-width: 2.4;
+  stroke-linecap: round; stroke-linejoin: round;
+}
+.aksi-selesai { margin-left: auto; }
+.baris.leret-kanan .baris-bawah { visibility: visible; background: var(--bahaya); color: #FFFFFF; }
+.baris.leret-kanan .aksi-selesai { visibility: hidden; }
+.baris.leret-kiri .baris-bawah { visibility: visible; background: var(--bayar-pekat); color: var(--bayar-atas); }
+.baris.leret-kiri .aksi-padam { visibility: hidden; }
+.baris.lepas-had .aksi { opacity: 1; }
+
+/* Lapisan atas: baris sebenar. Lapisan hijau "disapu" dari kiri bila ditanda selesai. */
+.baris-isi {
+  position: relative;
+  display: flex;
+  align-items: stretch;
+  border-radius: 6px;
   background:
     linear-gradient(var(--bayar), var(--bayar)) no-repeat left center / 0% 100%,
     var(--warna);
-  transition: background-size 0.28s cubic-bezier(0.3, 0.7, 0.2, 1), color 0.2s;
+  transition: background-size 0.28s cubic-bezier(0.3, 0.7, 0.2, 1), transform 0.2s ease-out;
 }
-.baris.masuk { --warna: var(--masuk); }
-.baris.bayar { background-size: 100% 100%, auto; color: var(--bayar-atas); }
+.baris.bayar .baris-isi { background-size: 100% 100%, auto; }
+.baris.menyeret .baris-isi { transition: background-size 0.28s; }
 
 .baris-utama {
   flex: 1;
@@ -378,7 +459,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
   text-align: left;
   user-select: none;
   -webkit-user-select: none;
-  touch-action: manipulation;
+  touch-action: pan-y;
 }
 .baris-utama:active { background: color-mix(in srgb, currentColor 8%, transparent); }
 .baris :focus-visible { outline-color: currentColor; outline-offset: -3px; }
@@ -497,6 +578,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
 }
 .btn.utama { border-color: var(--timbul); background: var(--timbul); color: var(--timbul-teks); }
 .btn.bahaya { border-color: var(--keluar-teks); color: var(--keluar-teks); }
+.btn.bahaya-penuh { border-color: var(--bahaya); background: var(--bahaya); color: #FFFFFF; }
 .btn:active { opacity: 0.8; }
 
 /* ---------- Skrin pertama ---------- */
@@ -642,6 +724,45 @@ dialog.helai::backdrop { background: var(--tirai); }
 .renggang { flex: 1; }
 
 .menu-nota { margin: 0 0 12px; color: var(--dakwat-2); font-size: 0.9375rem; }
+
+/* Tarikh gaji */
+.tahun-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: -6px 0 10px;
+}
+.tahun-nav strong {
+  font-family: var(--angka);
+  font-size: 1.375rem;
+  font-variant-numeric: tabular-nums;
+}
+.gaji-senarai { list-style: none; margin: 0; padding: 0; }
+.gaji-senarai li {
+  display: grid;
+  grid-template-columns: 1fr 68px 5.5em;
+  align-items: center;
+  gap: 10px;
+  padding: 2px 0;
+  border-top: 1px solid var(--garis);
+}
+.gaji-senarai li.kini { font-weight: 700; }
+.gaji-senarai input {
+  width: 100%;
+  padding: 5px 6px;
+  border: 1.5px solid var(--garis);
+  border-radius: 8px;
+  background: var(--permukaan);
+  color: var(--dakwat);
+  font: inherit;
+  font-family: var(--angka);
+  font-size: 1rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  text-align: center;
+}
+.gaji-senarai input:focus { outline: none; border-color: var(--dakwat); box-shadow: 0 0 0 2px var(--dakwat); }
+.g-hari { font-size: 0.9375rem; color: var(--dakwat-2); font-weight: 400; }
 .menu-senarai { display: grid; gap: 8px; }
 .menu-item {
   display: block;
@@ -687,5 +808,5 @@ dialog.helai::backdrop { background: var(--tirai); }
 .toast button:focus-visible { outline-color: var(--timbul-aksen); }
 
 @media (prefers-reduced-motion: reduce) {
-  .baris, .jalur i { transition: none; }
+  .baris, .baris-isi, .jalur i { transition: none; }
 }
