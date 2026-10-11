@@ -1,26 +1,255 @@
 /* Bajet Bulanan
    Data disimpan dalam localStorage telefon/browser ini sahaja.
 
-   Bentuk data:
+   Bentuk data (kunci "bajet-bulanan-v1"):
    {
      v: 1,
      sheets: {
        "2026-10": { items: [ { id, type: "in" | "out", name, amount, group, note, paid } ] }
      }
    }
-   Kunci sheet ialah bulan gaji. Sheet bulan baru dicipta 2 hari sebelum
-   tarikh gaji (lihat tarikh-gaji.js) dengan menyalin sheet terakhir.
+   Kunci sheet ialah bulan gaji. Sheet bulan baru dicipta sendiri 2 hari sebelum
+   tarikh gaji (lihat tarikh-gaji.js) dengan menyalin sheet sebelumnya, atau
+   boleh disediakan lebih awal dengan butang di bawah senarai.
+
+   Tetapan (kunci "bajet-bulanan-tetapan"): { bahasa, tema, utama }
 */
 (() => {
   'use strict';
 
   const KUNCI_SIMPAN = 'bajet-bulanan-v1';
-  const BULAN = ['Januari', 'Februari', 'Mac', 'April', 'Mei', 'Jun', 'Julai', 'Ogos', 'September', 'Oktober', 'November', 'Disember'];
-  const BULAN_PENDEK = ['Jan', 'Feb', 'Mac', 'Apr', 'Mei', 'Jun', 'Jul', 'Ogos', 'Sep', 'Okt', 'Nov', 'Dis'];
-  const HARI = ['Ahad', 'Isnin', 'Selasa', 'Rabu', 'Khamis', 'Jumaat', 'Sabtu'];
-  const TANPA_KUMPULAN = 'Lain-lain';
+  const KUNCI_TETAPAN = 'bajet-bulanan-tetapan';
 
   const $ = (id) => document.getElementById(id);
+
+  /* ---------- Bahasa ---------- */
+
+  const TEKS = {
+    ms: {
+      bulan: ['Januari', 'Februari', 'Mac', 'April', 'Mei', 'Jun', 'Julai', 'Ogos', 'September', 'Oktober', 'November', 'Disember'],
+      bulanPendek: ['Jan', 'Feb', 'Mac', 'Apr', 'Mei', 'Jun', 'Jul', 'Ogos', 'Sep', 'Okt', 'Nov', 'Dis'],
+      hari: ['Ahad', 'Isnin', 'Selasa', 'Rabu', 'Khamis', 'Jumaat', 'Sabtu'],
+
+      bulanSebelum: 'Bulan sebelum',
+      bulanSelepas: 'Bulan selepas',
+      tetapan: 'Tetapan',
+      keSemasa: 'Pergi ke bulan semasa',
+
+      mulaTajuk: 'Belum ada senarai bayaran',
+      mulaTeks: 'Import senarai sedia ada, atau mula kosong dan tambah item satu per satu. Senarai disimpan dalam telefon ini sahaja.',
+      mulaImport: 'Import senarai',
+      mulaKosong: 'Mula dengan senarai kosong',
+
+      belum: 'Belum bayar',
+      semuaBayar: 'Semua dah bayar',
+      masuk: 'Duit masuk',
+      keluar: 'Duit keluar',
+      baki: 'Baki',
+      petunjukBayar: 'Dah bayar, tekan 2 kali',
+      jalurNota: 'Dah bayar {a} daripada {b} bayaran, RM {j}',
+      jalurKosong: 'Belum ada bayaran dalam senarai',
+      kosongMasuk: 'Belum ada duit masuk. Tekan Tambah item dan pilih Duit masuk.',
+      kosongKeluar: 'Belum ada bayaran. Tekan Tambah item untuk masukkan bayaran bulanan.',
+      tanpaKumpulan: 'Lain-lain',
+      tanpaNama: 'Tanpa nama',
+
+      tambah: 'Tambah item',
+      edit: 'Edit item',
+      editAria: 'Edit {n}',
+      fJenis: 'Jenis',
+      fNama: 'Nama',
+      fNamaPh: 'cth. Bil TNB',
+      fJumlah: 'Jumlah (RM)',
+      fKumpulan: 'Kumpulan',
+      fKumpulanPh: 'cth. Bil, Transfer, Simpan',
+      fCatatan: 'Catatan',
+      fCatatanPh: 'Tak wajib',
+      dahBayar: 'Dah bayar',
+      dahMasuk: 'Dah masuk',
+      padam: 'Padam',
+      batal: 'Batal',
+      simpan: 'Simpan',
+      tutup: 'Tutup',
+      buatAsal: 'Buat asal',
+      ralatNama: 'Isi nama item dulu.',
+      ralatJumlah: 'Jumlah mesti nombor sahaja, contoh 150 atau 150.50.',
+      disimpan: 'Disimpan',
+      ditambah: '{n} ditambah',
+      dipadam: '{n} dipadam',
+
+      gajiLagi: 'Gaji masuk {t}, lagi {n} hari',
+      gajiEsok: 'Gaji masuk esok, {t}',
+      gajiHariIni: 'Gaji masuk hari ini',
+      gajiDah: 'Gaji dah masuk {t}',
+      gajiBiasa: 'Gaji {t}',
+
+      akanMuncul: 'Sheet {s} muncul sendiri pada {b}, {h} hari sebelum gaji {g}. Nak siapkan senarai lebih awal, sediakan sekarang.',
+      sediaSekarang: 'Sediakan sheet {s} sekarang',
+      dahSedia: 'Sheet {s} dah disediakan. Ia jadi muka utama pada {b}.',
+      bukaSheet: 'Buka sheet {s}',
+      awal: 'Disediakan awal. Sheet ini jadi muka utama pada {b}.',
+      padamSheetNota: 'Sheet ini salinan {d} semasa ia disediakan. Padam kalau nak salin semula nanti.',
+      padamSheet: 'Padam sheet ini',
+      sheetSedia: 'Sheet {s} dah sedia, disalin dari {d}.',
+      kiniUtama: 'Sheet {s} kini di muka utama.',
+      sheetDipadam: 'Sheet {s} dipadam',
+
+      bahasa: 'Bahasa',
+      paparan: 'Paparan',
+      temaSistem: 'Ikut sistem',
+      temaTerang: 'Terang',
+      temaGelap: 'Gelap',
+      data: 'Data',
+      dataNota: 'Semua data disimpan dalam telefon ini sahaja. Simpan salinan sekali-sekala supaya tak hilang kalau tukar telefon atau padam data browser.',
+      eksport: 'Simpan salinan',
+      eksportNota: 'Muat turun semua bulan sebagai satu fail',
+      import: 'Import fail',
+      importNota: 'Masukkan senarai awal, atau pulihkan dari salinan',
+      tiadaData: 'Belum ada data untuk disimpan.',
+      salinanDisimpan: 'Salinan disimpan sebagai {f}',
+      failRosak: 'Fail ini tak dapat dibaca. Pilih fail .json dari Bajet Bulanan.',
+      failTiadaBulan: 'Fail ini tak ada data bulan di dalamnya.',
+      failBukan: 'Fail ini bukan fail Bajet Bulanan.',
+      sahGantiSemua: 'Ganti semua data dalam apps ini dengan data dari fail?',
+      sahGantiSenarai: 'Ganti senarai {s} dengan senarai dari fail?',
+      dipulihkan: 'Data dipulihkan, {n} bulan',
+      dimasukkan: '{n} item dimasukkan ke {s}',
+      takDapatSimpan: 'Tak dapat simpan. Storan browser penuh atau disekat.',
+    },
+
+    en: {
+      bulan: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+      bulanPendek: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+      hari: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+
+      bulanSebelum: 'Previous month',
+      bulanSelepas: 'Next month',
+      tetapan: 'Settings',
+      keSemasa: 'Go to the current month',
+
+      mulaTajuk: 'No payment list yet',
+      mulaTeks: 'Import an existing list, or start empty and add items one at a time. The list is stored on this phone only.',
+      mulaImport: 'Import a list',
+      mulaKosong: 'Start with an empty list',
+
+      belum: 'Still to pay',
+      semuaBayar: 'All paid',
+      masuk: 'Money in',
+      keluar: 'Money out',
+      baki: 'Balance',
+      petunjukBayar: 'Paid, double tap',
+      jalurNota: 'Paid {a} of {b} payments, RM {j}',
+      jalurKosong: 'No payments in the list yet',
+      kosongMasuk: 'No money in yet. Tap Add item and choose Money in.',
+      kosongKeluar: 'No payments yet. Tap Add item to enter your monthly payments.',
+      tanpaKumpulan: 'Other',
+      tanpaNama: 'Untitled',
+
+      tambah: 'Add item',
+      edit: 'Edit item',
+      editAria: 'Edit {n}',
+      fJenis: 'Type',
+      fNama: 'Name',
+      fNamaPh: 'e.g. Electricity bill',
+      fJumlah: 'Amount (RM)',
+      fKumpulan: 'Group',
+      fKumpulanPh: 'e.g. Bills, Transfers, Savings',
+      fCatatan: 'Note',
+      fCatatanPh: 'Optional',
+      dahBayar: 'Paid',
+      dahMasuk: 'Received',
+      padam: 'Delete',
+      batal: 'Cancel',
+      simpan: 'Save',
+      tutup: 'Close',
+      buatAsal: 'Undo',
+      ralatNama: 'Enter a name for the item.',
+      ralatJumlah: 'Amount must be a number, for example 150 or 150.50.',
+      disimpan: 'Saved',
+      ditambah: '{n} added',
+      dipadam: '{n} deleted',
+
+      gajiLagi: 'Payday {t}, in {n} days',
+      gajiEsok: 'Payday tomorrow, {t}',
+      gajiHariIni: 'Payday is today',
+      gajiDah: 'Paid on {t}',
+      gajiBiasa: 'Payday {t}',
+
+      akanMuncul: 'The {s} sheet appears on its own on {b}, {h} days before payday on {g}. To get the list ready sooner, prepare it now.',
+      sediaSekarang: 'Prepare the {s} sheet now',
+      dahSedia: 'The {s} sheet is ready. It becomes the main page on {b}.',
+      bukaSheet: 'Open the {s} sheet',
+      awal: 'Prepared early. This sheet becomes the main page on {b}.',
+      padamSheetNota: 'This sheet is a copy of {d} from when it was prepared. Delete it to copy again later.',
+      padamSheet: 'Delete this sheet',
+      sheetSedia: 'The {s} sheet is ready, copied from {d}.',
+      kiniUtama: 'The {s} sheet is now the main page.',
+      sheetDipadam: '{s} sheet deleted',
+
+      bahasa: 'Language',
+      paparan: 'Appearance',
+      temaSistem: 'System',
+      temaTerang: 'Light',
+      temaGelap: 'Dark',
+      data: 'Data',
+      dataNota: 'All data is stored on this phone only. Save a copy now and then so nothing is lost if you change phones or clear browser data.',
+      eksport: 'Save a copy',
+      eksportNota: 'Download every month as one file',
+      import: 'Import a file',
+      importNota: 'Load a starting list, or restore from a copy',
+      tiadaData: 'There is no data to save yet.',
+      salinanDisimpan: 'Copy saved as {f}',
+      failRosak: "This file can't be read. Choose a .json file from Bajet Bulanan.",
+      failTiadaBulan: 'This file has no month data in it.',
+      failBukan: "This isn't a Bajet Bulanan file.",
+      sahGantiSemua: 'Replace all data in this app with the data from the file?',
+      sahGantiSenarai: 'Replace the {s} list with the list from the file?',
+      dipulihkan: 'Data restored, {n} months',
+      dimasukkan: '{n} items added to {s}',
+      takDapatSimpan: "Couldn't save. Browser storage is full or blocked.",
+    },
+  };
+
+  let tetapan = { bahasa: 'ms', tema: 'sistem', utama: null };
+
+  function muatTetapan() {
+    try {
+      const j = JSON.parse(localStorage.getItem(KUNCI_TETAPAN) || '{}');
+      if (j.bahasa === 'en' || j.bahasa === 'ms') tetapan.bahasa = j.bahasa;
+      if (['sistem', 'terang', 'gelap'].includes(j.tema)) tetapan.tema = j.tema;
+      if (typeof j.utama === 'string') tetapan.utama = j.utama;
+    } catch (e) { /* guna lalai */ }
+  }
+
+  function simpanTetapan() {
+    try { localStorage.setItem(KUNCI_TETAPAN, JSON.stringify(tetapan)); } catch (e) { /* tak penting */ }
+  }
+
+  // t('kunci', { n: 3 }) -> teks dalam bahasa semasa, {n} diganti.
+  function t(k, nilai) {
+    let s = TEKS[tetapan.bahasa][k];
+    if (s === undefined) s = TEKS.ms[k];
+    if (nilai) Object.keys(nilai).forEach((n) => { s = s.split('{' + n + '}').join(nilai[n]); });
+    return s;
+  }
+
+  function gunaBahasa() {
+    document.documentElement.lang = tetapan.bahasa;
+    document.querySelectorAll('[data-i18n]').forEach((e) => { e.textContent = t(e.dataset.i18n); });
+    document.querySelectorAll('[data-i18n-ph]').forEach((e) => { e.placeholder = t(e.dataset.i18nPh); });
+    document.querySelectorAll('[data-i18n-aria]').forEach((e) => { e.setAttribute('aria-label', t(e.dataset.i18nAria)); });
+  }
+
+  /* ---------- Tema ---------- */
+
+  function gunaTema() {
+    const akar = document.documentElement;
+    if (tetapan.tema === 'gelap') akar.setAttribute('data-theme', 'dark');
+    else if (tetapan.tema === 'terang') akar.setAttribute('data-theme', 'light');
+    else akar.removeAttribute('data-theme');
+    const meta = document.querySelector('meta[name="theme-color"]');
+    if (meta) meta.content = getComputedStyle(akar).getPropertyValue('--kertas').trim() || '#F6F7FB';
+  }
 
   /* ---------- Tarikh ---------- */
 
@@ -35,6 +264,8 @@
     return new Date(n.getFullYear(), n.getMonth(), n.getDate());
   }
 
+  const hariAwal = () => (Number.isFinite(window.HARI_AWAL) ? window.HARI_AWAL : 2);
+
   function tarikhGaji(y, m) {
     const tahun = (window.TARIKH_GAJI || {})[y];
     const hari = tahun && Number(tahun[m]) > 0 ? Number(tahun[m]) : (window.GAJI_LALAI || 25);
@@ -43,8 +274,7 @@
 
   function tarikhBuka(y, m) {
     const g = tarikhGaji(y, m);
-    const awal = Number.isFinite(window.HARI_AWAL) ? window.HARI_AWAL : 2;
-    return new Date(g.getFullYear(), g.getMonth(), g.getDate() - awal);
+    return new Date(g.getFullYear(), g.getMonth(), g.getDate() - hariAwal());
   }
 
   const kunci = (y, m) => y + '-' + String(m + 1).padStart(2, '0');
@@ -57,20 +287,20 @@
     return kunci(y, m);
   }
 
-  // Sheet yang sepatutnya aktif pada tarikh t.
-  function kunciSemasa(t) {
-    let y = t.getFullYear();
-    let m = t.getMonth();
-    if (t < tarikhBuka(y, m)) {
+  // Bulan gaji yang sedang berjalan pada tarikh t.
+  function kunciSemasa(tarikh) {
+    let y = tarikh.getFullYear();
+    let m = tarikh.getMonth();
+    if (tarikh < tarikhBuka(y, m)) {
       m -= 1;
       if (m < 0) { m = 11; y -= 1; }
     }
     return kunci(y, m);
   }
 
-  const namaSheet = (k) => { const { y, m } = pecah(k); return BULAN[m] + ' ' + y; };
-  const tarikhPendek = (d) => d.getDate() + ' ' + BULAN_PENDEK[d.getMonth()];
-  const tarikhPenuh = (d) => HARI[d.getDay()] + ', ' + tarikhPendek(d);
+  const namaSheet = (k) => { const { y, m } = pecah(k); return t('bulan')[m] + ' ' + y; };
+  const tarikhPendek = (d) => d.getDate() + ' ' + t('bulanPendek')[d.getMonth()];
+  const tarikhPenuh = (d) => t('hari')[d.getDay()] + ', ' + tarikhPendek(d);
   const bezaHari = (a, b) => Math.round((a - b) / 86400000);
 
   /* ---------- Duit ---------- */
@@ -101,7 +331,7 @@
     return {
       id: uid(),
       type: x.type === 'in' ? 'in' : 'out',
-      name: String(x.name == null ? '' : x.name).trim().slice(0, 80) || 'Tanpa nama',
+      name: String(x.name == null ? '' : x.name).trim().slice(0, 80) || t('tanpaNama'),
       amount: Number.isFinite(amaun) && amaun >= 0 ? Math.round(amaun * 100) / 100 : 0,
       group: String(x.group == null ? '' : x.group).trim().slice(0, 40),
       note: String(x.note == null ? '' : x.note).trim().slice(0, 300),
@@ -135,26 +365,40 @@
       localStorage.setItem(KUNCI_SIMPAN, JSON.stringify(data));
       return true;
     } catch (e) {
-      toast('Tak dapat simpan. Storan browser penuh atau disekat.');
+      toast(t('takDapatSimpan'));
       return false;
     }
   }
 
   const senaraiKunci = () => Object.keys(data.sheets).sort();
+  const kunciAkhir = () => senaraiKunci().pop() || null;
   const sheetLihat = () => data.sheets[lihat];
 
-  // Cipta sheet bulan semasa kalau dah sampai masanya. Pulangkan kunci baru, atau null.
+  // Salinan sheet untuk bulan baru: item dan jumlah sama, tanda dah bayar dikosongkan.
+  const salin = (k) => ({ items: data.sheets[k].items.map((i) => Object.assign({}, i, { id: uid(), paid: false })) });
+
+  // Sheet muka utama: bulan gaji yang sedang berjalan. Sheet yang disediakan
+  // awal untuk bulan depan belum jadi muka utama sehingga tarikh bukanya.
+  function kunciUtama() {
+    const ada = senaraiKunci();
+    if (!ada.length) return null;
+    const semasa = kunciSemasa(hariIni());
+    const layak = ada.filter((k) => k <= semasa);
+    return layak.length ? layak[layak.length - 1] : ada[0];
+  }
+
+  // Cipta sheet bulan semasa kalau dah sampai tarikhnya dan belum disediakan awal.
   function sediakanSheet() {
     const ada = senaraiKunci();
     if (!ada.length) return null;
     const semasa = kunciSemasa(hariIni());
-    const akhir = ada[ada.length - 1];
-    if (akhir >= semasa) return null;
-    data.sheets[semasa] = {
-      items: data.sheets[akhir].items.map((i) => Object.assign({}, i, { id: uid(), paid: false })),
-    };
+    if (data.sheets[semasa]) return null;
+    const sebelum = ada.filter((k) => k < semasa);
+    if (!sebelum.length) return null;
+    const dari = sebelum[sebelum.length - 1];
+    data.sheets[semasa] = salin(dari);
     simpan();
-    return semasa;
+    return { baru: semasa, dari };
   }
 
   /* ---------- Papar ---------- */
@@ -169,11 +413,11 @@
     const peta = new Map();
     items.forEach((i) => {
       if (i.type !== 'out') return;
-      const g = i.group || TANPA_KUMPULAN;
+      const g = i.group || '';
       if (!peta.has(g)) peta.set(g, []);
       peta.get(g).push(i);
     });
-    return Array.from(peta, ([nama, senarai]) => ({ nama, senarai }));
+    return Array.from(peta, ([nama, senarai]) => ({ nama: nama || t('tanpaKumpulan'), senarai }));
   }
 
   function htmlBaris(i) {
@@ -186,7 +430,7 @@
           '<span class="nama">' + esc(i.name) + catatan + '</span>' +
           '<span class="amaun">' + fmt(keSen(i.amount)) + '</span>' +
         '</button>' +
-        '<button class="baris-edit" type="button" data-edit="' + i.id + '" aria-label="Edit ' + esc(i.name) + '">' + IKON_EDIT + '</button>' +
+        '<button class="baris-edit" type="button" data-edit="' + i.id + '" aria-label="' + esc(t('editAria', { n: i.name })) + '">' + IKON_EDIT + '</button>' +
       '</li>'
     );
   }
@@ -201,20 +445,20 @@
 
     let h = '';
 
-    h += '<section class="bahagian"><div class="bahagian-kepala"><h2>Duit masuk</h2><span>' + fmt(jumlah(masuk)) + '</span></div>';
+    h += '<section class="bahagian"><div class="bahagian-kepala"><h2>' + esc(t('masuk')) + '</h2><span>' + fmt(jumlah(masuk)) + '</span></div>';
     h += masuk.length
       ? '<ul class="baris-senarai">' + masuk.map(htmlBaris).join('') + '</ul>'
-      : '<p class="kosong">Belum ada duit masuk. Tekan Tambah item dan pilih Duit masuk.</p>';
+      : '<p class="kosong">' + esc(t('kosongMasuk')) + '</p>';
     h += '</section>';
 
-    h += '<section class="bahagian"><div class="bahagian-kepala"><h2>Duit keluar</h2><span>' + fmt(jumlah(keluar)) + '</span></div>';
+    h += '<section class="bahagian"><div class="bahagian-kepala"><h2>' + esc(t('keluar')) + '</h2><span>' + fmt(jumlah(keluar)) + '</span></div>';
     if (kumpulan.length) {
       kumpulan.forEach((k) => {
         h += '<div class="kumpulan"><span>' + esc(k.nama) + '</span><span>' + fmt(jumlah(k.senarai)) + '</span></div>';
         h += '<ul class="baris-senarai">' + k.senarai.map(htmlBaris).join('') + '</ul>';
       });
     } else {
-      h += '<p class="kosong">Belum ada bayaran. Tekan Tambah item untuk masukkan bayaran bulanan.</p>';
+      h += '<p class="kosong">' + esc(t('kosongKeluar')) + '</p>';
     }
     h += '</section>';
 
@@ -232,7 +476,7 @@
     const baki = masuk - keluar;
 
     const semua = kira.length > 0 && sudah.length === kira.length;
-    $('belumLabel').textContent = semua ? 'Semua dah bayar' : 'Belum bayar';
+    $('belumLabel').textContent = semua ? t('semuaBayar') : t('belum');
     $('belumAngka').innerHTML = '<small>RM</small>' + fmt(belum);
 
     // Petak jalur ikut turutan paparan.
@@ -242,8 +486,8 @@
       .join('');
 
     const nota = kira.length
-      ? 'Dah bayar ' + sudah.length + ' daripada ' + kira.length + ' bayaran, RM ' + fmt(jumlah(sudah))
-      : 'Belum ada bayaran dalam senarai';
+      ? t('jalurNota', { a: sudah.length, b: kira.length, j: fmt(jumlah(sudah)) })
+      : t('jalurKosong');
     $('jalurNota').textContent = nota;
     $('jalur').setAttribute('aria-label', nota);
 
@@ -253,43 +497,68 @@
     $('jumBaki').parentElement.classList.toggle('kurang', baki < 0);
   }
 
+  let tindakanAkan = null; // apa butang di bawah senarai buat
+
   function paparKepala() {
     const ada = senaraiKunci();
     const idx = ada.indexOf(lihat);
-    const terakhir = idx === ada.length - 1;
+    const akhir = ada[ada.length - 1];
+    const utama = kunciUtama();
     const { y, m } = pecah(lihat);
     const gaji = tarikhGaji(y, m);
-    const hari = hariIni();
+    const lagi = bezaHari(gaji, hariIni());
 
     $('tajuk').textContent = namaSheet(lihat);
     document.title = namaSheet(lihat) + ' | Bajet Bulanan';
 
     let teks;
-    if (terakhir) {
-      const lagi = bezaHari(gaji, hari);
-      if (lagi > 1) teks = 'Gaji masuk ' + tarikhPenuh(gaji) + ', lagi ' + lagi + ' hari';
-      else if (lagi === 1) teks = 'Gaji masuk esok, ' + tarikhPenuh(gaji);
-      else if (lagi === 0) teks = 'Gaji masuk hari ini';
-      else teks = 'Gaji dah masuk ' + tarikhPenuh(gaji);
-    } else {
-      teks = 'Gaji ' + tarikhPenuh(gaji);
-    }
+    if (lagi > 1) teks = t('gajiLagi', { t: tarikhPenuh(gaji), n: lagi });
+    else if (lagi === 1) teks = t('gajiEsok', { t: tarikhPenuh(gaji) });
+    else if (lagi === 0) teks = t('gajiHariIni');
+    else if (lihat === utama) teks = t('gajiDah', { t: tarikhPenuh(gaji) });
+    else teks = t('gajiBiasa', { t: tarikhPenuh(gaji) });
     $('gaji').textContent = teks;
 
     $('btnSebelum').disabled = idx <= 0;
-    $('btnSelepas').disabled = terakhir;
-    $('btnSemasa').hidden = terakhir;
+    $('btnSelepas').disabled = idx >= ada.length - 1;
+    $('btnSemasa').hidden = lihat === utama;
 
-    if (terakhir) {
-      const seterusnya = kunciSelepas(lihat);
-      const p = pecah(seterusnya);
-      $('akanDatang').hidden = false;
-      $('akanDatang').textContent =
-        'Sheet ' + namaSheet(seterusnya) + ' muncul pada ' + tarikhPenuh(tarikhBuka(p.y, p.m)) +
-        ', 2 hari sebelum gaji ' + tarikhPendek(tarikhGaji(p.y, p.m)) +
-        '. Senarai ini disalin ke situ dan semua tanda dah bayar dikosongkan.';
+    // Sheet yang disediakan awal: beritahu bila ia jadi muka utama.
+    const awal = lihat > utama;
+    $('awal').hidden = !awal;
+    if (awal) $('awal').textContent = t('awal', { b: tarikhPenuh(tarikhBuka(y, m)) });
+
+    // Bahagian bawah senarai.
+    const kotak = $('akanDatang');
+    tindakanAkan = null;
+    if (lihat === utama && lihat === akhir) {
+      // Belum ada sheet bulan depan: tunjuk bila ia muncul, dan tawar sediakan awal.
+      const depan = kunciSelepas(lihat);
+      const p = pecah(depan);
+      $('akanTeks').textContent = t('akanMuncul', {
+        s: namaSheet(depan), b: tarikhPenuh(tarikhBuka(p.y, p.m)), h: hariAwal(), g: tarikhPendek(tarikhGaji(p.y, p.m)),
+      });
+      $('btnAkan').textContent = t('sediaSekarang', { s: namaSheet(depan) });
+      $('btnAkan').className = 'btn';
+      tindakanAkan = 'sedia';
+      kotak.hidden = false;
+    } else if (lihat === utama && idx < ada.length - 1) {
+      // Sheet bulan depan dah disediakan awal.
+      const depan = ada[idx + 1];
+      const p = pecah(depan);
+      $('akanTeks').textContent = t('dahSedia', { s: namaSheet(depan), b: tarikhPenuh(tarikhBuka(p.y, p.m)) });
+      $('btnAkan').textContent = t('bukaSheet', { s: namaSheet(depan) });
+      $('btnAkan').className = 'btn';
+      tindakanAkan = 'buka';
+      kotak.hidden = false;
+    } else if (awal && lihat === akhir && idx > 0) {
+      $('akanTeks').textContent = t('padamSheetNota', { d: namaSheet(ada[idx - 1]) });
+      $('btnAkan').textContent = t('padamSheet');
+      $('btnAkan').className = 'btn bahaya';
+      tindakanAkan = 'padam';
+      kotak.hidden = false;
     } else {
-      $('akanDatang').hidden = true;
+      kotak.hidden = true;
     }
   }
 
@@ -302,15 +571,19 @@
     $('btnSelepas').hidden = !adaSheet;
     if (!adaSheet) {
       $('tajuk').textContent = 'Bajet Bulanan';
+      document.title = 'Bajet Bulanan';
       $('gaji').textContent = '';
+      $('awal').hidden = true;
       $('btnSemasa').hidden = true;
       return;
     }
-    if (!data.sheets[lihat]) lihat = senaraiKunci().pop();
+    if (!data.sheets[lihat]) lihat = kunciUtama();
     paparKepala();
     paparRingkas();
     paparSenarai();
   }
+
+  const keAtas = () => window.scrollTo(0, 0);
 
   /* ---------- Toast ---------- */
 
@@ -384,14 +657,14 @@
   function kemasBorangIkutJenis() {
     const masuk = jenisDipilih() === 'in';
     $('medanKumpulan').hidden = masuk;
-    $('fBayarTeks').textContent = masuk ? 'Dah masuk' : 'Dah bayar';
+    $('fBayarTeks').textContent = masuk ? t('dahMasuk') : t('dahBayar');
   }
 
   function bukaBorang(id) {
     const item = id ? cari(id) : null;
     sedangEdit = item ? item.id : null;
 
-    $('borangTajuk').textContent = item ? 'Edit item' : 'Tambah item';
+    $('borangTajuk').textContent = item ? t('edit') : t('tambah');
     $('btnPadam').hidden = !item;
     $('borangRalat').hidden = true;
 
@@ -425,9 +698,9 @@
   $('borangForm').addEventListener('submit', (e) => {
     e.preventDefault();
     const nama = $('fNama').value.trim();
-    if (!nama) { ralatBorang('Isi nama item dulu.', $('fNama')); return; }
+    if (!nama) { ralatBorang(t('ralatNama'), $('fNama')); return; }
     const amaun = bacaJumlah($('fJumlah').value);
-    if (amaun === null) { ralatBorang('Jumlah mesti nombor sahaja, contoh 150 atau 150.50.', $('fJumlah')); return; }
+    if (amaun === null) { ralatBorang(t('ralatJumlah'), $('fJumlah')); return; }
 
     const nilai = {
       type: jenisDipilih(),
@@ -452,7 +725,7 @@
     simpan();
     borang.close();
     papar();
-    toast(sedangEdit ? 'Disimpan' : nilai.name + ' ditambah');
+    toast(sedangEdit ? t('disimpan') : t('ditambah', { n: nilai.name }));
   });
 
   $('btnBatal').addEventListener('click', () => borang.close());
@@ -466,7 +739,7 @@
     simpan();
     borang.close();
     papar();
-    toast(dibuang.name + ' dipadam', () => {
+    toast(t('dipadam', { n: dibuang.name }), () => {
       const s = data.sheets[sheetAsal];
       if (!s) return;
       s.items.splice(Math.min(pos, s.items.length), 0, dibuang);
@@ -495,24 +768,83 @@
     if (idx < 0 || idx >= ada.length) return;
     lihat = ada[idx];
     papar();
-    window.scrollTo(0, 0);
+    keAtas();
   }
 
   $('btnSebelum').addEventListener('click', () => alih(-1));
   $('btnSelepas').addEventListener('click', () => alih(1));
-  $('btnSemasa').addEventListener('click', () => { lihat = senaraiKunci().pop(); papar(); window.scrollTo(0, 0); });
+  $('btnSemasa').addEventListener('click', () => { lihat = kunciUtama(); papar(); keAtas(); });
 
-  /* ---------- Menu: simpan salinan & import ---------- */
+  /* ---------- Sediakan sheet bulan depan lebih awal ---------- */
+
+  $('btnAkan').addEventListener('click', () => {
+    if (tindakanAkan === 'sedia') {
+      const dari = kunciAkhir();
+      const baru = kunciSelepas(dari);
+      if (data.sheets[baru]) return;
+      data.sheets[baru] = salin(dari);
+      simpan();
+      lihat = baru;
+      papar();
+      keAtas();
+      toast(t('sheetSedia', { s: namaSheet(baru), d: namaSheet(dari) }));
+    } else if (tindakanAkan === 'buka') {
+      alih(1);
+    } else if (tindakanAkan === 'padam') {
+      const k = lihat;
+      if (k <= kunciUtama()) return; // hanya sheet yang disediakan awal boleh dipadam
+      const simpanan = data.sheets[k];
+      delete data.sheets[k];
+      simpan();
+      lihat = kunciUtama();
+      papar();
+      keAtas();
+      toast(t('sheetDipadam', { s: namaSheet(k) }), () => {
+        if (data.sheets[k]) return;
+        data.sheets[k] = simpanan;
+        simpan();
+        lihat = k;
+        papar();
+        keAtas();
+      });
+    }
+  });
+
+  /* ---------- Tetapan: bahasa, paparan, simpan salinan & import ---------- */
 
   const menu = $('menu');
-  $('btnMenu').addEventListener('click', () => menu.showModal());
+
+  $('btnMenu').addEventListener('click', () => {
+    menu.querySelector('input[name="bahasa"][value="' + tetapan.bahasa + '"]').checked = true;
+    menu.querySelector('input[name="tema"][value="' + tetapan.tema + '"]').checked = true;
+    menu.showModal();
+  });
   $('btnTutupMenu').addEventListener('click', () => menu.close());
 
+  menu.querySelectorAll('input[name="bahasa"]').forEach((r) => r.addEventListener('change', () => {
+    tetapan.bahasa = r.value;
+    simpanTetapan();
+    gunaBahasa();
+    papar();
+  }));
+
+  menu.querySelectorAll('input[name="tema"]').forEach((r) => r.addEventListener('change', () => {
+    tetapan.tema = r.value;
+    simpanTetapan();
+    gunaTema();
+  }));
+
+  if (window.matchMedia) {
+    const mq = window.matchMedia('(prefers-color-scheme: dark)');
+    const dengar = () => { if (tetapan.tema === 'sistem') gunaTema(); };
+    if (mq.addEventListener) mq.addEventListener('change', dengar); else if (mq.addListener) mq.addListener(dengar);
+  }
+
   $('btnEksport').addEventListener('click', () => {
-    if (!senaraiKunci().length) { menu.close(); toast('Belum ada data untuk disimpan.'); return; }
-    const t = new Date();
-    const nama = 'bajet-bulanan-' + t.getFullYear() + '-' + String(t.getMonth() + 1).padStart(2, '0') + '-' + String(t.getDate()).padStart(2, '0') + '.json';
-    const isi = JSON.stringify({ app: 'bajet-bulanan', v: 1, disimpan: t.toISOString(), sheets: data.sheets }, null, 2);
+    if (!senaraiKunci().length) { menu.close(); toast(t('tiadaData')); return; }
+    const d = new Date();
+    const nama = 'bajet-bulanan-' + d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0') + '.json';
+    const isi = JSON.stringify({ app: 'bajet-bulanan', v: 1, disimpan: d.toISOString(), sheets: data.sheets }, null, 2);
     const url = URL.createObjectURL(new Blob([isi], { type: 'application/json' }));
     const a = document.createElement('a');
     a.href = url;
@@ -522,7 +854,7 @@
     a.remove();
     setTimeout(() => URL.revokeObjectURL(url), 2000);
     menu.close();
-    toast('Salinan disimpan sebagai ' + nama);
+    toast(t('salinanDisimpan', { f: nama }));
   });
 
   function pilihFail() { $('failImport').value = ''; $('failImport').click(); }
@@ -536,33 +868,35 @@
     try {
       j = JSON.parse(await fail.text());
     } catch (err) {
-      toast('Fail ini tak dapat dibaca. Pilih fail .json dari Bajet Bulanan.');
+      toast(t('failRosak'));
       return;
     }
 
     if (j && j.sheets && typeof j.sheets === 'object') {
       // Salinan penuh: ganti semua bulan.
       const baru = bersihSheets(j.sheets);
-      if (!Object.keys(baru).length) { toast('Fail ini tak ada data bulan di dalamnya.'); return; }
-      if (senaraiKunci().length && !confirm('Ganti semua data dalam apps ini dengan data dari fail?')) return;
+      if (!Object.keys(baru).length) { toast(t('failTiadaBulan')); return; }
+      if (senaraiKunci().length && !confirm(t('sahGantiSemua'))) return;
       data = { v: 1, sheets: baru };
       simpan();
       sediakanSheet();
-      lihat = senaraiKunci().pop();
+      catatUtama();
+      lihat = kunciUtama();
       papar();
-      toast('Data dipulihkan, ' + Object.keys(baru).length + ' bulan');
+      toast(t('dipulihkan', { n: Object.keys(baru).length }));
     } else if (j && Array.isArray(j.items)) {
-      // Senarai sahaja: jadikan senarai bulan semasa.
+      // Senarai sahaja: jadikan senarai bulan yang sedang dipapar.
       const k = senaraiKunci().length ? lihat : kunciSemasa(hariIni());
       const sedia = data.sheets[k];
-      if (sedia && sedia.items.length && !confirm('Ganti senarai ' + namaSheet(k) + ' dengan senarai dari fail?')) return;
+      if (sedia && sedia.items.length && !confirm(t('sahGantiSenarai', { s: namaSheet(k) }))) return;
       data.sheets[k] = { items: j.items.map(bersihItem) };
       simpan();
+      catatUtama();
       lihat = k;
       papar();
-      toast(j.items.length + ' item dimasukkan ke ' + namaSheet(k));
+      toast(t('dimasukkan', { n: j.items.length, s: namaSheet(k) }));
     } else {
-      toast('Fail ini bukan fail Bajet Bulanan.');
+      toast(t('failBukan'));
     }
   });
 
@@ -570,31 +904,49 @@
     lihat = kunciSemasa(hariIni());
     data.sheets[lihat] = { items: [] };
     simpan();
+    catatUtama();
     papar();
   });
 
   /* ---------- Mula ---------- */
 
-  function semakSheetBaru() {
-    const diTerakhir = lihat === null || lihat === senaraiKunci().pop();
-    const baru = sediakanSheet();
-    if (!baru) return false;
-    const ada = senaraiKunci();
-    const dari = ada[ada.length - 2];
-    if (diTerakhir) lihat = baru;
+  // Ingat sheet mana muka utama, supaya boleh beritahu bila ia bertukar.
+  function catatUtama() {
+    const u = kunciUtama();
+    if (tetapan.utama !== u) { tetapan.utama = u; simpanTetapan(); }
+  }
+
+  // Semak sama ada bulan gaji dah bertukar. Pulangkan true kalau paparan dah dilukis.
+  function semakBulanBaru() {
+    if (!senaraiKunci().length) return false;
+    const utamaLama = tetapan.utama;
+    const diUtama = lihat === null || lihat === utamaLama;
+    const hasil = sediakanSheet();
+    const utama = kunciUtama();
+    if (utama === utamaLama) return false;
+    catatUtama();
+    if (diUtama) lihat = utama;
     papar();
-    toast('Sheet ' + namaSheet(baru) + ' dah sedia, disalin dari ' + namaSheet(dari) + '.');
+    if (hasil) toast(t('sheetSedia', { s: namaSheet(hasil.baru), d: namaSheet(hasil.dari) }));
+    else if (utamaLama && utama > utamaLama) toast(t('kiniUtama', { s: namaSheet(utama) }));
     return true;
   }
 
+  muatTetapan();
+  gunaTema();
+  gunaBahasa();
   muat();
-  lihat = senaraiKunci().pop() || null;
-  if (!semakSheetBaru()) papar();
+  if (tetapan.utama && !data.sheets[tetapan.utama]) tetapan.utama = null;
+  if (!semakBulanBaru()) {
+    lihat = kunciUtama();
+    catatUtama();
+    papar();
+  }
 
   // Kalau apps dibiar terbuka sampai tarikh sheet baru, semak semula bila kembali.
   document.addEventListener('visibilitychange', () => {
     if (document.visibilityState !== 'visible') return;
-    if (!semakSheetBaru() && senaraiKunci().length) paparKepala();
+    if (!semakBulanBaru() && senaraiKunci().length) paparKepala();
   });
 
   if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost')) {

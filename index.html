@@ -6,13 +6,22 @@
 <title>Bajet Bulanan</title>
 <meta name="description" content="Jejak duit masuk, duit keluar dan bayaran bulanan.">
 <meta name="theme-color" content="#F6F7FB">
-<meta name="color-scheme" content="light">
+<meta name="color-scheme" content="light dark">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Bajet">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" href="icon-192.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
+<script>
+/* Pasang tema dan bahasa yang dipilih sebelum halaman dilukis, supaya tak berkelip. */
+try {
+  var s = JSON.parse(localStorage.getItem('bajet-bulanan-tetapan') || '{}');
+  if (s.tema === 'gelap') document.documentElement.setAttribute('data-theme', 'dark');
+  else if (s.tema === 'terang') document.documentElement.setAttribute('data-theme', 'light');
+  if (s.bahasa === 'en') document.documentElement.lang = 'en';
+} catch (e) {}
+</script>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -22,63 +31,67 @@
   <header class="atas">
     <div class="bulan-nav">
       <h1 id="tajuk">Bajet Bulanan</h1>
-      <button class="ikon-btn" id="btnSebelum" type="button" aria-label="Bulan sebelum">
+      <button class="ikon-btn" id="btnSebelum" type="button" data-i18n-aria="bulanSebelum" aria-label="Bulan sebelum">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
       </button>
-      <button class="ikon-btn" id="btnSelepas" type="button" aria-label="Bulan selepas">
+      <button class="ikon-btn" id="btnSelepas" type="button" data-i18n-aria="bulanSelepas" aria-label="Bulan selepas">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
       </button>
-      <button class="ikon-btn" id="btnMenu" type="button" aria-label="Menu">
+      <button class="ikon-btn" id="btnMenu" type="button" data-i18n-aria="tetapan" aria-label="Tetapan">
         <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="5" cy="12" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="19" cy="12" r="1.6"/></svg>
       </button>
     </div>
     <p class="gaji" id="gaji"></p>
-    <button class="ke-semasa" id="btnSemasa" type="button" hidden>Pergi ke bulan semasa</button>
+    <p class="awal" id="awal" hidden></p>
+    <button class="ke-semasa" id="btnSemasa" type="button" data-i18n="keSemasa" hidden>Pergi ke bulan semasa</button>
   </header>
 
   <!-- Skrin pertama: belum ada senarai -->
   <section class="mula" id="mula" hidden>
     <div class="mula-jalur" aria-hidden="true"><i></i><i></i><i></i></div>
-    <h2>Belum ada senarai bayaran</h2>
-    <p>Import senarai sedia ada, atau mula kosong dan tambah item satu per satu. Senarai disimpan dalam telefon ini sahaja.</p>
+    <h2 data-i18n="mulaTajuk">Belum ada senarai bayaran</h2>
+    <p data-i18n="mulaTeks">Import senarai sedia ada, atau mula kosong dan tambah item satu per satu. Senarai disimpan dalam telefon ini sahaja.</p>
     <div class="mula-btn">
-      <button class="btn utama" id="btnImportMula" type="button">Import senarai</button>
-      <button class="btn" id="btnKosong" type="button">Mula dengan senarai kosong</button>
+      <button class="btn utama" id="btnImportMula" type="button" data-i18n="mulaImport">Import senarai</button>
+      <button class="btn" id="btnKosong" type="button" data-i18n="mulaKosong">Mula dengan senarai kosong</button>
     </div>
   </section>
 
   <div id="isi" hidden>
 
-    <section class="ringkas" aria-label="Ringkasan bulan">
+    <section class="ringkas">
       <div class="belum">
-        <span class="belum-label" id="belumLabel">Belum bayar</span>
+        <span class="belum-label" id="belumLabel"></span>
         <strong class="belum-angka" id="belumAngka"></strong>
       </div>
       <div class="jalur" id="jalur" role="img"></div>
       <p class="jalur-nota" id="jalurNota"></p>
       <dl class="tiga">
-        <div class="t-masuk"><dt>Duit masuk</dt><dd id="jumMasuk"></dd></div>
-        <div class="t-keluar"><dt>Duit keluar</dt><dd id="jumKeluar"></dd></div>
-        <div class="t-baki"><dt>Baki</dt><dd id="jumBaki"></dd></div>
+        <div class="t-masuk"><dt data-i18n="masuk">Duit masuk</dt><dd id="jumMasuk"></dd></div>
+        <div class="t-keluar"><dt data-i18n="keluar">Duit keluar</dt><dd id="jumKeluar"></dd></div>
+        <div class="t-baki"><dt data-i18n="baki">Baki</dt><dd id="jumBaki"></dd></div>
       </dl>
     </section>
 
     <p class="petunjuk">
-      <span class="cap masuk"></span>Duit masuk
-      <span class="cap keluar"></span>Duit keluar
-      <span class="cap bayar"></span>Dah bayar, tekan 2 kali
+      <span class="cap masuk"></span><span data-i18n="masuk">Duit masuk</span>
+      <span class="cap keluar"></span><span data-i18n="keluar">Duit keluar</span>
+      <span class="cap bayar"></span><span data-i18n="petunjukBayar">Dah bayar, tekan 2 kali</span>
     </p>
 
     <main id="senarai"></main>
 
-    <p class="akan-datang" id="akanDatang"></p>
+    <div class="akan-datang" id="akanDatang" hidden>
+      <p id="akanTeks"></p>
+      <button class="btn" id="btnAkan" type="button"></button>
+    </div>
   </div>
 
 </div>
 
 <button class="tambah" id="btnTambah" type="button" hidden>
   <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
-  Tambah item
+  <span data-i18n="tambah">Tambah item</span>
 </button>
 
 <!-- Borang tambah / edit -->
@@ -86,31 +99,31 @@
   <form id="borangForm" method="dialog" novalidate>
     <h2 id="borangTajuk">Tambah item</h2>
 
-    <fieldset class="jenis">
-      <legend>Jenis</legend>
-      <label class="pil masuk"><input type="radio" name="jenis" value="in"><span>Duit masuk</span></label>
-      <label class="pil keluar"><input type="radio" name="jenis" value="out" checked><span>Duit keluar</span></label>
+    <fieldset class="pilih dua jenis">
+      <legend data-i18n="fJenis">Jenis</legend>
+      <label class="pil masuk"><input type="radio" name="jenis" value="in"><span data-i18n="masuk">Duit masuk</span></label>
+      <label class="pil keluar"><input type="radio" name="jenis" value="out" checked><span data-i18n="keluar">Duit keluar</span></label>
     </fieldset>
 
     <label class="medan">
-      <span>Nama</span>
-      <input id="fNama" type="text" maxlength="80" autocomplete="off" enterkeyhint="next" placeholder="cth. Bil TNB">
+      <span data-i18n="fNama">Nama</span>
+      <input id="fNama" type="text" maxlength="80" autocomplete="off" enterkeyhint="next" data-i18n-ph="fNamaPh" placeholder="cth. Bil TNB">
     </label>
 
     <label class="medan">
-      <span>Jumlah (RM)</span>
+      <span data-i18n="fJumlah">Jumlah (RM)</span>
       <input id="fJumlah" type="text" inputmode="decimal" autocomplete="off" enterkeyhint="done" placeholder="0.00">
     </label>
 
     <label class="medan" id="medanKumpulan">
-      <span>Kumpulan</span>
-      <input id="fKumpulan" type="text" maxlength="40" autocomplete="off" list="senaraiKumpulan" placeholder="cth. Bil, Transfer, Simpan">
+      <span data-i18n="fKumpulan">Kumpulan</span>
+      <input id="fKumpulan" type="text" maxlength="40" autocomplete="off" list="senaraiKumpulan" data-i18n-ph="fKumpulanPh" placeholder="cth. Bil, Transfer, Simpan">
       <datalist id="senaraiKumpulan"></datalist>
     </label>
 
     <label class="medan">
-      <span>Catatan</span>
-      <textarea id="fCatatan" rows="2" maxlength="300" placeholder="Tak wajib"></textarea>
+      <span data-i18n="fCatatan">Catatan</span>
+      <textarea id="fCatatan" rows="2" maxlength="300" data-i18n-ph="fCatatanPh" placeholder="Tak wajib"></textarea>
     </label>
 
     <label class="semak">
@@ -121,31 +134,46 @@
     <p class="ralat" id="borangRalat" role="alert" hidden></p>
 
     <div class="borang-btn">
-      <button class="btn bahaya" id="btnPadam" type="button" hidden>Padam</button>
+      <button class="btn bahaya" id="btnPadam" type="button" data-i18n="padam" hidden>Padam</button>
       <span class="renggang"></span>
-      <button class="btn" id="btnBatal" type="button">Batal</button>
-      <button class="btn utama" id="btnSimpan" type="submit">Simpan</button>
+      <button class="btn" id="btnBatal" type="button" data-i18n="batal">Batal</button>
+      <button class="btn utama" id="btnSimpan" type="submit" data-i18n="simpan">Simpan</button>
     </div>
   </form>
 </dialog>
 
-<!-- Menu -->
+<!-- Tetapan -->
 <dialog class="helai" id="menu" aria-labelledby="menuTajuk">
-  <h2 id="menuTajuk">Data</h2>
-  <p class="menu-nota">Semua data disimpan dalam telefon ini sahaja. Simpan salinan sekali-sekala supaya tak hilang kalau tukar telefon atau padam data browser.</p>
+  <h2 id="menuTajuk" data-i18n="tetapan">Tetapan</h2>
+
+  <fieldset class="pilih dua" id="pilihBahasa">
+    <legend data-i18n="bahasa">Bahasa</legend>
+    <label class="pil"><input type="radio" name="bahasa" value="ms" checked><span>Melayu</span></label>
+    <label class="pil"><input type="radio" name="bahasa" value="en"><span>English</span></label>
+  </fieldset>
+
+  <fieldset class="pilih tiga-pil" id="pilihTema">
+    <legend data-i18n="paparan">Paparan</legend>
+    <label class="pil"><input type="radio" name="tema" value="sistem" checked><span data-i18n="temaSistem">Ikut sistem</span></label>
+    <label class="pil"><input type="radio" name="tema" value="terang"><span data-i18n="temaTerang">Terang</span></label>
+    <label class="pil"><input type="radio" name="tema" value="gelap"><span data-i18n="temaGelap">Gelap</span></label>
+  </fieldset>
+
+  <h3 data-i18n="data">Data</h3>
+  <p class="menu-nota" data-i18n="dataNota">Semua data disimpan dalam telefon ini sahaja. Simpan salinan sekali-sekala supaya tak hilang kalau tukar telefon atau padam data browser.</p>
   <div class="menu-senarai">
     <button class="menu-item" id="btnEksport" type="button">
-      <strong>Simpan salinan</strong>
-      <span>Muat turun semua bulan sebagai satu fail</span>
+      <strong data-i18n="eksport">Simpan salinan</strong>
+      <span data-i18n="eksportNota">Muat turun semua bulan sebagai satu fail</span>
     </button>
     <button class="menu-item" id="btnImport" type="button">
-      <strong>Import fail</strong>
-      <span>Masukkan senarai awal, atau pulihkan dari salinan</span>
+      <strong data-i18n="import">Import fail</strong>
+      <span data-i18n="importNota">Masukkan senarai awal, atau pulihkan dari salinan</span>
     </button>
   </div>
   <div class="borang-btn">
     <span class="renggang"></span>
-    <button class="btn" id="btnTutupMenu" type="button">Tutup</button>
+    <button class="btn" id="btnTutupMenu" type="button" data-i18n="tutup">Tutup</button>
   </div>
 </dialog>
 
@@ -153,7 +181,7 @@
 
 <div class="toast" id="toast" role="status" aria-live="polite" hidden>
   <span id="toastTeks"></span>
-  <button id="toastBtn" type="button" hidden>Buat asal</button>
+  <button id="toastBtn" type="button" data-i18n="buatAsal" hidden>Buat asal</button>
 </div>
 
 <script src="tarikh-gaji.js"></script>

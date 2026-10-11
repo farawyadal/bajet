@@ -1,10 +1,13 @@
 /* Bajet Bulanan
-   Tiga warna bawa semua makna: hijau muda = duit masuk, pink = duit keluar,
-   kuning = dah bayar. Yang lain kekal senyap: kertas pucat, dakwat biru gelap. */
+   Tiga warna bawa semua makna: hijau = duit masuk, pink = duit keluar,
+   kuning = dah bayar. Yang lain kekal senyap.
+
+   Tema: tanpa atribut = ikut sistem; data-theme="light" atau "dark" pada <html>
+   memaksa satu tema. Semua warna ditakrif sebagai token di bawah. */
 
 :root {
   --kertas: #F6F7FB;
-  --putih: #FFFFFF;
+  --permukaan: #FFFFFF;
   --dakwat: #1A2238;
   --dakwat-2: #56607A;
   --garis: #DBE0EA;
@@ -20,10 +23,85 @@
   --bayar: #FFE45C;
   --bayar-pekat: #F2C500;
 
+  --baris-teks: #1A2238;   /* teks atas baris hijau dan pink */
+  --bayar-atas: #1A2238;   /* teks atas kuning */
+
+  --timbul: #1A2238;       /* butang utama, toast */
+  --timbul-teks: #FFFFFF;
+  --timbul-aksen: #FFE45C;
+
+  --tirai: rgba(26, 34, 56, 0.5);
+  --bayang: rgba(26, 34, 56, 0.28);
+
   --angka: ui-rounded, "SF Pro Rounded", "Hiragino Maru Gothic ProN", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   --teks: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
 
   color-scheme: light;
+}
+
+/* Tema gelap. Baris hijau dan pink jadi pekat dengan teks cerah;
+   kuning kekal terang supaya "dah bayar" tetap menyerlah. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --kertas: #11141D;
+    --permukaan: #1B2030;
+    --dakwat: #E8EBF4;
+    --dakwat-2: #A0A8BF;
+    --garis: #3A425A;
+
+    --masuk: #1D4A31;
+    --masuk-pekat: #46A86C;
+    --masuk-teks: #86DBA2;
+
+    --keluar: #5A2641;
+    --keluar-pekat: #C8608C;
+    --keluar-teks: #F5A8C6;
+
+    --bayar: #E3C233;
+    --bayar-pekat: #E3C233;
+
+    --baris-teks: #F1F3FA;
+    --bayar-atas: #1A2238;
+
+    --timbul: #E8EBF4;
+    --timbul-teks: #11141D;
+    --timbul-aksen: #7A5B00;
+
+    --tirai: rgba(0, 0, 0, 0.6);
+    --bayang: rgba(0, 0, 0, 0.5);
+
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --kertas: #11141D;
+  --permukaan: #1B2030;
+  --dakwat: #E8EBF4;
+  --dakwat-2: #A0A8BF;
+  --garis: #3A425A;
+
+  --masuk: #1D4A31;
+  --masuk-pekat: #46A86C;
+  --masuk-teks: #86DBA2;
+
+  --keluar: #5A2641;
+  --keluar-pekat: #C8608C;
+  --keluar-teks: #F5A8C6;
+
+  --bayar: #E3C233;
+  --bayar-pekat: #E3C233;
+
+  --baris-teks: #F1F3FA;
+  --bayar-atas: #1A2238;
+
+  --timbul: #E8EBF4;
+  --timbul-teks: #11141D;
+  --timbul-aksen: #7A5B00;
+
+  --tirai: rgba(0, 0, 0, 0.6);
+  --bayang: rgba(0, 0, 0, 0.5);
+
+  color-scheme: dark;
 }
 
 * { box-sizing: border-box; }
@@ -99,6 +177,15 @@ button { font: inherit; color: inherit; cursor: pointer; }
   stroke-linecap: round; stroke-linejoin: round;
 }
 #btnMenu svg { fill: currentColor; stroke: none; }
+
+.awal {
+  margin: 12px 0 0;
+  padding: 10px 12px;
+  border: 1.5px solid var(--garis);
+  border-radius: 8px;
+  background: var(--permukaan);
+  font-size: 0.9375rem;
+}
 
 .ke-semasa {
   display: block;
@@ -267,14 +354,15 @@ button { font: inherit; color: inherit; cursor: pointer; }
   align-items: stretch;
   margin-bottom: 3px;
   border-radius: 6px;
+  color: var(--baris-teks);
   /* Lapisan kuning di atas warna asal; ia "disapu" dari kiri bila ditanda. */
   background:
     linear-gradient(var(--bayar), var(--bayar)) no-repeat left center / 0% 100%,
     var(--warna);
-  transition: background-size 0.28s cubic-bezier(0.3, 0.7, 0.2, 1);
+  transition: background-size 0.28s cubic-bezier(0.3, 0.7, 0.2, 1), color 0.2s;
 }
 .baris.masuk { --warna: var(--masuk); }
-.baris.bayar { background-size: 100% 100%, auto; }
+.baris.bayar { background-size: 100% 100%, auto; color: var(--bayar-atas); }
 
 .baris-utama {
   flex: 1;
@@ -292,23 +380,24 @@ button { font: inherit; color: inherit; cursor: pointer; }
   -webkit-user-select: none;
   touch-action: manipulation;
 }
-.baris-utama:active { background: rgba(26, 34, 56, 0.06); }
+.baris-utama:active { background: color-mix(in srgb, currentColor 8%, transparent); }
+.baris :focus-visible { outline-color: currentColor; outline-offset: -3px; }
 
 .tanda {
   flex: none;
   width: 22px; height: 22px;
   display: grid;
   place-items: center;
-  border: 1.5px solid rgba(26, 34, 56, 0.3);
+  border: 1.5px solid color-mix(in srgb, currentColor 38%, transparent);
   border-radius: 50%;
 }
 .tanda svg {
   width: 14px; height: 14px;
-  fill: none; stroke: var(--putih); stroke-width: 3;
+  fill: none; stroke: var(--bayar); stroke-width: 3;
   stroke-linecap: round; stroke-linejoin: round;
   opacity: 0;
 }
-.baris.bayar .tanda { background: var(--dakwat); border-color: var(--dakwat); }
+.baris.bayar .tanda { background: currentColor; border-color: currentColor; }
 .baris.bayar .tanda svg { opacity: 1; }
 
 .nama {
@@ -322,7 +411,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
   margin-top: 1px;
   font-size: 0.8125rem;
   font-weight: 400;
-  color: rgba(26, 34, 56, 0.72);
+  opacity: 0.78;
 }
 
 .amaun {
@@ -342,13 +431,13 @@ button { font: inherit; color: inherit; cursor: pointer; }
   border: 0;
   border-radius: 0 6px 6px 0;
   background: transparent;
-  color: rgba(26, 34, 56, 0.62);
 }
-.baris-edit:active { background: rgba(26, 34, 56, 0.08); }
+.baris-edit:active { background: color-mix(in srgb, currentColor 10%, transparent); }
 .baris-edit svg {
   width: 18px; height: 18px;
   fill: none; stroke: currentColor; stroke-width: 2;
   stroke-linecap: round; stroke-linejoin: round;
+  opacity: 0.68;
 }
 
 .kosong {
@@ -364,9 +453,13 @@ button { font: inherit; color: inherit; cursor: pointer; }
   margin: 28px 0 0;
   padding-top: 14px;
   border-top: 1px solid var(--garis);
+}
+.akan-datang p {
+  margin: 0;
   font-size: 0.875rem;
   color: var(--dakwat-2);
 }
+.akan-datang .btn { margin-top: 12px; }
 
 /* ---------- Butang ---------- */
 
@@ -381,11 +474,11 @@ button { font: inherit; color: inherit; cursor: pointer; }
   padding: 14px 24px 14px 18px;
   border: 0;
   border-radius: 999px;
-  background: var(--dakwat);
-  color: var(--putih);
+  background: var(--timbul);
+  color: var(--timbul-teks);
   font-weight: 600;
   white-space: nowrap;
-  box-shadow: 0 6px 20px rgba(26, 34, 56, 0.28);
+  box-shadow: 0 6px 20px var(--bayang);
 }
 .tambah:active { transform: translateX(-50%) scale(0.97); }
 .tambah:focus-visible { outline-color: var(--bayar-pekat); }
@@ -399,10 +492,10 @@ button { font: inherit; color: inherit; cursor: pointer; }
   padding: 10px 18px;
   border: 1.5px solid var(--dakwat);
   border-radius: 10px;
-  background: var(--putih);
+  background: var(--permukaan);
   font-weight: 600;
 }
-.btn.utama { background: var(--dakwat); color: var(--putih); }
+.btn.utama { border-color: var(--timbul); background: var(--timbul); color: var(--timbul-teks); }
 .btn.bahaya { border-color: var(--keluar-teks); color: var(--keluar-teks); }
 .btn:active { opacity: 0.8; }
 
@@ -422,7 +515,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .mula p { margin: 10px 0 0; color: var(--dakwat-2); max-width: 34em; }
 .mula-btn { display: grid; gap: 10px; margin-top: 24px; }
 
-/* ---------- Helaian (borang & menu) ---------- */
+/* ---------- Helaian (borang & tetapan) ---------- */
 
 dialog.helai {
   width: 100%;
@@ -432,11 +525,11 @@ dialog.helai {
   padding: 22px 18px calc(18px + env(safe-area-inset-bottom));
   border: 0;
   border-radius: 18px 18px 0 0;
-  background: var(--putih);
+  background: var(--permukaan);
   color: var(--dakwat);
   overflow: auto;
 }
-dialog.helai::backdrop { background: rgba(26, 34, 56, 0.5); }
+dialog.helai::backdrop { background: var(--tirai); }
 @media (min-width: 640px) {
   dialog.helai { margin: auto; border-radius: 18px; }
 }
@@ -446,34 +539,46 @@ dialog.helai::backdrop { background: rgba(26, 34, 56, 0.5); }
   font-family: var(--angka);
   font-size: 1.25rem;
 }
+.helai h3 {
+  margin: 20px 0 6px;
+  font-size: 0.875rem;
+  font-weight: 600;
+}
 
-.jenis {
+/* Pilihan berbentuk pil: jenis item, bahasa, paparan */
+.pilih {
   display: grid;
-  grid-template-columns: 1fr 1fr;
   gap: 8px;
   margin: 0 0 14px;
   padding: 0;
   border: 0;
+  min-width: 0;
 }
-.jenis legend {
+.pilih.dua { grid-template-columns: 1fr 1fr; }
+.pilih.tiga-pil { grid-template-columns: repeat(3, 1fr); }
+.pilih legend {
   padding: 0;
   margin-bottom: 6px;
   font-size: 0.875rem;
   font-weight: 600;
 }
-.pil { position: relative; display: block; }
+.pil { position: relative; display: block; min-width: 0; }
 .pil input { position: absolute; inset: 0; opacity: 0; margin: 0; cursor: pointer; }
 .pil span {
   display: grid;
   place-items: center;
   min-height: 46px;
+  padding: 4px 6px;
   border: 1.5px solid var(--garis);
   border-radius: 10px;
   font-weight: 600;
+  text-align: center;
+  line-height: 1.2;
   color: var(--dakwat-2);
 }
-.pil.masuk input:checked + span { background: var(--masuk); border-color: var(--masuk-teks); color: var(--dakwat); }
-.pil.keluar input:checked + span { background: var(--keluar); border-color: var(--keluar-teks); color: var(--dakwat); }
+.pil input:checked + span { background: var(--timbul); border-color: var(--timbul); color: var(--timbul-teks); }
+.pil.masuk input:checked + span { background: var(--masuk); border-color: var(--masuk-teks); color: var(--baris-teks); }
+.pil.keluar input:checked + span { background: var(--keluar); border-color: var(--keluar-teks); color: var(--baris-teks); }
 .pil input:focus-visible + span { outline: 3px solid var(--dakwat); outline-offset: 2px; }
 
 .medan { display: block; margin-bottom: 14px; }
@@ -490,11 +595,12 @@ dialog.helai::backdrop { background: rgba(26, 34, 56, 0.5); }
   padding: 11px 12px;
   border: 1.5px solid var(--garis);
   border-radius: 10px;
-  background: var(--putih);
+  background: var(--permukaan);
   color: var(--dakwat);
   font: inherit;
   font-size: 1rem;
 }
+.medan ::placeholder { color: var(--dakwat-2); opacity: 0.75; }
 .medan textarea { resize: vertical; min-height: 64px; }
 .medan input:focus,
 .medan textarea:focus { outline: none; border-color: var(--dakwat); box-shadow: 0 0 0 2px var(--dakwat); }
@@ -515,15 +621,15 @@ dialog.helai::backdrop { background: rgba(26, 34, 56, 0.5); }
   background: var(--kertas);
   font-weight: 500;
 }
-.semak:has(input:checked) { background: var(--bayar); }
-.semak input { width: 22px; height: 22px; margin: 0; accent-color: var(--dakwat); }
+.semak:has(input:checked) { background: var(--bayar); color: var(--bayar-atas); }
+.semak input { width: 22px; height: 22px; margin: 0; accent-color: #1A2238; }
 
 .ralat {
   margin: 12px 0 0;
   padding: 10px 12px;
   border-radius: 10px;
   background: var(--keluar);
-  color: var(--dakwat);
+  color: var(--baris-teks);
   font-size: 0.9375rem;
 }
 
@@ -535,7 +641,7 @@ dialog.helai::backdrop { background: rgba(26, 34, 56, 0.5); }
 }
 .renggang { flex: 1; }
 
-.menu-nota { margin: -6px 0 16px; color: var(--dakwat-2); font-size: 0.9375rem; }
+.menu-nota { margin: 0 0 12px; color: var(--dakwat-2); font-size: 0.9375rem; }
 .menu-senarai { display: grid; gap: 8px; }
 .menu-item {
   display: block;
@@ -543,7 +649,7 @@ dialog.helai::backdrop { background: rgba(26, 34, 56, 0.5); }
   padding: 12px 14px;
   border: 1.5px solid var(--garis);
   border-radius: 10px;
-  background: var(--putih);
+  background: var(--permukaan);
   text-align: left;
 }
 .menu-item strong { display: block; }
@@ -565,20 +671,20 @@ dialog.helai::backdrop { background: rgba(26, 34, 56, 0.5); }
   max-width: calc(100vw - 28px);
   padding: 12px 16px;
   border-radius: 10px;
-  background: var(--dakwat);
-  color: var(--putih);
+  background: var(--timbul);
+  color: var(--timbul-teks);
   font-size: 0.9375rem;
-  box-shadow: 0 6px 20px rgba(26, 34, 56, 0.28);
+  box-shadow: 0 6px 20px var(--bayang);
 }
 .toast button {
   flex: none;
   padding: 4px 0;
   border: 0;
   background: transparent;
-  color: var(--bayar);
+  color: var(--timbul-aksen);
   font-weight: 700;
 }
-.toast button:focus-visible { outline-color: var(--bayar); }
+.toast button:focus-visible { outline-color: var(--timbul-aksen); }
 
 @media (prefers-reduced-motion: reduce) {
   .baris, .jalur i { transition: none; }

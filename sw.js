@@ -1,7 +1,7 @@
 /* Simpan fail apps dalam telefon supaya boleh buka tanpa internet.
    Papar dari simpanan dulu (laju), kemudian ambil versi baru di belakang tabir.
    Jadi bila fail di GitHub dikemas kini, perubahan nampak pada bukaan seterusnya. */
-const CACHE = 'bajet-bulanan-v1';
+const CACHE = 'bajet-bulanan-v2';
 const FAIL = [
   './',
   'index.html',
