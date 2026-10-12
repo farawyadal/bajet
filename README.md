@@ -36,7 +36,8 @@ Tekan tiga titik di atas kanan:
 | `index.html` | Muka apps |
 | `style.css` | Warna (terang dan gelap) dan susun atur |
 | `app.js` | Semua logik apps dan teks dua bahasa |
-| `tarikh-gaji.js` | Tarikh gaji 2026 dan 2027. Fail ini yang dikemas kini setiap tahun |
+| `tarikh-gaji.js` | Tarikh gaji 2026 dan 2027, anggaran 2028, dan tarikh perayaan. Fail ini yang dikemas kini setiap tahun |
+| `config.js` | Client ID Google untuk selaras Google Drive |
 | `manifest.webmanifest`, `sw.js` | Supaya boleh dipasang pada telefon dan dibuka tanpa internet |
 | `icon-192.png`, `icon-512.png`, `apple-touch-icon.png` | Ikon apps |
 
@@ -60,12 +61,23 @@ Kali pertama buka, tekan **Import senarai** dan pilih fail `senarai-awal.json`. 
 
 ## Data disimpan di mana
 
-Semua data disimpan dalam telefon itu sahaja, bukan di GitHub dan bukan di mana-mana server. Maksudnya:
+Data disimpan dalam browser peranti itu. Tak ada apa disimpan di GitHub.
 
-- Telefon lain atau browser lain tak nampak data yang sama.
-- Kalau data browser dipadam atau tukar telefon, data hilang.
+## Guna di phone dan PC: selaras Google Drive
 
-Sebab itu, sekali-sekala tekan tiga titik > **Simpan salinan**. Untuk pulihkan, tiga titik > **Import fail** dan pilih fail salinan tadi.
+1. Di phone: tiga titik > **Sambung Google Drive** > log masuk akaun Google.
+2. Di PC: buka alamat apps, tekan **Ambil data dari Google Drive** (atau tiga titik > **Sambung Google Drive**), log masuk akaun Google yang sama.
+
+Selepas itu:
+
+- Data disimpan dalam folder tersembunyi khas apps ini dalam Google Drive kau. Apps hanya minta kebenaran untuk folder itu; ia tak boleh nampak fail lain dalam Drive.
+- Apps selaras sendiri bila dibuka, bila kembali ke apps, dan 2 saat selepas setiap perubahan.
+- Ikon awan kecil di sebelah tarikh gaji menunjukkan status. Kalau tertulis **Ketik untuk selaras**, ketik ia; Google akan minta log masuk semula (biasanya selepas sejam apps tak dibuka).
+- Kalau bulan yang sama diubah di dua peranti sebelum sempat selaras, perubahan yang terakhir disimpan menang.
+- Kali pertama sambung, kalau peranti itu dan Drive ada data berbeza, apps tanya yang mana nak diguna.
+- Login Google ini guna Client ID yang sama dengan Read My Mail (`config.js`).
+
+Tanpa selaras, data hanya dalam peranti itu: kalau data browser dipadam atau tukar telefon, data hilang. Sebab itu, sekali-sekala tekan tiga titik > **Simpan salinan**. Untuk pulihkan, tiga titik > **Import fail** dan pilih fail salinan tadi.
 
 ## Tarikh gaji 2028 ialah anggaran
 
@@ -108,5 +120,6 @@ MyBajet is a small app for tracking monthly money in, money out and routine paym
 - Two days before payday, the new month's sheet appears on the main page by itself, copied from the previous month with every paid mark cleared.
 - To get the list ready sooner, use **Prepare the (next month) sheet now** below the list. The main page stays on the current month until two days before payday.
 - Tap the three dots for settings: language (Melayu or English), appearance (System, Light or Dark), payday dates, and saving or importing a copy of your data.
-- All data stays on the phone. Nothing is sent to GitHub or any server, so save a copy now and then.
+- Data lives in the browser on each device. To use the same data on your phone and PC, tap the three dots > **Connect Google Drive** on each device with the same Google account. Data is kept in a hidden app folder in your own Drive; the app syncs on open, on return, and two seconds after each change, and the latest change wins.
+- Without sync, save a copy now and then.
 - Payday dates for 2026 and 2027 are built in. The 2028 dates are an estimate, labelled as such, until the official circular is out. Enter or correct a year's dates in the app (tap the payday line under the month name), or edit `tarikh-gaji.js`.

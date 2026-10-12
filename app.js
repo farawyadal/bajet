@@ -35,10 +35,39 @@
       tetapan: 'Tetapan',
       pasang: 'Pasang MyBajet pada telefon',
       dipasang: 'MyBajet dah dipasang',
+
+      selaras: 'Selaras antara peranti',
+      selarasMati: 'Data hanya disimpan dalam peranti ini. Sambung Google Drive untuk guna data yang sama di phone dan PC.',
+      selarasHidup: 'Disambung ke Google Drive. Data disimpan dalam folder tersembunyi khas apps ini dalam Drive kau.',
+      selarasHidupEmel: 'Disambung ke Google Drive sebagai {e}. Data disimpan dalam folder tersembunyi khas apps ini dalam Drive kau.',
+      sambung: 'Sambung Google Drive',
+      sambungNota: 'Log masuk dengan akaun Google yang sama di setiap peranti',
+      selarasKini: 'Selaras sekarang',
+      selarasTerakhir: 'Kali terakhir diselaras: {m}',
+      selarasBelum: 'Belum pernah diselaras',
+      putus: 'Putuskan sambungan',
+      putusNota: 'Data kekal dalam peranti ini dan dalam Drive',
+      sahPutusTajuk: 'Putuskan sambungan Google Drive?',
+      sahPutusTeks: 'Peranti ini berhenti selaras. Data dalam peranti ini dan dalam Drive tak dipadam.',
+      disambung: 'Disambung ke Google Drive',
+      diputus: 'Sambungan Google Drive diputuskan',
+      sambungGagal: 'Tak dapat sambung ke Google. Semak internet dan cuba lagi.',
+      sambungBatal: 'Log masuk Google dibatalkan',
+      statusOk: 'Diselaras',
+      statusJalan: 'Menyelaras',
+      statusPerlu: 'Ketik untuk selaras',
+      statusGagal: 'Gagal selaras',
+      selarasBezaTajuk: 'Data dalam Drive dan peranti ini berbeza',
+      selarasBezaTeks: 'Data Drive dikemas kini {j}. Data peranti ini dikemas kini {l}. Pilih yang mana nak diguna; yang satu lagi akan diganti.',
+      gunaDrive: 'Guna data Drive',
+      gunaPeranti: 'Guna data peranti ini',
+      selarasDimuat: 'Data dari Google Drive dimuatkan',
+      selarasMenang: 'Data lebih baru dari peranti lain dimuatkan',
       keSemasa: 'Pergi ke bulan semasa',
 
       mulaTajuk: 'Belum ada senarai bayaran',
-      mulaTeks: 'Import senarai sedia ada, atau mula kosong dan tambah item satu per satu. Senarai disimpan dalam telefon ini sahaja.',
+      mulaTeks: 'Import senarai sedia ada, atau mula kosong dan tambah item satu per satu. Kalau dah guna MyBajet dengan Google Drive di peranti lain, ambil data dari situ.',
+      mulaDrive: 'Ambil data dari Google Drive',
       mulaImport: 'Import senarai',
       mulaKosong: 'Mula dengan senarai kosong',
 
@@ -136,7 +165,7 @@
       temaTerang: 'Terang',
       temaGelap: 'Gelap',
       data: 'Data',
-      dataNota: 'Semua data disimpan dalam telefon ini sahaja. Simpan salinan sekali-sekala supaya tak hilang kalau tukar telefon atau padam data browser.',
+      dataNota: 'Simpan salinan sekali-sekala sebagai sandaran, terutama kalau tak guna selaras Google Drive.',
       eksport: 'Simpan salinan',
       eksportNota: 'Muat turun semua bulan sebagai satu fail',
       import: 'Import fail',
@@ -166,10 +195,39 @@
       tetapan: 'Settings',
       pasang: 'Install MyBajet on this phone',
       dipasang: 'MyBajet installed',
+
+      selaras: 'Sync between devices',
+      selarasMati: 'Data is stored on this device only. Connect Google Drive to use the same data on your phone and PC.',
+      selarasHidup: 'Connected to Google Drive. Data is kept in a hidden folder in your Drive that only this app uses.',
+      selarasHidupEmel: 'Connected to Google Drive as {e}. Data is kept in a hidden folder in your Drive that only this app uses.',
+      sambung: 'Connect Google Drive',
+      sambungNota: 'Sign in with the same Google account on each device',
+      selarasKini: 'Sync now',
+      selarasTerakhir: 'Last synced: {m}',
+      selarasBelum: 'Not synced yet',
+      putus: 'Disconnect',
+      putusNota: 'Your data stays on this device and in Drive',
+      sahPutusTajuk: 'Disconnect Google Drive?',
+      sahPutusTeks: 'This device stops syncing. Nothing is deleted from this device or from Drive.',
+      disambung: 'Connected to Google Drive',
+      diputus: 'Google Drive disconnected',
+      sambungGagal: "Couldn't reach Google. Check your connection and try again.",
+      sambungBatal: 'Google sign-in was cancelled',
+      statusOk: 'Synced',
+      statusJalan: 'Syncing',
+      statusPerlu: 'Tap to sync',
+      statusGagal: 'Sync failed',
+      selarasBezaTajuk: 'Drive and this device have different data',
+      selarasBezaTeks: 'Drive data was last changed {j}. This device was last changed {l}. Choose which to keep; the other will be replaced.',
+      gunaDrive: 'Use Drive data',
+      gunaPeranti: "Use this device's data",
+      selarasDimuat: 'Data loaded from Google Drive',
+      selarasMenang: 'Newer data from another device was loaded',
       keSemasa: 'Go to the current month',
 
       mulaTajuk: 'No payment list yet',
-      mulaTeks: 'Import an existing list, or start empty and add items one at a time. The list is stored on this phone only.',
+      mulaTeks: 'Import an existing list, or start empty and add items one at a time. If you already use MyBajet with Google Drive on another device, load your data from there.',
+      mulaDrive: 'Load data from Google Drive',
       mulaImport: 'Import a list',
       mulaKosong: 'Start with an empty list',
 
@@ -267,7 +325,7 @@
       temaTerang: 'Light',
       temaGelap: 'Dark',
       data: 'Data',
-      dataNota: 'All data is stored on this phone only. Save a copy now and then so nothing is lost if you change phones or clear browser data.',
+      dataNota: 'Save a copy now and then as a backup, especially if you are not using Google Drive sync.',
       eksport: 'Save a copy',
       eksportNota: 'Download every month as one file',
       import: 'Import a file',
@@ -408,7 +466,8 @@
 
   /* ---------- Simpanan ---------- */
 
-  let data = { v: 1, sheets: {}, gaji: {} };
+  // diubah: masa (ms) perubahan terakhir dalam peranti ini, untuk selaras.
+  let data = { v: 1, sheets: {}, gaji: {}, diubah: 0 };
   let lihat = null; // kunci sheet yang sedang dipapar
 
   const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
@@ -454,15 +513,19 @@
       const mentah = localStorage.getItem(KUNCI_SIMPAN);
       if (!mentah) return;
       const j = JSON.parse(mentah);
-      if (j && j.sheets) data = { v: 1, sheets: bersihSheets(j.sheets), gaji: bersihGaji(j.gaji) };
+      if (j && j.sheets) data = { v: 1, sheets: bersihSheets(j.sheets), gaji: bersihGaji(j.gaji), diubah: Number(j.diubah) || 0 };
     } catch (e) {
       console.warn('Tak dapat baca data tersimpan', e);
     }
   }
 
-  function simpan() {
+  // o.kekal: simpan tanpa kira sebagai perubahan baru (cth. data yang baru dimuat dari Drive).
+  function simpan(o) {
+    const baru = !(o && o.kekal);
+    if (baru) data.diubah = Date.now();
     try {
       localStorage.setItem(KUNCI_SIMPAN, JSON.stringify(data));
+      if (baru) jadualSelaras();
       return true;
     } catch (e) {
       toast(t('takDapatSimpan'));
@@ -746,12 +809,32 @@
     });
   }
 
+  // Dua pilihan sebenar (bukan ya/batal). Pulangkan 'a', 'b', atau null kalau ditutup.
+  function pilihan(o) {
+    return new Promise((resolve) => {
+      $('sahTajuk').textContent = o.tajuk;
+      $('sahTeks').textContent = o.teks || '';
+      $('sahTeks').hidden = !o.teks;
+      $('sahYa').textContent = o.a;
+      $('sahYa').className = 'btn utama';
+      $('sahTidak').textContent = o.b;
+      sahSelesai = (v) => resolve(v);
+      sahSelesai.dua = true;
+      sah.returnValue = '';
+      sah.showModal();
+    });
+  }
+
   $('sahYa').addEventListener('click', () => sah.close('ya'));
-  $('sahTidak').addEventListener('click', () => sah.close(''));
+  $('sahTidak').addEventListener('click', () => sah.close('tidak'));
   sah.addEventListener('close', () => {
     const f = sahSelesai;
     sahSelesai = null;
-    if (f) f(sah.returnValue === 'ya');
+    $('sahTidak').textContent = t('batal');
+    if (!f) return;
+    const v = sah.returnValue;
+    if (f.dua) f(v === 'ya' ? 'a' : v === 'tidak' ? 'b' : null);
+    else f(v === 'ya');
   });
 
   /* ---------- Tanda selesai: tekan 2 kali atau leret kiri ---------- */
@@ -1133,6 +1216,8 @@
     simpanTetapan();
     gunaBahasa();
     papar();
+    paparTetapanSelaras();
+    setStatus(statusSelaras);
   }));
 
   menu.querySelectorAll('input[name="tema"]').forEach((r) => r.addEventListener('change', () => {
@@ -1329,45 +1414,297 @@
     papar();
   });
 
-  /* ---------- Mula ---------- */
+  /* ---------- Selaras melalui Google Drive ---------- */
 
-  // Ingat sheet mana muka utama, supaya boleh beritahu bila ia bertukar.
-  function catatUtama() {
-    const u = kunciUtama();
-    if (tetapan.utama !== u) { tetapan.utama = u; simpanTetapan(); }
+  /*
+    Data disimpan sebagai satu fail (mybajet.json) dalam folder data apps dalam
+    Google Drive pengguna (appDataFolder), yang hanya apps ini boleh baca.
+    Peraturan: perubahan terakhir menang. "asas" ialah masa versi yang terakhir
+    diselaras; ia menentukan pihak mana yang berubah sejak itu.
+  */
+  const KUNCI_SELARAS = 'bajet-bulanan-selaras';
+  const NAMA_FAIL = 'mybajet.json';
+  const SKOP = 'https://www.googleapis.com/auth/drive.appdata';
+  const DRIVE = 'https://www.googleapis.com/drive/v3';
+  const MUAT_NAIK = 'https://www.googleapis.com/upload/drive/v3/files';
+
+  let selaras = { aktif: false, fid: null, asas: null, emel: null, masa: null, tok: null, exp: 0 };
+  let statusSelaras = 'mati'; // mati | ok | jalan | perlu | gagal
+
+  function muatSelaras() {
+    try {
+      const j = JSON.parse(localStorage.getItem(KUNCI_SELARAS) || '{}');
+      if (j && typeof j === 'object') selaras = Object.assign(selaras, j);
+    } catch (e) { /* guna lalai */ }
+  }
+  function simpanSelaras() {
+    try { localStorage.setItem(KUNCI_SELARAS, JSON.stringify(selaras)); } catch (e) { /* tak penting */ }
   }
 
-  // Semak sama ada bulan gaji dah bertukar. Pulangkan true kalau paparan dah dilukis.
-  function semakBulanBaru() {
-    if (!senaraiKunci().length) return false;
-    const utamaLama = tetapan.utama;
-    const diUtama = lihat === null || lihat === utamaLama;
-    const hasil = sediakanSheet();
-    const utama = kunciUtama();
-    if (utama === utamaLama) return false;
-    catatUtama();
-    if (diUtama) lihat = utama;
-    papar();
-    if (hasil) toast(t('sheetSedia', { s: namaSheet(hasil.baru), d: namaSheet(hasil.dari) }));
-    else if (utamaLama && utama > utamaLama) toast(t('kiniUtama', { s: namaSheet(utama) }));
+  const tokenSah = (baki) => !!(selaras.tok && selaras.exp > Date.now() + (baki || 60000));
+  const ralatSelaras = (kod) => Object.assign(new Error(String(kod)), { kod });
+
+  function masaPendek(ms) {
+    if (!ms) return '-';
+    const d = new Date(ms);
+    return tarikhPendek(d) + ', ' + String(d.getHours()).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0');
+  }
+
+  function setStatus(s) {
+    statusSelaras = s;
+    const b = $('btnSelaras');
+    b.hidden = s === 'mati';
+    b.className = 'selaras s-' + s;
+    const label = { ok: t('statusOk'), jalan: t('statusJalan'), perlu: t('statusPerlu'), gagal: t('statusGagal') }[s] || '';
+    b.setAttribute('aria-label', label);
+    b.title = label;
+    // Teks hanya bila perlu tindakan; selain itu ikon sahaja supaya baris kekal pendek.
+    $('selarasTeks').textContent = s === 'perlu' || s === 'gagal' ? label : '';
+    if (menu.open) paparTetapanSelaras();
+  }
+
+  // Skrip log masuk Google dimuat bila diperlukan sahaja.
+  let gisJanji = null;
+  function muatGis() {
+    if (window.google && google.accounts && google.accounts.oauth2) return Promise.resolve();
+    if (!gisJanji) {
+      gisJanji = new Promise((ok, gagal) => {
+        const s = document.createElement('script');
+        s.src = 'https://accounts.google.com/gsi/client';
+        s.async = true;
+        s.onload = () => ok();
+        s.onerror = () => { gisJanji = null; gagal(ralatSelaras('gis')); };
+        document.head.appendChild(s);
+      });
+    }
+    return gisJanji;
+  }
+
+  // Minta token Google. Mesti dipanggil daripada ketukan pengguna (tetingkap Google dibuka).
+  let klienToken = null;
+  function mintaToken() {
+    return muatGis().then(() => new Promise((ok, gagal) => {
+      const id = (window.MYBAJET_CONFIG || {}).CLIENT_ID;
+      if (!id) { gagal(ralatSelaras('cfg')); return; }
+      if (!klienToken) klienToken = google.accounts.oauth2.initTokenClient({ client_id: id, scope: SKOP, callback: () => {} });
+      klienToken.callback = (r) => {
+        if (!r || r.error) { gagal(ralatSelaras((r && r.error) || 'token')); return; }
+        selaras.tok = r.access_token;
+        selaras.exp = Date.now() + (Number(r.expires_in) || 3600) * 1000;
+        simpanSelaras();
+        ok();
+      };
+      klienToken.error_callback = (e) => gagal(ralatSelaras((e && e.type) || 'popup'));
+      const o = { prompt: '' };
+      if (selaras.emel) o.hint = selaras.emel;
+      klienToken.requestAccessToken(o);
+    }));
+  }
+
+  async function gfetch(url, opt) {
+    if (!tokenSah()) throw ralatSelaras('auth');
+    opt = opt || {};
+    const r = await fetch(url, Object.assign({}, opt, {
+      headers: Object.assign({}, opt.headers || {}, { Authorization: 'Bearer ' + selaras.tok }),
+    }));
+    if (r.status === 401) { selaras.tok = null; selaras.exp = 0; simpanSelaras(); throw ralatSelaras('auth'); }
+    if (!r.ok) throw ralatSelaras(r.status);
+    return r;
+  }
+
+  async function cariFail() {
+    if (selaras.fid) return selaras.fid;
+    const q = encodeURIComponent("name='" + NAMA_FAIL + "'");
+    const j = await (await gfetch(DRIVE + '/files?spaces=appDataFolder&fields=files(id)&q=' + q)).json();
+    selaras.fid = j.files && j.files[0] ? j.files[0].id : null;
+    simpanSelaras();
+    return selaras.fid;
+  }
+
+  // undefined = tiada fail; null = fail ada tapi tak boleh dibaca
+  async function bacaJauh() {
+    const fid = await cariFail();
+    if (!fid) return undefined;
+    try {
+      const j = await (await gfetch(DRIVE + '/files/' + fid + '?alt=media')).json();
+      return j && j.sheets && typeof j.sheets === 'object' ? j : null;
+    } catch (e) {
+      if (e.kod === 404) { selaras.fid = null; simpanSelaras(); return undefined; }
+      if (e instanceof SyntaxError) return null;
+      throw e;
+    }
+  }
+
+  const isiFail = () => JSON.stringify({ app: 'mybajet', v: 1, diubah: data.diubah, sheets: data.sheets, gaji: data.gaji });
+
+  async function tulisJauh() {
+    if (selaras.fid) {
+      try {
+        await gfetch(MUAT_NAIK + '/' + selaras.fid + '?uploadType=media', {
+          method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: isiFail(),
+        });
+        selaras.asas = data.diubah;
+        return;
+      } catch (e) {
+        if (e.kod !== 404) throw e;
+        selaras.fid = null; // fail dipadam di Drive: cipta semula
+      }
+    }
+    const b = 'mybajet' + Date.now();
+    const badan = '--' + b + '\r\nContent-Type: application/json; charset=UTF-8\r\n\r\n' +
+      JSON.stringify({ name: NAMA_FAIL, parents: ['appDataFolder'] }) +
+      '\r\n--' + b + '\r\nContent-Type: application/json\r\n\r\n' + isiFail() + '\r\n--' + b + '--';
+    const j = await (await gfetch(MUAT_NAIK + '?uploadType=multipart&fields=id', {
+      method: 'POST', headers: { 'Content-Type': 'multipart/related; boundary=' + b }, body: badan,
+    })).json();
+    selaras.fid = j.id;
+    selaras.asas = data.diubah;
+  }
+
+  // Ganti data peranti ini dengan data dari Drive.
+  function gunaJauh(jauh, mesej) {
+    const diUtama = lihat === null || lihat === kunciUtama();
+    data = { v: 1, sheets: bersihSheets(jauh.sheets), gaji: bersihGaji(jauh.gaji), diubah: Number(jauh.diubah) || Date.now() };
+    simpan({ kekal: true });
+    selaras.asas = data.diubah;
+    if (diUtama || !data.sheets[lihat]) lihat = kunciUtama();
+    if (!semakBulanBaru()) { catatUtama(); papar(); }
+    if (mesej) toast(mesej);
+  }
+
+  // Pulangkan apa yang berlaku: 'muat' (data Drive diguna), 'hantar', 'sama', atau null (tak selesai).
+  async function langkahSelaras() {
+    if (!tokenSah()) { setStatus('perlu'); return null; }
+    setStatus('jalan');
+    let hasil = 'sama';
+    try {
+      const jauh = await bacaJauh();
+      const adaLokal = senaraiKunci().length > 0;
+      if (!jauh) {                                   // Drive kosong (atau fail rosak): hantar data peranti ini
+        if (adaLokal) { await tulisJauh(); hasil = 'hantar'; }
+      } else if (!adaLokal) {                        // peranti baru: ambil dari Drive
+        gunaJauh(jauh, t('selarasDimuat'));
+        hasil = 'muat';
+      } else {
+        const r = Number(jauh.diubah) || 0;
+        const l = Number(data.diubah) || 0;
+        const a = selaras.asas;
+        if (r === l) {
+          selaras.asas = r;
+        } else if (a === null || a === undefined) {  // kali pertama, dua-dua ada data berbeza: tanya
+          const p = await pilihan({
+            tajuk: t('selarasBezaTajuk'),
+            teks: t('selarasBezaTeks', { j: masaPendek(r), l: masaPendek(l) }),
+            a: t('gunaDrive'),
+            b: t('gunaPeranti'),
+          });
+          if (p === 'a') { gunaJauh(jauh, t('selarasDimuat')); hasil = 'muat'; }
+          else if (p === 'b') { await tulisJauh(); hasil = 'hantar'; }
+          else { setStatus('perlu'); return null; }
+        } else {
+          const lokalUbah = l > a;
+          const jauhUbah = r > a;
+          if (jauhUbah && (!lokalUbah || r > l)) { gunaJauh(jauh, lokalUbah ? t('selarasMenang') : null); hasil = 'muat'; }
+          else { await tulisJauh(); hasil = 'hantar'; }
+        }
+      }
+      selaras.masa = Date.now();
+      simpanSelaras();
+      setStatus('ok');
+      return hasil;
+    } catch (e) {
+      simpanSelaras();
+      setStatus(e.kod === 'auth' ? 'perlu' : 'gagal');
+      return null;
+    }
+  }
+
+  // Satu selaras pada satu masa; permintaan semasa ia berjalan digabung jadi satu lagi selepasnya.
+  let selarasJalan = null;
+  let selarasLagi = false;
+  function selaraskan() {
+    if (!selaras.aktif) return Promise.resolve();
+    if (selarasJalan) { selarasLagi = true; return selarasJalan; }
+    selarasJalan = langkahSelaras().finally(() => {
+      selarasJalan = null;
+      if (selarasLagi) { selarasLagi = false; selaraskan(); }
+    });
+    return selarasJalan;
+  }
+
+  let selarasMasa = null;
+  function jadualSelaras() {
+    if (!selaras.aktif) return;
+    clearTimeout(selarasMasa);
+    if (!tokenSah()) { setStatus('perlu'); return; }
+    selarasMasa = setTimeout(selaraskan, 2000);
+  }
+
+  // Dapatkan token (buka log masuk Google) kemudian selaras.
+  async function logMasukLaluSelaras() {
+    try {
+      await mintaToken();
+    } catch (e) {
+      toast(e.kod === 'popup_closed' || e.kod === 'access_denied' ? t('sambungBatal') : t('sambungGagal'));
+      setStatus(selaras.aktif ? 'perlu' : 'mati');
+      return false;
+    }
     return true;
   }
 
-  muatTetapan();
-  gunaTema();
-  gunaBahasa();
-  muat();
-  if (tetapan.utama && !data.sheets[tetapan.utama]) tetapan.utama = null;
-  if (!semakBulanBaru()) {
-    lihat = kunciUtama();
-    catatUtama();
-    papar();
+  async function ambilEmel() {
+    try {
+      const j = await (await gfetch(DRIVE + '/about?fields=user(emailAddress)')).json();
+      if (j && j.user && j.user.emailAddress) { selaras.emel = j.user.emailAddress; simpanSelaras(); }
+    } catch (e) { /* tak penting */ }
   }
 
-  // Kalau apps dibiar terbuka sampai tarikh sheet baru, semak semula bila kembali.
-  document.addEventListener('visibilitychange', () => {
-    if (document.visibilityState !== 'visible') return;
-    if (!semakBulanBaru() && senaraiKunci().length) paparKepala();
+  function paparTetapanSelaras() {
+    const hidup = selaras.aktif;
+    $('selarasNota').textContent = !hidup ? t('selarasMati')
+      : selaras.emel ? t('selarasHidupEmel', { e: selaras.emel }) : t('selarasHidup');
+    $('btnSambung').hidden = hidup;
+    $('btnSelarasKini').hidden = !hidup;
+    $('btnPutus').hidden = !hidup;
+    $('selarasMasa').textContent = statusSelaras === 'jalan' ? t('statusJalan')
+      : selaras.masa ? t('selarasTerakhir', { m: masaPendek(selaras.masa) }) : t('selarasBelum');
+  }
+
+  async function sambungDrive() {
+    if (!(await logMasukLaluSelaras())) return;
+    selaras.aktif = true;
+    selaras.asas = null; // sambungan baru: bandingkan dengan Drive dari awal
+    simpanSelaras();
+    if (menu.open) menu.close();
+    await ambilEmel();
+    const hasil = await selaraskan();
+    if (hasil === 'hantar' || hasil === 'sama') toast(t('disambung')); // 'muat' dah ada mesej sendiri
+  }
+  $('btnSambung').addEventListener('click', sambungDrive);
+  $('btnSambungMula').addEventListener('click', sambungDrive);
+
+  async function selarasKetuk() {
+    if (!tokenSah() && !(await logMasukLaluSelaras())) return;
+    selaraskan();
+  }
+  $('btnSelarasKini').addEventListener('click', () => { menu.close(); selarasKetuk(); });
+  $('btnSelaras').addEventListener('click', selarasKetuk);
+
+  $('btnPutus').addEventListener('click', async () => {
+    const ok = await sahkan({ tajuk: t('sahPutusTajuk'), teks: t('sahPutusTeks'), ya: t('putus') });
+    if (!ok) return;
+    // Hanya lupakan token dalam peranti ini. Tak "revoke", sebab Client ID dikongsi dengan Read My Mail.
+    selaras = { aktif: false, fid: null, asas: null, emel: null, masa: null, tok: null, exp: 0 };
+    simpanSelaras();
+    setStatus('mati');
+    paparTetapanSelaras();
+    toast(t('diputus'));
+  });
+
+  $('btnMenu').addEventListener('click', () => {
+    paparTetapanSelaras();
+    // Skrip Google dimuat awal hanya bila dah bersambung; kalau belum, ia dimuat bila "Sambung" ditekan.
+    if (selaras.aktif) muatGis().catch(() => {});
   });
 
   /* ---------- Butang pasang ---------- */
@@ -1395,6 +1732,57 @@
     $('btnPasang').hidden = true;
     toast(t('dipasang'));
   });
+
+  /* ---------- Mula ---------- */
+
+  // Ingat sheet mana muka utama, supaya boleh beritahu bila ia bertukar.
+  function catatUtama() {
+    const u = kunciUtama();
+    if (tetapan.utama !== u) { tetapan.utama = u; simpanTetapan(); }
+  }
+
+  // Semak sama ada bulan gaji dah bertukar. Pulangkan true kalau paparan dah dilukis.
+  function semakBulanBaru() {
+    if (!senaraiKunci().length) return false;
+    const utamaLama = tetapan.utama;
+    const diUtama = lihat === null || lihat === utamaLama;
+    const hasil = sediakanSheet();
+    const utama = kunciUtama();
+    if (utama === utamaLama) return false;
+    catatUtama();
+    if (diUtama) lihat = utama;
+    papar();
+    if (hasil) toast(t('sheetSedia', { s: namaSheet(hasil.baru), d: namaSheet(hasil.dari) }));
+    else if (utamaLama && utama > utamaLama) toast(t('kiniUtama', { s: namaSheet(utama) }));
+    return true;
+  }
+
+  muatTetapan();
+  muatSelaras();
+  gunaTema();
+  gunaBahasa();
+  muat();
+  if (tetapan.utama && !data.sheets[tetapan.utama]) tetapan.utama = null;
+  if (!semakBulanBaru()) {
+    lihat = kunciUtama();
+    catatUtama();
+    papar();
+  }
+
+  // Kalau apps dibiar terbuka sampai tarikh sheet baru, semak semula bila kembali.
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState !== 'visible') return;
+    if (!semakBulanBaru() && senaraiKunci().length) paparKepala();
+    if (selaras.aktif) selaraskan();
+  });
+
+  // Selaras: tunjuk status, ambil perubahan dari peranti lain bila apps dibuka atau kembali online.
+  if (selaras.aktif) {
+    setStatus(tokenSah() ? 'ok' : 'perlu');
+    muatGis().catch(() => {});
+    selaraskan();
+  }
+  window.addEventListener('online', () => { if (selaras.aktif) selaraskan(); });
 
   if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost')) {
     window.addEventListener('load', () => { navigator.serviceWorker.register('sw.js').catch(() => {}); });

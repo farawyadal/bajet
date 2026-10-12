@@ -47,7 +47,13 @@ try {
         <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="5" cy="12" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="19" cy="12" r="1.6"/></svg>
       </button>
     </div>
-    <button class="gaji" id="gaji" type="button"></button>
+    <div class="baris-gaji">
+      <button class="gaji" id="gaji" type="button"></button>
+      <button class="selaras" id="btnSelaras" type="button" hidden>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 18.5h10.5a4 4 0 0 0 .6-7.95A6 6 0 0 0 6.6 9.1 4.75 4.75 0 0 0 7 18.5z"/><path class="ok" d="M9.5 13.5l2 2 3.5-3.5"/><path class="perlu" d="M12 11v3M12 16.2v.1"/></svg>
+        <span id="selarasTeks"></span>
+      </button>
+    </div>
   </header>
 
   <section class="ringkas" id="ringkas" hidden>
@@ -74,10 +80,11 @@ try {
   <section class="mula" id="mula" hidden>
     <div class="mula-jalur" aria-hidden="true"><i></i><i></i><i></i></div>
     <h2 data-i18n="mulaTajuk">Belum ada senarai bayaran</h2>
-    <p data-i18n="mulaTeks">Import senarai sedia ada, atau mula kosong dan tambah item satu per satu. Senarai disimpan dalam telefon ini sahaja.</p>
+    <p data-i18n="mulaTeks">Import senarai sedia ada, atau mula kosong dan tambah item satu per satu. Kalau dah guna MyBajet dengan Google Drive di peranti lain, ambil data dari situ.</p>
     <div class="mula-btn">
       <button class="btn utama" id="btnImportMula" type="button" data-i18n="mulaImport">Import senarai</button>
       <button class="btn" id="btnKosong" type="button" data-i18n="mulaKosong">Mula dengan senarai kosong</button>
+      <button class="btn" id="btnSambungMula" type="button" data-i18n="mulaDrive">Ambil data dari Google Drive</button>
     </div>
   </section>
 
@@ -170,6 +177,23 @@ try {
     <label class="pil"><input type="radio" name="tema" value="gelap"><span data-i18n="temaGelap">Gelap</span></label>
   </fieldset>
 
+  <h3 data-i18n="selaras">Selaras antara peranti</h3>
+  <p class="menu-nota" id="selarasNota"></p>
+  <div class="menu-senarai">
+    <button class="menu-item" id="btnSambung" type="button">
+      <strong data-i18n="sambung">Sambung Google Drive</strong>
+      <span data-i18n="sambungNota">Log masuk dengan akaun Google yang sama di setiap peranti</span>
+    </button>
+    <button class="menu-item" id="btnSelarasKini" type="button" hidden>
+      <strong data-i18n="selarasKini">Selaras sekarang</strong>
+      <span id="selarasMasa"></span>
+    </button>
+    <button class="menu-item" id="btnPutus" type="button" hidden>
+      <strong data-i18n="putus">Putuskan sambungan</strong>
+      <span data-i18n="putusNota">Data kekal dalam peranti ini dan dalam Drive</span>
+    </button>
+  </div>
+
   <h3 data-i18n="tarikhGaji">Tarikh gaji</h3>
   <div class="menu-senarai">
     <button class="menu-item" id="btnGaji" type="button">
@@ -179,7 +203,7 @@ try {
   </div>
 
   <h3 data-i18n="data">Data</h3>
-  <p class="menu-nota" data-i18n="dataNota">Semua data disimpan dalam telefon ini sahaja. Simpan salinan sekali-sekala supaya tak hilang kalau tukar telefon atau padam data browser.</p>
+  <p class="menu-nota" data-i18n="dataNota">Simpan salinan sekali-sekala sebagai sandaran, terutama kalau tak guna selaras Google Drive.</p>
   <div class="menu-senarai">
     <button class="menu-item" id="btnEksport" type="button">
       <strong data-i18n="eksport">Simpan salinan</strong>
@@ -237,6 +261,7 @@ try {
   <button id="toastBtn" type="button" data-i18n="buatAsal" hidden>Buat asal</button>
 </div>
 
+<script src="config.js"></script>
 <script src="tarikh-gaji.js"></script>
 <script src="app.js"></script>
 </body>

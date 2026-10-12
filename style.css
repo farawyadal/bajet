@@ -172,9 +172,48 @@ button { font: inherit; color: inherit; cursor: pointer; }
   line-height: 1.15;
 }
 
+.baris-gaji {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-top: -4px;
+}
+
+/* Status selaras Google Drive: ikon sahaja bila ok, teks bila perlu tindakan. */
+.selaras {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  min-height: 28px;
+  padding: 0 4px;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--dakwat-2);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.selaras svg {
+  width: 20px; height: 20px;
+  fill: none; stroke: currentColor; stroke-width: 1.9;
+  stroke-linecap: round; stroke-linejoin: round;
+}
+.selaras .ok, .selaras .perlu { display: none; }
+.selaras.s-ok { color: var(--bayar-teks); }
+.selaras.s-ok .ok { display: inline; }
+.selaras.s-jalan svg { opacity: 0.45; }
+.selaras.s-perlu, .selaras.s-gagal { color: var(--keluar-teks); }
+.selaras.s-perlu .perlu, .selaras.s-gagal .perlu { display: inline; }
+.selaras:active { background: var(--garis); }
+
 .gaji {
   display: block;
-  margin: -4px 0 0;
+  flex: 1;
+  min-width: 0;
+  margin: 0;
   padding: 0 2px 2px;
   border: 0;
   background: transparent;
