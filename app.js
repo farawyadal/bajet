@@ -1436,6 +1436,15 @@
       const j = JSON.parse(localStorage.getItem(KUNCI_SELARAS) || '{}');
       if (j && typeof j === 'object') selaras = Object.assign(selaras, j);
     } catch (e) { /* guna lalai */ }
+    // Client ID bertukar (projek Google Cloud lain): token dan fail lama milik projek lama.
+    // Folder data apps dalam Drive berasingan bagi setiap projek, jadi mula semula dan
+    // biar data peranti ini dihantar ke folder projek baru.
+    const id = (window.MYBAJET_CONFIG || {}).CLIENT_ID || null;
+    if (selaras.aktif && selaras.klien !== id) {
+      selaras.tok = null; selaras.exp = 0; selaras.fid = null; selaras.asas = null;
+    }
+    selaras.klien = id;
+    simpanSelaras();
   }
   function simpanSelaras() {
     try { localStorage.setItem(KUNCI_SELARAS, JSON.stringify(selaras)); } catch (e) { /* tak penting */ }
