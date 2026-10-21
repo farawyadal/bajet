@@ -28,6 +28,8 @@
   --bayar-atas: #1A2238;   /* teks atas hijau */
 
   --bahaya: #C62F3B;       /* latar leret-untuk-padam */
+  --potong: #2B7A47;       /* potongan gaji: hijau gelap */
+  --potong-teks: #FFFFFF;
 
   --timbul: #1A2238;       /* butang utama, toast */
   --timbul-teks: #FFFFFF;
@@ -68,6 +70,8 @@
     --bayar-atas: #1A2238;
 
     --bahaya: #B3263A;
+    --potong: #1E5A36;
+    --potong-teks: #F1F3FA;
 
     --timbul: #E8EBF4;
     --timbul-teks: #11141D;
@@ -102,6 +106,8 @@
   --bayar-atas: #1A2238;
 
   --bahaya: #B3263A;
+  --potong: #1E5A36;
+  --potong-teks: #F1F3FA;
 
   --timbul: #E8EBF4;
   --timbul-teks: #11141D;
@@ -859,3 +865,107 @@ dialog.helai::backdrop { background: var(--tirai); }
 @media (prefers-reduced-motion: reduce) {
   .baris, .baris-isi, .jalur i { transition: none; }
 }
+
+/* ---------- Potongan gaji ---------- */
+
+.baris.potong { --warna: var(--potong); color: var(--potong-teks); }
+.jalur i.potong { background: var(--potong); }
+.cap.potong { background: var(--potong); }
+.pil.potong input:checked + span { background: var(--potong); border-color: var(--potong); color: var(--potong-teks); }
+.potong-nota { margin: -4px 0 8px; font-size: 0.8125rem; color: var(--dakwat-2); }
+.baris.ada-butiran .baris-utama { cursor: pointer; }
+
+#fKumpulan {
+  display: block;
+  width: 100%;
+  padding: 11px 12px;
+  border: 1.5px solid var(--garis);
+  border-radius: 10px;
+  background: var(--permukaan);
+  color: var(--dakwat);
+  font: inherit;
+  font-size: 1rem;
+}
+
+/* ---------- Butiran gaji ---------- */
+
+.b-bersih {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  margin: -6px 0 6px;
+  font-weight: 600;
+}
+.b-bersih strong {
+  font-family: var(--angka);
+  font-size: 1.875rem;
+  font-variant-numeric: tabular-nums;
+}
+.b-bersih small { font-size: 0.5em; color: var(--dakwat-2); margin-right: 0.25em; }
+.b-senarai, .b-potongan, .k-senarai { list-style: none; margin: 0; padding: 0; }
+.b-senarai li {
+  display: grid;
+  grid-template-columns: 1fr 108px 40px;
+  gap: 6px;
+  align-items: center;
+  margin-bottom: 6px;
+}
+.b-senarai input, .k-senarai input, .k-tambah input {
+  width: 100%;
+  min-width: 0;
+  padding: 8px 10px;
+  border: 1.5px solid var(--garis);
+  border-radius: 8px;
+  background: var(--permukaan);
+  color: var(--dakwat);
+  font: inherit;
+  font-size: 0.9375rem;
+}
+.b-senarai .b-amaun { text-align: right; font-family: var(--angka); font-weight: 700; font-variant-numeric: tabular-nums; }
+.b-senarai input:focus, .k-senarai input:focus, .k-tambah input:focus { outline: none; border-color: var(--dakwat); box-shadow: 0 0 0 2px var(--dakwat); }
+.b-buang {
+  width: 40px; height: 40px;
+  display: grid; place-items: center;
+  border: 0; border-radius: 8px;
+  background: transparent; color: var(--dakwat-2);
+}
+.b-buang svg, .k-padam svg {
+  width: 18px; height: 18px;
+  fill: none; stroke: currentColor; stroke-width: 2;
+  stroke-linecap: round; stroke-linejoin: round;
+}
+.b-tambah { min-height: 40px; padding: 6px 14px; font-size: 0.9375rem; }
+.b-jumlah {
+  display: flex;
+  justify-content: space-between;
+  margin: 10px 0 0;
+  padding-top: 8px;
+  border-top: 1px solid var(--garis);
+  font-weight: 600;
+}
+.b-jumlah strong { font-family: var(--angka); font-variant-numeric: tabular-nums; }
+.b-potongan li {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 5px 0;
+  border-bottom: 1px solid var(--garis);
+  font-size: 0.9375rem;
+}
+.b-potongan li span:last-child { font-family: var(--angka); font-weight: 700; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.b-potongan .kosong-kecil { color: var(--dakwat-2); }
+
+/* ---------- Urus kategori ---------- */
+
+.k-senarai li {
+  display: grid;
+  grid-template-columns: 1fr 40px 40px 40px;
+  gap: 2px;
+  align-items: center;
+  margin-bottom: 6px;
+}
+.k-senarai .ikon-btn { width: 40px; height: 40px; }
+.k-padam { color: var(--keluar-teks); }
+.k-tambah { display: flex; gap: 8px; margin-top: 10px; }
+.k-tambah .btn { flex: none; min-height: 42px; padding: 6px 16px; }

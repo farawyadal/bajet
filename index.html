@@ -94,6 +94,7 @@ try {
       <span class="cap masuk"></span><span data-i18n="masuk">Duit masuk</span>
       <span class="cap keluar"></span><span data-i18n="keluar">Duit keluar</span>
       <span class="cap bayar"></span><span data-i18n="petunjukBayar">Selesai</span>
+      <span class="cap potong"></span><span data-i18n="potongPendek">Potongan</span>
     </p>
     <p class="cara" data-i18n="cara">Leret kiri atau tekan 2 kali untuk tanda selesai. Leret kanan untuk padam. Tekan lama nama kumpulan untuk selesaikan semua.</p>
 
@@ -117,10 +118,11 @@ try {
   <form id="borangForm" method="dialog" novalidate>
     <h2 id="borangTajuk">Tambah item</h2>
 
-    <fieldset class="pilih dua jenis">
+    <fieldset class="pilih tiga-pil jenis">
       <legend data-i18n="fJenis">Jenis</legend>
       <label class="pil masuk"><input type="radio" name="jenis" value="in"><span data-i18n="masuk">Duit masuk</span></label>
       <label class="pil keluar"><input type="radio" name="jenis" value="out" checked><span data-i18n="keluar">Duit keluar</span></label>
+      <label class="pil potong"><input type="radio" name="jenis" value="potong"><span data-i18n="potong">Potongan gaji</span></label>
     </fieldset>
 
     <label class="medan">
@@ -135,8 +137,7 @@ try {
 
     <label class="medan" id="medanKumpulan">
       <span data-i18n="fKumpulan">Kumpulan</span>
-      <input id="fKumpulan" type="text" maxlength="40" autocomplete="off" list="senaraiKumpulan" data-i18n-ph="fKumpulanPh" placeholder="cth. Bil, Transfer, Simpan">
-      <datalist id="senaraiKumpulan"></datalist>
+      <select id="fKumpulan"></select>
     </label>
 
     <label class="medan">
@@ -194,6 +195,14 @@ try {
     </button>
   </div>
 
+  <h3 data-i18n="kategori">Kategori</h3>
+  <div class="menu-senarai">
+    <button class="menu-item" id="btnKategori" type="button">
+      <strong data-i18n="urusKategori">Urus kategori</strong>
+      <span data-i18n="urusKategoriNota">Tambah, tukar nama, susun dan padam kategori duit keluar</span>
+    </button>
+  </div>
+
   <h3 data-i18n="tarikhGaji">Tarikh gaji</h3>
   <div class="menu-senarai">
     <button class="menu-item" id="btnGaji" type="button">
@@ -240,6 +249,44 @@ try {
     <span class="renggang"></span>
     <button class="btn" id="gajiTutup" type="button" data-i18n="tutup">Tutup</button>
     <button class="btn utama" id="gajiSimpan" type="button" data-i18n="simpan">Simpan</button>
+  </div>
+</dialog>
+
+<!-- Butiran gaji -->
+<dialog class="helai" id="butiranHelai" aria-labelledby="butiranTajuk">
+  <h2 id="butiranTajuk"></h2>
+  <div class="b-bersih">
+    <span data-i18n="gajiBersih">Gaji bersih</span>
+    <strong id="bBersih"></strong>
+  </div>
+  <h3 data-i18n="pendapatan">Pendapatan</h3>
+  <ul class="b-senarai" id="bPendapatan"></ul>
+  <button class="btn b-tambah" id="bTambah" type="button" data-i18n="tambahPendapatan">Tambah pendapatan</button>
+  <p class="b-jumlah"><span data-i18n="jumlahKasar">Jumlah kasar</span><strong id="bKasar"></strong></p>
+  <h3 data-i18n="potong">Potongan gaji</h3>
+  <ul class="b-potongan" id="bPotongan"></ul>
+  <p class="b-jumlah"><span data-i18n="jumlahPotongan">Jumlah potongan</span><strong id="bPotong"></strong></p>
+  <p class="menu-nota" data-i18n="potongUbah">Ubah potongan dengan ikon pensel dalam senarai Potongan gaji.</p>
+  <p class="ralat" id="butiranRalat" role="alert" hidden></p>
+  <div class="borang-btn">
+    <span class="renggang"></span>
+    <button class="btn" id="butiranTutup" type="button" data-i18n="tutup">Tutup</button>
+    <button class="btn utama" id="butiranSimpan" type="button" data-i18n="simpan">Simpan</button>
+  </div>
+</dialog>
+
+<!-- Urus kategori -->
+<dialog class="helai" id="kategoriHelai" aria-labelledby="kategoriTajuk">
+  <h2 id="kategoriTajuk" data-i18n="urusKategori">Urus kategori</h2>
+  <p class="menu-nota" data-i18n="kategoriNota">Tukar nama terus pada kotak. Anak panah untuk susun. Tukar nama atau padam berkuat kuasa untuk semua bulan.</p>
+  <ol class="k-senarai" id="kSenarai"></ol>
+  <form class="k-tambah" id="kTambahForm">
+    <input id="kBaru" type="text" maxlength="40" autocomplete="off" data-i18n-ph="kategoriBaru" placeholder="Kategori baru" aria-label="Kategori baru">
+    <button class="btn" type="submit" data-i18n="tambahKategori">Tambah</button>
+  </form>
+  <div class="borang-btn">
+    <span class="renggang"></span>
+    <button class="btn" id="kTutup" type="button" data-i18n="tutup">Tutup</button>
   </div>
 </dialog>
 

@@ -11,6 +11,10 @@ Apps ringkas untuk jejak duit masuk, duit keluar dan bayaran bulanan. Ia laman w
 - Padam: leret item ke kanan. Apps akan tanya dulu sebelum padam, dan ada **Buat asal** selepas itu.
 - Selesaikan satu kumpulan sekali gus (contohnya semua dalam Bil): tekan lama nama kumpulan, atau tekan tanda berkembar di hujung baris nama kumpulan. Apps akan tanya dulu.
 - Tekan ikon pensel untuk edit item. Butang **Tambah item** untuk item baru.
+- **Gaji:** baris Gaji tunjuk gaji bersih. Tekan untuk lihat dan ubah butiran pendapatan (gaji pokok, imbuhan) dan senarai potongan. Gaji bersih dikira sendiri: jumlah pendapatan tolak potongan gaji.
+- **Potongan gaji:** potongan terus dari gaji (PCB, pinjaman perumahan, koperasi dan lain-lain), warna hijau gelap. Tak dikira dalam "Belum selesai". Tambah potongan baru dengan Tambah item > jenis Potongan gaji.
+- **Kenaikan April:** bila sheet April dicipta, Gaji pokok naik RM250 sendiri.
+- **Kategori:** tiga titik > **Urus kategori** untuk tambah, tukar nama, susun dan padam kategori duit keluar.
 - Anak panah di atas untuk tengok bulan lain.
 
 ## Sheet bulan baru
