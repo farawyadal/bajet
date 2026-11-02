@@ -90,6 +90,10 @@
       bayaranDisimpan: 'Bayaran disimpan',
       bayaranDipadam: 'Bayaran dipadam',
       ketikUbah: 'Tekan untuk ubah',
+      fTarikhBayar: 'Tarikh bayaran',
+      tarikhNota: 'Bayaran diletak dalam sheet bulan tarikh ini.',
+      tiadaSheetBulan: 'Tiada sheet {b}. Bayaran kekal dalam {s}.',
+      dipindahKe: 'Bayaran dipindah ke {s}',
       waTeks: 'Salam\nSekadar peringatan, hutang anda masih berbaki RM{j}. Sila jelaskan keseluruhan atau sebahagian hutang tersebut.\nTerima kasih.\n\n_Peringatan ini dihantar secara automatik melalui aplikasi Bajet_',
       tiadaAktifBayar: 'Tiada hutang yang belum selesai untuk dipilih.',
 
@@ -341,6 +345,10 @@
       bayaranDisimpan: 'Payment saved',
       bayaranDipadam: 'Payment deleted',
       ketikUbah: 'Tap to edit',
+      fTarikhBayar: 'Payment date',
+      tarikhNota: 'The payment goes into the sheet for this date\'s month.',
+      tiadaSheetBulan: 'There is no {b} sheet. The payment stays in {s}.',
+      dipindahKe: 'Payment moved to {s}',
       waTeks: 'Salam\nSekadar peringatan, hutang anda masih berbaki RM{j}. Sila jelaskan keseluruhan atau sebahagian hutang tersebut.\nTerima kasih.\n\n_Peringatan ini dihantar secara automatik melalui aplikasi Bajet_',
       tiadaAktifBayar: 'There are no unsettled debts to choose from.',
 
@@ -684,6 +692,7 @@
     };
     if (pendapatan) item.pendapatan = pendapatan;
     if (typeof x.hutang === 'string' && x.hutang && jenis !== 'potong') item.hutang = x.hutang.slice(0, 40);
+    if (item.hutang && /^\d{4}-\d{2}-\d{2}$/.test(x.tarikh)) item.tarikh = x.tarikh;
     return item;
   }
 
@@ -716,6 +725,28 @@
   }
   const bakiHutang = (h) => Math.max(0, keSen(h.jumlah) - bayaranHutang(h).filter((b) => b.kira).reduce((s, b) => s + keSen(b.item.amount), 0));
   const cariHutang = (id) => data.hutang.find((h) => h.id === id);
+
+  // Letak item baru selepas item terakhir yang sejenis (dan sekategori untuk duit keluar).
+  function letakItem(items, baru) {
+    let pos = -1;
+    items.forEach((i, n) => { if (i.type === baru.type && (baru.type !== 'out' || i.group === baru.group)) pos = n; });
+    if (pos >= 0) items.splice(pos + 1, 0, baru); else items.push(baru);
+  }
+  // Sheet untuk tarikh bayaran (ikut bulan kalendar), atau null kalau sheet itu tiada.
+  const sheetTarikh = (iso) => (iso && data.sheets[iso.slice(0, 7)] ? iso.slice(0, 7) : null);
+  // Tetapkan tarikh bayaran dan pindahkan item ke sheet bulan itu. Pulangkan mesej untuk toast, atau ''.
+  function aturTarikhBayaran(item, dariK, iso) {
+    if (!iso) return '';
+    item.tarikh = iso;
+    const ke = sheetTarikh(iso);
+    if (!ke) { const [y, m] = iso.split('-').map(Number); return t('tiadaSheetBulan', { b: t('bulan')[m - 1] + ' ' + y, s: namaSheet(dariK) }); }
+    if (ke === dariK) return '';
+    const dari = data.sheets[dariK].items;
+    dari.splice(dari.indexOf(item), 1);
+    letakItem(data.sheets[ke].items, item);
+    return t('dipindahKe', { s: namaSheet(ke) });
+  }
+  const tarikhLalaiBayaran = (item, k) => item.tarikh || (() => { const { y, m } = pecah(k); const d = tarikhGaji(y, m); return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0'); })();
 
   const bersihKumpulan = (a) => (Array.isArray(a) ? Array.from(new Set(a.map((g) => String(g).trim().slice(0, 40)).filter(Boolean))) : []);
 
@@ -1398,6 +1429,8 @@
     $('fKumpulan').value = item ? item.group : (data.kumpulan[0] || '');
     $('fCatatan').value = item ? item.note : '';
     $('fBayar').checked = item ? selesai(item) : false;
+    $('medanTarikhB').hidden = !(item && item.hutang);
+    if (item && item.hutang) $('fTarikhB').value = tarikhLalaiBayaran(item, lihat);
 
     kemasBorangIkutJenis();
     borang.showModal();
@@ -1434,9 +1467,13 @@
     };
 
     const items = sheetLihat().items;
+    let pesan = '';
     if (sedangEdit) {
       const item = cari(sedangEdit);
-      if (item) Object.assign(item, nilai);
+      if (item) {
+        Object.assign(item, nilai);
+        if (item.hutang && $('fTarikhB').value && $('fTarikhB').value !== tarikhLalaiBayaran(item, lihat)) pesan = aturTarikhBayaran(item, lihat, $('fTarikhB').value);
+      }
     } else {
       const baru = Object.assign({ id: uid() }, nilai);
       // Letak selepas item terakhir dalam kumpulan yang sama, kalau ada.
@@ -1447,7 +1484,7 @@
     simpan();
     borang.close();
     papar();
-    toast(sedangEdit ? t('disimpan') : t('ditambah', { n: nilai.name }));
+    toast(pesan || (sedangEdit ? t('disimpan') : t('ditambah', { n: nilai.name })));
   });
 
   $('btnBatal').addEventListener('click', () => borang.close());
@@ -1915,7 +1952,7 @@
     const bayar = bayaranHutang(h);
     const dibayar = keSen(h.jumlah) - baki;
     const sejarah = ['<li><span>' + esc(t('sejarahMula', { t: tarikhIso(h.tarikh) })) + '</span><span>' + fmt(keSen(h.jumlah)) + '</span></li>']
-      .concat(bayar.map((b) => '<li class="' + (b.kira ? '' : 'belum') + '"><button class="h-sej-btn" type="button" data-bk="' + b.k + '" data-bid="' + b.item.id + '" title="' + esc(t('ketikUbah')) + '"><span>' + esc(t(b.kira ? 'sejarahBayar' : 'sejarahBelum', { s: namaSheet(b.k) })) + '</span><span>−' + fmt(keSen(b.item.amount)) + ' ' + IKON_EDIT + '</span></button></li>'));
+      .concat(bayar.map((b) => '<li class="' + (b.kira ? '' : 'belum') + '"><button class="h-sej-btn" type="button" data-bk="' + b.k + '" data-bid="' + b.item.id + '" title="' + esc(t('ketikUbah')) + '"><span>' + esc(t(b.kira ? 'sejarahBayar' : 'sejarahBelum', { s: b.item.tarikh ? tarikhIso(b.item.tarikh) : namaSheet(b.k) })) + '</span><span>−' + fmt(keSen(b.item.amount)) + ' ' + IKON_EDIT + '</span></button></li>'));
     const wa = h.arah === 'masuk' && baki > 0
       ? '<button class="btn h-wa" type="button" data-wa="' + h.id + '">' + IKON_WA + esc(t('ingatkan')) + '</button>' : '';
     const bayarBtn = baki > 0
@@ -1990,6 +2027,7 @@
     if (!i) return;
     $('ubNota').textContent = t('ubahBayaranNota', { n: i.name, s: namaSheet(k) });
     $('ubJumlah').value = i.amount.toFixed(2);
+    $('ubTarikh').value = tarikhLalaiBayaran(i, k);
     $('ubRalat').hidden = true;
     ubB.showModal();
     $('ubJumlah').focus();
@@ -2009,9 +2047,11 @@
       if (keSen(j) > maks) { ralatH($('ubRalat'), t('ralatLebihBaki', { j: fmt(maks) }), $('ubJumlah')); return; }
     }
     i.amount = j;
+    const iso = $('ubTarikh').value;
+    const pesan = iso && iso !== tarikhLalaiBayaran(i, ubSasaran.k) ? aturTarikhBayaran(i, ubSasaran.k, iso) : '';
     ubB.close();
     selepasHutang();
-    toast(t('bayaranDisimpan'));
+    toast(pesan || t('bayaranDisimpan'));
   });
   $('ubBatal').addEventListener('click', () => ubB.close());
   $('ubPadam').addEventListener('click', async () => {
@@ -2119,7 +2159,7 @@
     $('bPenuh').disabled = !h;
     $('bSelepas').textContent = 'RM ' + fmt(Math.max(0, baki - (j === null ? 0 : keSen(j))));
     $('bUlang').checked = !!(h && h.ulang);
-    $('bMasuk').textContent = t('masukKe', { s: namaSheet(lihat) });
+    $('bMasuk').textContent = t('masukKe', { s: namaSheet(sheetTarikh($('bTarikh').value) || lihat) });
     $('bRalat').hidden = true;
   }
 
@@ -2128,6 +2168,7 @@
     const h = id ? cariHutang(id) : null;
     hBayar.querySelector('input[name="arahB"][value="' + (h ? h.arah : hTab) + '"]').checked = true;
     $('bJumlah').value = h && h.ulang ? Math.min(keSen(h.ulang), bakiHutang(h)) / 100 : '';
+    $('bTarikh').value = hariIniIso();
     paparPilihanBayar(h ? h.id : null);
     hBayar.showModal();
     $('bJumlah').focus();
@@ -2136,6 +2177,7 @@
   hBayar.querySelectorAll('input[name="arahB"]').forEach((r) => r.addEventListener('change', () => paparPilihanBayar(null)));
   $('bSenaraiH').addEventListener('change', kiraBayar);
   $('bJumlah').addEventListener('input', kiraBayar);
+  $('bTarikh').addEventListener('change', kiraBayar);
   hBayar.querySelectorAll('[data-cepat]').forEach((b) => b.addEventListener('click', () => { $('bJumlah').value = b.dataset.cepat; kiraBayar(); }));
   $('bPenuh').addEventListener('click', () => { const h = hutangDipilihB(); if (h) { $('bJumlah').value = (bakiHutang(h) / 100).toFixed(2); kiraBayar(); } });
   $('bBatal').addEventListener('click', () => hBayar.close());
@@ -2149,20 +2191,20 @@
     const baki = bakiHutang(h);
     if (keSen(j) > baki) { ralatH($('bRalat'), t('ralatLebihBaki', { j: fmt(baki) }), $('bJumlah')); return; }
     h.ulang = $('bUlang').checked ? j : null;
-    const items = sheetLihat().items;
+    const iso = $('bTarikh').value || hariIniIso();
+    const sasaran = sheetTarikh(iso) || lihat;
+    const items = data.sheets[sasaran].items;
     const baru = {
-      id: uid(), hutang: h.id, amount: j, note: '', paid: false,
+      id: uid(), hutang: h.id, amount: j, note: '', paid: false, tarikh: iso,
       type: h.arah === 'masuk' ? 'in' : 'out',
       name: t(h.arah === 'masuk' ? 'itemTerima' : 'itemBayar', { n: h.nama }).slice(0, 80),
       group: h.arah === 'masuk' ? '' : t('hutang'),
     };
     if (baru.type === 'out' && !data.kumpulan.includes(baru.group)) data.kumpulan.push(baru.group);
-    let pos = -1;
-    items.forEach((i, n) => { if (i.type === baru.type && (baru.type === 'in' || i.group === baru.group)) pos = n; });
-    if (pos >= 0) items.splice(pos + 1, 0, baru); else items.push(baru);
+    letakItem(items, baru);
     hBayar.close();
     selepasHutang();
-    toast(t('bayaranMasuk', { j: fmt(keSen(j)), s: namaSheet(lihat) }));
+    toast(t('bayaranMasuk', { j: fmt(keSen(j)), s: namaSheet(sasaran) }));
   });
 
   /* ---------- Selaras melalui Google Drive ---------- */

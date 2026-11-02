@@ -1063,3 +1063,5 @@ dialog.helai.helai-tinggi { min-height: 70dvh; }
 .h-sej-btn span:last-child { display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; font-variant-numeric: tabular-nums; }
 .h-sej-btn svg { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; opacity: 0.6; }
 .h-sejarah li:has(.h-sej-btn) { padding: 0; }
+
+.medan-nota { display: block; margin-top: 4px; font-size: 0.8125rem; color: var(--dakwat-2); }
