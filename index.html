@@ -70,6 +70,13 @@ try {
       <div class="t-keluar"><dt data-i18n="keluarPendek">Keluar</dt><dd id="jumKeluar"></dd></div>
       <div class="t-baki"><dt data-i18n="baki">Baki</dt><dd id="jumBaki"></dd></div>
     </dl>
+    <button class="jalur-hutang" id="jalurHutang" type="button" hidden>
+      <span class="jh-isi">
+        <span><span data-i18n="orangHutang">Orang hutang aku</span> <b class="jh-masuk" id="jhMasuk"></b></span>
+        <span><span data-i18n="akuHutang">Aku hutang orang</span> <b class="jh-keluar" id="jhKeluar"></b></span>
+      </span>
+      <span class="jh-ke"><span data-i18n="hutang">Hutang</span> ›</span>
+    </button>
   </section>
   </div>
 
@@ -178,6 +185,14 @@ try {
     <label class="pil"><input type="radio" name="tema" value="gelap"><span data-i18n="temaGelap">Gelap</span></label>
   </fieldset>
 
+  <h3 data-i18n="hutang">Hutang</h3>
+  <div class="menu-senarai">
+    <button class="menu-item" id="btnHutang" type="button">
+      <strong data-i18n="hutang">Hutang</strong>
+      <span data-i18n="hutangNota">Rekod orang yang berhutang dengan kau, dan hutang kau dengan orang</span>
+    </button>
+  </div>
+
   <h3 data-i18n="selaras">Selaras antara peranti</h3>
   <p class="menu-nota" id="selarasNota"></p>
   <div class="menu-senarai">
@@ -250,6 +265,74 @@ try {
     <button class="btn" id="gajiTutup" type="button" data-i18n="tutup">Tutup</button>
     <button class="btn utama" id="gajiSimpan" type="button" data-i18n="simpan">Simpan</button>
   </div>
+</dialog>
+
+<!-- Hutang -->
+<dialog class="helai helai-tinggi" id="hutangHelai" aria-labelledby="hTajuk">
+  <h2 id="hTajuk" data-i18n="hutang">Hutang</h2>
+  <div class="h-ringkas">
+    <div class="h-r-masuk"><span data-i18n="orangHutang">Orang hutang aku</span><strong id="hJumMasuk"></strong><small id="hBilMasuk"></small></div>
+    <div class="h-r-keluar"><span data-i18n="akuHutang">Aku hutang orang</span><strong id="hJumKeluar"></strong><small id="hBilKeluar"></small></div>
+  </div>
+  <div class="h-tab">
+    <button id="hTabMasuk" type="button" aria-pressed="true" data-i18n="orangHutang">Orang hutang aku</button>
+    <button id="hTabKeluar" type="button" aria-pressed="false" data-i18n="akuHutang">Aku hutang orang</button>
+  </div>
+  <div id="hSenarai"></div>
+  <div class="borang-btn">
+    <button class="btn" id="hTambah" type="button" data-i18n="tambahHutang">Tambah hutang</button>
+    <span class="renggang"></span>
+    <button class="btn" id="hTutup" type="button" data-i18n="tutup">Tutup</button>
+  </div>
+</dialog>
+
+<dialog class="helai" id="hBorangHelai" aria-labelledby="hBorangTajuk">
+  <form id="hBorangForm" novalidate>
+    <h2 id="hBorangTajuk">Tambah hutang</h2>
+    <fieldset class="pilih dua">
+      <legend data-i18n="fArah">Siapa hutang siapa</legend>
+      <label class="pil masuk"><input type="radio" name="arahH" value="masuk" checked><span data-i18n="orangHutang">Orang hutang aku</span></label>
+      <label class="pil keluar"><input type="radio" name="arahH" value="keluar"><span data-i18n="akuHutang">Aku hutang orang</span></label>
+    </fieldset>
+    <label class="medan"><span data-i18n="fNamaOrang">Nama</span><input id="hNama" type="text" maxlength="60" autocomplete="off"></label>
+    <label class="medan"><span data-i18n="fJumlahHutang">Jumlah hutang (RM)</span><input id="hJumlah" type="text" inputmode="decimal" autocomplete="off" placeholder="0.00"></label>
+    <label class="medan"><span data-i18n="fTarikh">Tarikh</span><input id="hTarikh" type="date"></label>
+    <label class="medan" id="medanTelefon"><span data-i18n="fTelefon">No. telefon (untuk peringatan WhatsApp)</span><input id="hTelefon" type="tel" inputmode="tel" autocomplete="off" data-i18n-ph="fTelefonPh" placeholder="cth. 0123456789"></label>
+    <label class="medan"><span data-i18n="fCatatan">Catatan</span><textarea id="hNota" rows="2" maxlength="200" data-i18n-ph="fCatatanPh" placeholder="Tak wajib"></textarea></label>
+    <p class="ralat" id="hRalat" role="alert" hidden></p>
+    <div class="borang-btn">
+      <button class="btn bahaya" id="hPadam" type="button" data-i18n="padam" hidden>Padam</button>
+      <span class="renggang"></span>
+      <button class="btn" id="hBatal" type="button" data-i18n="batal">Batal</button>
+      <button class="btn utama" type="submit" data-i18n="simpan">Simpan</button>
+    </div>
+  </form>
+</dialog>
+
+<dialog class="helai" id="hBayarHelai" aria-labelledby="bTajuk">
+  <form id="bBorang" novalidate>
+    <h2 id="bTajuk">Bayar</h2>
+    <fieldset class="pilih dua">
+      <legend class="sr" data-i18n="fArah">Siapa hutang siapa</legend>
+      <label class="pil masuk"><input type="radio" name="arahB" value="masuk" checked><span data-i18n="terimaBayaran">Terima bayaran</span></label>
+      <label class="pil keluar"><input type="radio" name="arahB" value="keluar"><span data-i18n="akuBayar">Aku bayar</span></label>
+    </fieldset>
+    <fieldset class="b-senarai-h"><legend data-i18n="fHutang">Hutang</legend><div id="bSenaraiH"></div></fieldset>
+    <label class="medan"><span id="bLabelJumlah">Bayar berapa (RM)</span><input id="bJumlah" type="text" inputmode="decimal" autocomplete="off" placeholder="0.00"></label>
+    <div class="b-cepat">
+      <button type="button" id="bPenuh"></button>
+      <button type="button" data-cepat="100">RM 100</button>
+      <button type="button" data-cepat="50">RM 50</button>
+    </div>
+    <p class="b-selepas"><span data-i18n="bakiSelepas">Baki selepas ini</span><b id="bSelepas"></b></p>
+    <label class="semak"><input id="bUlang" type="checkbox"><span data-i18n="ulangKotak">Ulang jumlah ini setiap bulan sehingga habis</span></label>
+    <p class="ralat" id="bRalat" role="alert" hidden></p>
+    <div class="borang-btn">
+      <span class="renggang"></span>
+      <button class="btn" id="bBatal" type="button" data-i18n="batal">Batal</button>
+      <button class="btn utama" id="bMasuk" type="submit"></button>
+    </div>
+  </form>
 </dialog>
 
 <!-- Butiran gaji -->
