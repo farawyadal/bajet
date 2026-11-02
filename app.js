@@ -82,6 +82,14 @@
       sahPadamHutangTeks: 'Rekod hutang ini dibuang. Bayaran yang dah dimasukkan dalam senarai bulanan kekal, tapi tak lagi dikaitkan.',
       hutangDipadam: 'Hutang {n} dipadam',
       ingatkan: 'Ingatkan melalui WhatsApp',
+      ubahBayaran: 'Ubah bayaran',
+      ubahBayaranNota: '{n}, {s}',
+      padamBayaran: 'Padam bayaran',
+      sahPadamBayaran: 'Padam bayaran RM {j} ({s})?',
+      sahPadamBayaranTeks: 'Bayaran ini dibuang dari senarai {s} dan baki hutang naik semula.',
+      bayaranDisimpan: 'Bayaran disimpan',
+      bayaranDipadam: 'Bayaran dipadam',
+      ketikUbah: 'Tekan untuk ubah',
       waTeks: 'Salam\nSekadar peringatan, hutang anda masih berbaki RM{j}. Sila jelaskan keseluruhan atau sebahagian hutang tersebut.\nTerima kasih.\n\n_Peringatan ini dihantar secara automatik melalui aplikasi Bajet_',
       tiadaAktifBayar: 'Tiada hutang yang belum selesai untuk dipilih.',
 
@@ -325,6 +333,14 @@
       sahPadamHutangTeks: 'The debt record is removed. Payments already in your monthly lists stay, but are no longer linked.',
       hutangDipadam: 'Debt for {n} deleted',
       ingatkan: 'Remind on WhatsApp',
+      ubahBayaran: 'Edit payment',
+      ubahBayaranNota: '{n}, {s}',
+      padamBayaran: 'Delete payment',
+      sahPadamBayaran: 'Delete the RM {j} payment ({s})?',
+      sahPadamBayaranTeks: 'The payment is removed from the {s} list and the debt balance goes back up.',
+      bayaranDisimpan: 'Payment saved',
+      bayaranDipadam: 'Payment deleted',
+      ketikUbah: 'Tap to edit',
       waTeks: 'Salam\nSekadar peringatan, hutang anda masih berbaki RM{j}. Sila jelaskan keseluruhan atau sebahagian hutang tersebut.\nTerima kasih.\n\n_Peringatan ini dihantar secara automatik melalui aplikasi Bajet_',
       tiadaAktifBayar: 'There are no unsettled debts to choose from.',
 
@@ -1899,7 +1915,7 @@
     const bayar = bayaranHutang(h);
     const dibayar = keSen(h.jumlah) - baki;
     const sejarah = ['<li><span>' + esc(t('sejarahMula', { t: tarikhIso(h.tarikh) })) + '</span><span>' + fmt(keSen(h.jumlah)) + '</span></li>']
-      .concat(bayar.map((b) => '<li class="' + (b.kira ? '' : 'belum') + '"><span>' + esc(t(b.kira ? 'sejarahBayar' : 'sejarahBelum', { s: namaSheet(b.k) })) + '</span><span>−' + fmt(keSen(b.item.amount)) + '</span></li>'));
+      .concat(bayar.map((b) => '<li class="' + (b.kira ? '' : 'belum') + '"><button class="h-sej-btn" type="button" data-bk="' + b.k + '" data-bid="' + b.item.id + '" title="' + esc(t('ketikUbah')) + '"><span>' + esc(t(b.kira ? 'sejarahBayar' : 'sejarahBelum', { s: namaSheet(b.k) })) + '</span><span>−' + fmt(keSen(b.item.amount)) + ' ' + IKON_EDIT + '</span></button></li>'));
     const wa = h.arah === 'masuk' && baki > 0
       ? '<button class="btn h-wa" type="button" data-wa="' + h.id + '">' + IKON_WA + esc(t('ingatkan')) + '</button>' : '';
     const bayarBtn = baki > 0
@@ -1958,7 +1974,58 @@
     const by = e.target.closest('[data-bayar]');
     if (by) { bukaBayar(by.dataset.bayar); return; }
     const wa = e.target.closest('[data-wa]');
-    if (wa) { hantarWa(cariHutang(wa.dataset.wa)); }
+    if (wa) { hantarWa(cariHutang(wa.dataset.wa)); return; }
+    const sj = e.target.closest('[data-bid]');
+    if (sj) bukaUbahBayaran(sj.dataset.bk, sj.dataset.bid);
+  });
+
+  // Ubah atau padam satu bayaran hutang (dari sejarah dalam kad).
+  const ubB = $('ubahBayaranHelai');
+  let ubSasaran = null; // { k, id }
+  const itemUb = () => { const s = ubSasaran && data.sheets[ubSasaran.k]; return s ? s.items.find((i) => i.id === ubSasaran.id) : null; };
+
+  function bukaUbahBayaran(k, id) {
+    ubSasaran = { k, id };
+    const i = itemUb();
+    if (!i) return;
+    $('ubNota').textContent = t('ubahBayaranNota', { n: i.name, s: namaSheet(k) });
+    $('ubJumlah').value = i.amount.toFixed(2);
+    $('ubRalat').hidden = true;
+    ubB.showModal();
+    $('ubJumlah').focus();
+    $('ubJumlah').select();
+  }
+
+  $('ubBorang').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const i = itemUb();
+    if (!i) { ubB.close(); return; }
+    const h = cariHutang(i.hutang);
+    const j = bacaJumlah($('ubJumlah').value);
+    if (j === null || j <= 0) { ralatH($('ubRalat'), t('ralatBayar0'), $('ubJumlah')); return; }
+    if (h) {
+      const kira = h.arah === 'masuk' || i.paid;
+      const maks = bakiHutang(h) + (kira ? keSen(i.amount) : 0);
+      if (keSen(j) > maks) { ralatH($('ubRalat'), t('ralatLebihBaki', { j: fmt(maks) }), $('ubJumlah')); return; }
+    }
+    i.amount = j;
+    ubB.close();
+    selepasHutang();
+    toast(t('bayaranDisimpan'));
+  });
+  $('ubBatal').addEventListener('click', () => ubB.close());
+  $('ubPadam').addEventListener('click', async () => {
+    const i = itemUb();
+    if (!i) return;
+    const k = ubSasaran.k;
+    const ok = await sahkan({ tajuk: t('sahPadamBayaran', { j: fmt(keSen(i.amount)), s: namaSheet(k) }), teks: t('sahPadamBayaranTeks', { s: namaSheet(k) }), ya: t('padam'), bahaya: true });
+    if (!ok) return;
+    const s = data.sheets[k];
+    const pos = s.items.indexOf(i);
+    s.items.splice(pos, 1);
+    ubB.close();
+    selepasHutang();
+    toast(t('bayaranDipadam')); // dah disahkan; tiada buat asal sebab menu hutang masih terbuka di atas toast
   });
 
   // Peringatan WhatsApp: buka WhatsApp dengan mesej siap ditulis. Tanpa nombor, pilih kenalan dalam WhatsApp.

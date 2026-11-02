@@ -335,6 +335,21 @@ try {
   </form>
 </dialog>
 
+<dialog class="helai" id="ubahBayaranHelai" aria-labelledby="ubTajuk">
+  <form id="ubBorang" novalidate>
+    <h2 id="ubTajuk" data-i18n="ubahBayaran">Ubah bayaran</h2>
+    <p class="menu-nota" id="ubNota"></p>
+    <label class="medan"><span data-i18n="fJumlah">Jumlah (RM)</span><input id="ubJumlah" type="text" inputmode="decimal" autocomplete="off"></label>
+    <p class="ralat" id="ubRalat" role="alert" hidden></p>
+    <div class="borang-btn">
+      <button class="btn bahaya" id="ubPadam" type="button" data-i18n="padam">Padam</button>
+      <span class="renggang"></span>
+      <button class="btn" id="ubBatal" type="button" data-i18n="batal">Batal</button>
+      <button class="btn utama" type="submit" data-i18n="simpan">Simpan</button>
+    </div>
+  </form>
+</dialog>
+
 <!-- Butiran gaji -->
 <dialog class="helai" id="butiranHelai" aria-labelledby="butiranTajuk">
   <h2 id="butiranTajuk"></h2>
