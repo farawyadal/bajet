@@ -286,6 +286,7 @@ try {
   <div id="hSenarai"></div>
   <div class="borang-btn">
     <button class="btn" id="hTambah" type="button" data-i18n="tambahHutang">Tambah hutang</button>
+    <button class="btn" id="hGabung" type="button" data-i18n="gabungkan" hidden>Gabungkan hutang</button>
     <span class="renggang"></span>
     <button class="btn" id="hTutup" type="button" data-i18n="tutup">Tutup</button>
   </div>
@@ -324,13 +325,19 @@ try {
     </fieldset>
     <fieldset class="b-senarai-h"><legend data-i18n="fHutang">Hutang</legend><div id="bSenaraiH"></div></fieldset>
     <label class="medan"><span id="bLabelJumlah">Bayar berapa (RM)</span><input id="bJumlah" type="text" inputmode="decimal" autocomplete="off" placeholder="0.00"></label>
-    <label class="medan"><span data-i18n="fTarikhBayar">Tarikh bayaran</span><input id="bTarikh" type="date"></label>
     <div class="b-cepat">
       <button type="button" id="bPenuh"></button>
       <button type="button" data-cepat="100">RM 100</button>
       <button type="button" data-cepat="50">RM 50</button>
     </div>
     <p class="b-selepas"><span data-i18n="bakiSelepas">Baki selepas ini</span><b id="bSelepas"></b></p>
+    <div class="b-pecahan" id="bPecahan" hidden></div>
+    <label class="medan"><span data-i18n="fTarikhBayar">Tarikh bayaran</span><input id="bTarikh" type="date"><small class="medan-nota" data-i18n="tarikhRekod">Untuk rekod sahaja.</small></label>
+    <fieldset class="pilih b-bulan">
+      <legend data-i18n="masukBulan">Masuk ke bulan</legend>
+      <div id="bBulan" class="b-bulan-pil"></div>
+    </fieldset>
+    <p class="b-jadual" id="bNotaJadual" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 10h16M9 3v4M15 3v4"/></svg><span></span></p>
     <label class="semak"><input id="bUlang" type="checkbox"><span data-i18n="ulangKotak">Ulang jumlah ini setiap bulan sehingga habis</span></label>
     <p class="ralat" id="bRalat" role="alert" hidden></p>
     <div class="borang-btn">
@@ -346,12 +353,51 @@ try {
     <h2 id="ubTajuk" data-i18n="ubahBayaran">Ubah bayaran</h2>
     <p class="menu-nota" id="ubNota"></p>
     <label class="medan"><span data-i18n="fJumlah">Jumlah (RM)</span><input id="ubJumlah" type="text" inputmode="decimal" autocomplete="off"></label>
-    <label class="medan"><span data-i18n="fTarikhBayar">Tarikh bayaran</span><input id="ubTarikh" type="date"><small class="medan-nota" data-i18n="tarikhNota">Bayaran diletak dalam sheet bulan tarikh ini.</small></label>
+    <label class="medan" id="ubMedanTarikh"><span data-i18n="fTarikhBayar">Tarikh bayaran</span><input id="ubTarikh" type="date"><small class="medan-nota" data-i18n="tarikhNota">Bayaran diletak dalam sheet bulan tarikh ini.</small></label>
     <p class="ralat" id="ubRalat" role="alert" hidden></p>
     <div class="borang-btn">
       <button class="btn bahaya" id="ubPadam" type="button" data-i18n="padam">Padam</button>
       <span class="renggang"></span>
       <button class="btn" id="ubBatal" type="button" data-i18n="batal">Batal</button>
+      <button class="btn utama" type="submit" data-i18n="simpan">Simpan</button>
+    </div>
+  </form>
+</dialog>
+
+<dialog class="helai" id="gabHelai" aria-labelledby="gTajuk">
+  <form id="gBorang" novalidate>
+    <h2 id="gTajuk">Gabungkan hutang</h2>
+    <label class="medan"><span data-i18n="fNamaGab">Nama gabungan</span><input id="gNama" type="text" maxlength="60" autocomplete="off" data-i18n-ph="fNamaGabPh" placeholder="cth. Hutang peribadi"></label>
+    <fieldset class="b-senarai-h"><legend id="gLegend"></legend><div id="gSenarai"></div></fieldset>
+    <fieldset class="pilih tiga-pil">
+      <legend data-i18n="caraBahagi">Cara bahagi setiap bayaran</legend>
+      <label class="pil"><input type="radio" name="caraG" value="baki" checked><span data-i18n="caraBaki">Ikut baki</span></label>
+      <label class="pil"><input type="radio" name="caraG" value="peratus"><span data-i18n="caraPeratus">Tetapkan peratus</span></label>
+      <label class="pil"><input type="radio" name="caraG" value="kecil"><span data-i18n="caraKecil">Habiskan yang kecil dulu</span></label>
+    </fieldset>
+    <div class="g-peratus" id="gPeratus" hidden>
+      <div id="gPeratusSenarai"></div>
+      <p class="g-pct-jumlah"><span data-i18n="jumlahPct">Jumlah</span><b id="gPeratusJumlah"></b></p>
+    </div>
+    <p class="ralat" id="gRalat" role="alert" hidden></p>
+    <div class="borang-btn">
+      <span class="renggang"></span>
+      <button class="btn" id="gBatal" type="button" data-i18n="batal">Batal</button>
+      <button class="btn utama" type="submit" data-i18n="simpan">Simpan</button>
+    </div>
+  </form>
+</dialog>
+
+<dialog class="helai" id="ulangHelai" aria-labelledby="ulTajuk">
+  <form id="ulBorang" novalidate>
+    <h2 id="ulTajuk" data-i18n="ulangTajuk">Ulang setiap bulan</h2>
+    <p class="menu-nota" id="ulNota"></p>
+    <label class="medan"><span data-i18n="fJumlahUlang">Jumlah setiap bulan (RM)</span><input id="ulJumlah" type="text" inputmode="decimal" autocomplete="off" placeholder="0.00"><small class="medan-nota" data-i18n="ulangNota">Bayaran ini muncul sendiri dalam setiap bulan baru sehingga hutang habis.</small></label>
+    <p class="ralat" id="ulRalat" role="alert" hidden></p>
+    <div class="borang-btn">
+      <button class="btn bahaya" id="ulHenti" type="button" data-i18n="hentikanUlang">Hentikan ulang</button>
+      <span class="renggang"></span>
+      <button class="btn" id="ulBatal" type="button" data-i18n="batal">Batal</button>
       <button class="btn utama" type="submit" data-i18n="simpan">Simpan</button>
     </div>
   </form>

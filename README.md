@@ -15,6 +15,9 @@ Apps ringkas untuk jejak duit masuk, duit keluar dan bayaran bulanan. Ia laman w
 - **Potongan gaji:** potongan terus dari gaji (PCB, pinjaman perumahan, koperasi dan lain-lain), warna hijau gelap. Tak dikira dalam "Belum selesai". Tambah potongan baru dengan Tambah item > jenis Potongan gaji.
 - **Kenaikan April:** bila sheet April dicipta, Gaji pokok naik RM250 sendiri.
 - **Hutang:** tiga titik > **Hutang** (atau baris hutang di atas). Rekod orang yang berhutang dengan kau dan hutang kau dengan orang. **Terima bayaran** masukkan bayaran sebagai duit masuk bulan itu; **Bayar** masukkan sebagai duit keluar dalam kategori Hutang (baki berkurang bila ditanda selesai). Tanda "Ulang setiap bulan" untuk bayaran tetap yang masuk sendiri sehingga habis. Butang WhatsApp hantar peringatan baki kepada orang yang berhutang.
+- **Bulan bayaran:** dalam Bayar / Terima bayaran, pilih masuk ke bulan semasa atau bulan seterusnya. Kalau sheet bulan seterusnya belum dibuka, bayaran disimpan (dijadualkan) dan masuk sendiri bila sheet itu dibuka. Tarikh bayaran untuk rekod sahaja.
+- **Gabung hutang:** dalam menu Hutang, **Gabungkan hutang** untuk satukan dua atau lebih hutang yang searah. Setiap bayaran dibahagi ikut baki, ikut peratus yang ditetapkan, atau habiskan yang kecil dulu. Bila satu hutang habis, bahagiannya pergi kepada hutang yang lain. **Pisahkan** bila-bila masa; bayaran lama kekal dengan pecahannya.
+- **Ulang bulanan:** butang **Ulang bulanan** / **Ubah ulang** pada kad hutang untuk tetapkan, ubah atau hentikan bayaran yang berulang setiap bulan.
 - **Kategori:** tiga titik > **Urus kategori** untuk tambah, tukar nama, susun dan padam kategori duit keluar.
 - Anak panah di atas untuk tengok bulan lain.
 

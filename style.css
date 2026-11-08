@@ -1065,3 +1065,36 @@ dialog.helai.helai-tinggi { min-height: 70dvh; }
 .h-sejarah li:has(.h-sej-btn) { padding: 0; }
 
 .medan-nota { display: block; margin-top: 4px; font-size: 0.8125rem; color: var(--dakwat-2); }
+
+/* Gabungan hutang */
+.h-lencana, .b-lencana { justify-self: start; white-space: nowrap; font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.02em; text-transform: uppercase; padding: 1px 7px; border-radius: 999px; background: var(--garis); color: var(--dakwat-2); }
+.b-lencana { text-transform: none; margin-left: 4px; }
+.h-ahli-senarai { display: grid; gap: 8px; padding-top: 8px; border-top: 1px solid var(--garis); }
+.h-ahli { display: grid; grid-template-columns: 1fr auto; gap: 3px 10px; align-items: center; }
+.h-ahli-nama { display: flex; align-items: center; gap: 2px; font-weight: 600; min-width: 0; overflow-wrap: anywhere; }
+.h-ahli-edit { display: grid; place-items: center; width: 32px; height: 32px; border: 0; border-radius: 8px; background: none; color: var(--dakwat-2); cursor: pointer; }
+.h-ahli-edit svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.h-ahli-pct { font-size: 0.75rem; font-weight: 700; padding: 1px 8px; border-radius: 999px; white-space: nowrap; }
+.h-ahli-pct.masuk { background: var(--masuk); color: var(--masuk-teks); }
+.h-ahli-pct.keluar { background: var(--keluar); color: var(--keluar-teks); }
+.h-bar.kecil { height: 6px; border-radius: 3px; }
+.h-ahli-baki { font-size: 0.8125rem; text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.h-sejarah li.jadual { color: var(--masuk-teks); }
+
+.b-bulan-pil { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.b-bulan-pil .pil span { min-height: 52px; }
+.b-bulan-pil small { font-weight: 400; font-size: 0.75rem; opacity: 0.85; }
+.b-jadual { display: flex; gap: 8px; align-items: flex-start; margin: -6px 0 14px; padding: 8px 10px; border-radius: 8px; background: var(--masuk); color: var(--baris-teks); font-size: 0.8125rem; line-height: 1.35; }
+.b-jadual svg { flex: none; width: 18px; height: 18px; fill: none; stroke: var(--masuk-teks); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.b-pecahan { margin: 0 0 10px; padding: 10px 12px; border-radius: 10px; background: var(--kertas); font-size: 0.875rem; }
+.b-pecahan p { margin: 6px 0 0; font-size: 0.75rem; color: var(--dakwat-2); }
+.b-pecah-grid { display: grid; grid-template-columns: 1fr auto auto; gap: 4px 14px; align-items: baseline; font-variant-numeric: tabular-nums; }
+.b-pecah-grid > span:nth-child(-n+3) { font-size: 0.75rem; color: var(--dakwat-2); }
+.b-pecah-grid > :nth-child(3n+2), .b-pecah-grid > :nth-child(3n) { text-align: right; }
+.b-pecah-grid small { color: var(--dakwat-2); }
+.g-peratus { margin: 0 0 14px; padding: 10px 12px; border-radius: 10px; background: var(--kertas); }
+.g-pct { display: flex; align-items: center; gap: 10px; margin-bottom: 6px; }
+.g-pct span:first-child { flex: 1; min-width: 0; }
+.g-pct input { width: 64px; padding: 6px 8px; border: 1.5px solid var(--garis); border-radius: 8px; background: var(--permukaan); color: var(--dakwat); font: inherit; text-align: right; }
+.g-pct-jumlah { display: flex; justify-content: space-between; margin: 0; padding-top: 6px; border-top: 1px solid var(--garis); font-size: 0.8125rem; font-weight: 600; color: var(--bayar-teks); }
+.g-pct-jumlah b.salah { color: var(--bahaya); }
