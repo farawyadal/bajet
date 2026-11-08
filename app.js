@@ -94,7 +94,7 @@
       tarikhNota: 'Bayaran diletak dalam sheet bulan tarikh ini.',
       tiadaSheetBulan: 'Tiada sheet {b}. Bayaran kekal dalam {s}.',
       dipindahKe: 'Bayaran dipindah ke {s}',
-      waTeks: 'Salam\nSekadar peringatan, hutang anda masih berbaki RM{j}. Sila jelaskan keseluruhan atau sebahagian hutang tersebut.\nTerima kasih.\n\n_Peringatan ini dihantar secara automatik melalui aplikasi Bajet_',
+      waTeks: 'Salam\nSekadar peringatan, hutang anda masih berbaki RM{j}. Sila jelaskan keseluruhan atau sebahagian hutang tersebut.\nTerima kasih.\n\n_Peringatan ini dihantar secara automatik melalui aplikasi MyBajet_',
       tiadaAktifBayar: 'Tiada hutang yang belum selesai untuk dipilih.',
 
       potong: 'Potongan gaji',
@@ -349,7 +349,7 @@
       tarikhNota: 'The payment goes into the sheet for this date\'s month.',
       tiadaSheetBulan: 'There is no {b} sheet. The payment stays in {s}.',
       dipindahKe: 'Payment moved to {s}',
-      waTeks: 'Salam\nSekadar peringatan, hutang anda masih berbaki RM{j}. Sila jelaskan keseluruhan atau sebahagian hutang tersebut.\nTerima kasih.\n\n_Peringatan ini dihantar secara automatik melalui aplikasi Bajet_',
+      waTeks: 'Salam\nSekadar peringatan, hutang anda masih berbaki RM{j}. Sila jelaskan keseluruhan atau sebahagian hutang tersebut.\nTerima kasih.\n\n_Peringatan ini dihantar secara automatik melalui aplikasi MyBajet_',
       tiadaAktifBayar: 'There are no unsettled debts to choose from.',
 
       potong: 'Salary deductions',
