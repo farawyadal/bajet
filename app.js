@@ -19,6 +19,9 @@
 
   const KUNCI_SIMPAN = 'bajet-bulanan-v1';
   const KUNCI_TETAPAN = 'bajet-bulanan-tetapan';
+  // Versi aplikasi untuk footer. Naikkan bersama CACHE dalam sw.js setiap kali dikemas kini.
+  const VERSI = 'v15';
+  const TARIKH_VERSI = [2026, 11, 25];
 
   const $ = (id) => document.getElementById(id);
 
@@ -100,6 +103,42 @@
       ulangTajuk: 'Ulang setiap bulan',
       fJumlahUlang: 'Jumlah setiap bulan (RM)',
       ulangNota: 'Bayaran ini muncul sendiri dalam setiap bulan baru sehingga hutang habis.',
+      kembali: 'Kembali',
+      memuatDrive: 'Mengambil data dari Google Drive…',
+      slipTajuk: 'Tampal slip gaji',
+      slipBtnNota: 'Kemas kini jumlah dari slip bulan ini',
+      slipNota: 'Salin semua teks slip gaji (gaji bersih, gaji kasar dan potongan), kemudian tampal di bawah. Susunan dan huruf besar tak penting.',
+      slipTeksL: 'Teks slip',
+      slipKlip: 'Tampal dari papan klip',
+      slipKlipGagal: 'Tak dapat baca papan klip. Tekan lama dalam kotak dan pilih Tampal.',
+      slipSemak: 'Semak',
+      slipSemakTajuk: 'Semak perubahan',
+      slipKosong: 'Tiada jumlah RM dijumpai dalam teks. Pastikan seluruh slip ditampal.',
+      slipPadan: '<b>Slip padan.</b> Kasar {k} − potongan {p} = bersih {b}, sama dengan slip.',
+      slipTakPadan: '<b>Tak padan.</b> Kasar {k} − potongan {p} = {c}, tapi slip kata bersih {b} (beza {d}). Mungkin ada row tertinggal masa salin.',
+      slipTiadaSemak: 'Gaji kasar atau bersih tiada dalam teks, jadi semakan jumlah dilangkau.',
+      slipBerubah: 'berubah',
+      slipRowBaru: 'row baru',
+      slipSama: 'sama',
+      slipBerubahT: 'Berubah',
+      slipIkutKasar: '(ikut gaji kasar)',
+      slipBaruT: 'Row baru dalam slip ({n})',
+      slipIniApa: 'Ini apa?',
+      slipHilangT: 'Tiada dalam slip ({n})',
+      slipBuang: 'Buang bulan ini',
+      slipKekal: 'Kekalkan',
+      slipPadananT: 'Nama slip dipadankan',
+      slipDanLagi: 'dan {n} lagi',
+      slipLihatSemua: 'Lihat semua / betulkan padanan',
+      slipSamaPotong: 'Sama dengan: {n}',
+      slipSamaPend: 'Pendapatan: {n}',
+      slipBaruPotong: 'Tambah sebagai potongan baru',
+      slipBaruPend: 'Tambah sebagai pendapatan baru',
+      slipAbai: 'Abaikan',
+      slipKemas: 'Kemas kini {n} jumlah',
+      slipTiadaUbah: 'Tiada perubahan, simpan padanan',
+      slipTiadaUbahToast: 'Semua jumlah dah sama dengan slip',
+      slipDikemas: 'Slip gaji: {n} perubahan disimpan',
       hentikanUlang: 'Hentikan ulang',
       jumlahPct: 'Jumlah',
       fArah: 'Siapa hutang siapa',
@@ -402,6 +441,42 @@
       ulangTajuk: 'Repeat every month',
       fJumlahUlang: 'Amount each month (RM)',
       ulangNota: 'This payment appears by itself in every new month until the debt is paid off.',
+      kembali: 'Back',
+      memuatDrive: 'Getting your data from Google Drive…',
+      slipTajuk: 'Paste payslip',
+      slipBtnNota: 'Update amounts from this month\'s payslip',
+      slipNota: 'Copy all the payslip text (net pay, gross pay and deductions), then paste it below. Order and capital letters don\'t matter.',
+      slipTeksL: 'Payslip text',
+      slipKlip: 'Paste from clipboard',
+      slipKlipGagal: 'Couldn\'t read the clipboard. Long-press in the box and choose Paste.',
+      slipSemak: 'Check',
+      slipSemakTajuk: 'Review changes',
+      slipKosong: 'No RM amounts found in the text. Make sure the whole payslip is pasted.',
+      slipPadan: '<b>Payslip adds up.</b> Gross {k} − deductions {p} = net {b}, same as the payslip.',
+      slipTakPadan: '<b>Doesn\'t add up.</b> Gross {k} − deductions {p} = {c}, but the payslip says net {b} (off by {d}). A row may have been missed when copying.',
+      slipTiadaSemak: 'No gross or net pay in the text, so the total check was skipped.',
+      slipBerubah: 'changed',
+      slipRowBaru: 'new rows',
+      slipSama: 'same',
+      slipBerubahT: 'Changed',
+      slipIkutKasar: '(from gross pay)',
+      slipBaruT: 'New rows in payslip ({n})',
+      slipIniApa: 'What is this?',
+      slipHilangT: 'Not in payslip ({n})',
+      slipBuang: 'Remove this month',
+      slipKekal: 'Keep',
+      slipPadananT: 'Payslip names matched',
+      slipDanLagi: 'and {n} more',
+      slipLihatSemua: 'See all / fix matches',
+      slipSamaPotong: 'Same as: {n}',
+      slipSamaPend: 'Income: {n}',
+      slipBaruPotong: 'Add as new deduction',
+      slipBaruPend: 'Add as new income',
+      slipAbai: 'Ignore',
+      slipKemas: 'Update {n} amounts',
+      slipTiadaUbah: 'No changes, save matches',
+      slipTiadaUbahToast: 'All amounts already match the payslip',
+      slipDikemas: 'Payslip: {n} changes saved',
       hentikanUlang: 'Stop repeating',
       jumlahPct: 'Total',
       fArah: 'Who owes whom',
@@ -658,7 +733,13 @@
     document.querySelectorAll('[data-i18n]').forEach((e) => { e.textContent = t(e.dataset.i18n); });
     document.querySelectorAll('[data-i18n-ph]').forEach((e) => { e.placeholder = t(e.dataset.i18nPh); });
     document.querySelectorAll('[data-i18n-aria]').forEach((e) => { e.setAttribute('aria-label', t(e.dataset.i18nAria)); });
+    const [vy, vm, vd] = TARIKH_VERSI;
+    $('kaki').textContent = 'MyBajet · ' + VERSI + ' · ' + vd + ' ' + t('bulanPendek')[vm - 1] + ' ' + vy + ' · ©' + new Date().getFullYear();
   }
+
+  // Donut pusing di tengah skrin semasa memuat sesuatu yang ambil masa.
+  function tunjukMuat(teks) { $('memuatTeks').textContent = teks || ''; $('memuat').hidden = false; }
+  function tutupMuat() { $('memuat').hidden = true; }
 
   /* ---------- Tema ---------- */
 
@@ -754,7 +835,8 @@
   // kumpulan: susunan kategori duit keluar (nama), dikongsi semua bulan.
   // hutang: [{ id, arah: 'masuk' (orang hutang aku) | 'keluar' (aku hutang), nama, jumlah, tarikh, telefon, nota, ulang }]
   // gabungan, tertunda: lihat bersihGabungan dan bersihTertunda.
-  let data = { v: 1, sheets: {}, gaji: {}, kumpulan: [], hutang: [], gabungan: [], tertunda: [], diubah: 0 };
+  // aliasSlip: nama dalam slip gaji (dinormalkan) → nama dalam MyBajet ('' = abaikan).
+  let data = { v: 1, sheets: {}, gaji: {}, kumpulan: [], hutang: [], gabungan: [], tertunda: [], aliasSlip: {}, diubah: 0 };
   let lihat = null; // kunci sheet yang sedang dipapar
 
   const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
@@ -838,6 +920,15 @@
     return a.filter((x) => x && typeof x.id === 'string' && /^\d{4}-(0[1-9]|1[0-2])$/.test(x.kunci) && x.item)
       .map((x) => ({ id: x.id.slice(0, 40), kunci: x.kunci, item: bersihItem(x.item) }))
       .filter((x) => x.item.hutang || x.item.gabungan);
+  }
+  function bersihAlias(o) {
+    const keluar = {};
+    if (!o || typeof o !== 'object' || Array.isArray(o)) return keluar;
+    Object.keys(o).slice(0, 300).forEach((k) => {
+      const kk = String(k).toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 80);
+      if (kk && typeof o[k] === 'string') keluar[kk] = o[k].trim().slice(0, 80);
+    });
+    return keluar;
   }
   // Buang rujukan kepada hutang yang tiada; gabungan yang tinggal seorang dibubarkan.
   function kemasGabungan() {
@@ -1014,7 +1105,7 @@
       const mentah = localStorage.getItem(KUNCI_SIMPAN);
       if (!mentah) return;
       const j = JSON.parse(mentah);
-      if (j && j.sheets) data = { v: 1, sheets: bersihSheets(j.sheets), gaji: bersihGaji(j.gaji), kumpulan: bersihKumpulan(j.kumpulan), hutang: bersihHutang(j.hutang), gabungan: bersihGabungan(j.gabungan), tertunda: bersihTertunda(j.tertunda), diubah: Number(j.diubah) || 0 };
+      if (j && j.sheets) data = { v: 1, sheets: bersihSheets(j.sheets), gaji: bersihGaji(j.gaji), kumpulan: bersihKumpulan(j.kumpulan), hutang: bersihHutang(j.hutang), gabungan: bersihGabungan(j.gabungan), tertunda: bersihTertunda(j.tertunda), aliasSlip: bersihAlias(j.aliasSlip), diubah: Number(j.diubah) || 0 };
       kemasGabungan();
       pastikanKumpulan();
     } catch (e) {
@@ -1116,6 +1207,7 @@
 
   const IKON_TANDA = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>';
   const IKON_SEMUA = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M1.5 12.5l4.5 4.5 9.5-9.5"/><path d="M11.5 16l1 1 9.5-9.5"/></svg>';
+  const IKON_AMARAN = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4l9 16H3z"/><path d="M12 10v4M12 17v.1"/></svg>';
   const IKON_TONG = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M9 7V4h6v3M6.5 7l1 13h9l1-13"/></svg>';
   const IKON_WA = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20l1.3-3.9A8 8 0 1 1 8 18.8z"/><path d="M9 9.5c.3 2 2.3 4.3 4.6 5l1.2-1.1 1.7.8"/></svg>';
   const IKON_EDIT = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20h4L19 9l-4-4L4 16v4z"/><path d="M13.5 6.5l4 4"/></svg>';
@@ -1937,7 +2029,7 @@
     if (!senaraiKunci().length) { menu.close(); toast(t('tiadaData')); return; }
     const d = new Date();
     const nama = 'mybajet-' + d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0') + '.json';
-    const isi = JSON.stringify({ app: 'bajet-bulanan', v: 1, disimpan: d.toISOString(), sheets: data.sheets, gaji: data.gaji, kumpulan: data.kumpulan, hutang: data.hutang, gabungan: data.gabungan, tertunda: data.tertunda }, null, 2);
+    const isi = JSON.stringify({ app: 'bajet-bulanan', v: 1, disimpan: d.toISOString(), sheets: data.sheets, gaji: data.gaji, kumpulan: data.kumpulan, hutang: data.hutang, gabungan: data.gabungan, tertunda: data.tertunda, aliasSlip: data.aliasSlip }, null, 2);
     const url = URL.createObjectURL(new Blob([isi], { type: 'application/json' }));
     const a = document.createElement('a');
     a.href = url;
@@ -1970,7 +2062,7 @@
       const baru = bersihSheets(j.sheets);
       if (!Object.keys(baru).length) { toast(t('failTiadaBulan')); return; }
       if (senaraiKunci().length && !(await sahkan({ tajuk: t('sahGantiSemua'), teks: t('sahGantiSemuaTeks'), ya: t('ganti'), bahaya: true }))) return;
-      data = { v: 1, sheets: baru, gaji: bersihGaji(j.gaji), kumpulan: bersihKumpulan(j.kumpulan), hutang: bersihHutang(j.hutang), gabungan: bersihGabungan(j.gabungan), tertunda: bersihTertunda(j.tertunda) };
+      data = { v: 1, sheets: baru, gaji: bersihGaji(j.gaji), kumpulan: bersihKumpulan(j.kumpulan), hutang: bersihHutang(j.hutang), gabungan: bersihGabungan(j.gabungan), tertunda: bersihTertunda(j.tertunda), aliasSlip: bersihAlias(j.aliasSlip) };
       kemasGabungan();
       pastikanKumpulan();
       simpan();
@@ -2091,6 +2183,296 @@
     butiran.close();
     papar();
     toast(t('butiranDisimpan'));
+  });
+
+  /* ---------- Tampal slip gaji ---------- */
+
+  // Teks slip ditampal → senarai { nama, sen }, gaji kasar dan gaji bersih.
+  // Format "RM x / NAMA" (jumlah dulu) atau "NAMA / RM x" (nama dulu), atau sebaris.
+  const RE_JUMLAH = /RM\s*(\d[\d,]*(?:\.\d{1,2})?)|(\d[\d,]*\.\d{2})(?!\d)/i;
+  function huraiSlip(teks) {
+    const token = [];
+    String(teks || '').split(/\r?\n/).forEach((baris) => {
+      const b = baris.replace(/\s+/g, ' ').trim();
+      if (!b) return;
+      const m = b.match(RE_JUMLAH);
+      if (!m) { token.push({ j: 'T', teks: b }); return; }
+      const sen = keSen(Number((m[1] || m[2]).replace(/,/g, '')));
+      const lain = (b.slice(0, m.index) + ' ' + b.slice(m.index + m[0].length)).replace(/^[\s:–-]+|[\s:–-]+$/g, '').replace(/^\((.*)\)$/, '$1').trim();
+      token.push({ j: 'A', sen, teks: lain });
+    });
+    // Jumlah dulu kalau token terakhir ialah nama; nama dulu kalau token terakhir ialah jumlah.
+    const jumlahDulu = token.length && token[token.length - 1].j === 'T';
+    const masuk = [];
+    const guna = new Set();
+    token.forEach((tk, n) => {
+      if (tk.j !== 'A') return;
+      if (tk.teks) { masuk.push({ nama: tk.teks, sen: tk.sen }); return; }
+      const k = jumlahDulu ? n + 1 : n - 1;
+      if (token[k] && token[k].j === 'T' && !guna.has(k)) { guna.add(k); masuk.push({ nama: token[k].teks, sen: tk.sen }); return; }
+      masuk.push({ nama: '', sen: tk.sen });
+    });
+    const hasil = { kasar: null, bersih: null, baris: [] };
+    masuk.forEach((e) => {
+      if (!e.nama) { if (hasil.bersih === null) hasil.bersih = e.sen; return; }
+      if (/kasar|gross/i.test(e.nama)) { if (hasil.kasar === null) hasil.kasar = e.sen; return; }
+      if (/bersih|\bnett?\b/i.test(e.nama)) { if (hasil.bersih === null) hasil.bersih = e.sen; return; }
+      if (/jumlah|total/i.test(e.nama)) return;
+      hasil.baris.push({ nama: e.nama.slice(0, 80), sen: e.sen });
+    });
+    return hasil;
+  }
+
+  const normNama = (s) => String(s).toUpperCase().replace(/[^A-Z0-9]/g, '');
+  function lcs(a, b) {
+    let atas = new Array(b.length + 1).fill(0);
+    for (let i = 1; i <= a.length; i++) {
+      const kini = [0];
+      for (let j = 1; j <= b.length; j++) kini[j] = a[i - 1] === b[j - 1] ? atas[j - 1] + 1 : Math.max(atas[j], kini[j - 1]);
+      atas = kini;
+    }
+    return atas[b.length];
+  }
+  // Markah padanan nama slip (yang selalunya disingkat) dengan nama dalam MyBajet.
+  function markahNama(slip, app) {
+    const s = normNama(slip);
+    const a = normNama(app);
+    if (!s || !a) return 0;
+    const alias = data.aliasSlip[s];
+    if (alias !== undefined && normNama(alias) === a) return 3;
+    if (s === a) return 2;
+    if (s[0] !== a[0]) return 0;
+    const l = lcs(s, a);
+    const liputan = l / s.length;
+    return liputan >= 0.85 ? liputan + 0.2 * (l / a.length) : 0;
+  }
+
+  const slipH = $('slipHelai');
+  let slip = null; // { hasil, baris: [{nama, sen, pilih, auto}], hilang: {id: 'buang'|'kekal'}, calon }
+
+  function calonSlip() {
+    const potong = sheetLihat().items.filter((i) => i.type === 'potong').map((i) => ({ kod: 'p:' + i.id, nama: i.name, sen: keSen(i.amount) }));
+    const g = itemGaji();
+    const pend = g ? g.pendapatan.map((r, n) => ({ kod: 'g:' + n, nama: r.name, sen: keSen(r.amount) })) : [];
+    return potong.concat(pend);
+  }
+
+  function padankanSlip(hasil) {
+    const calon = calonSlip();
+    const baris = hasil.baris.map((b) => ({ nama: b.nama, sen: b.sen, pilih: 'baru-p', auto: null }));
+    const pasangan = [];
+    baris.forEach((b, r) => {
+      const alias = data.aliasSlip[normNama(b.nama)];
+      if (alias === '') { b.pilih = 'abai'; b.auto = 'abai'; return; }
+      calon.forEach((c) => { const m = markahNama(b.nama, c.nama); if (m > 0) pasangan.push({ r, kod: c.kod, m }); });
+    });
+    pasangan.sort((x, y) => y.m - x.m);
+    const diguna = new Set();
+    pasangan.forEach((p) => {
+      if (baris[p.r].auto || diguna.has(p.kod)) return;
+      baris[p.r].pilih = p.kod; baris[p.r].auto = p.kod; diguna.add(p.kod);
+    });
+    slip = { hasil, baris, hilang: {}, calon };
+  }
+
+  // Kira apa yang akan berubah ikut pilihan semasa.
+  function kiraSlip() {
+    const { hasil, baris, calon } = slip;
+    const namaKod = new Map(calon.map((c) => [c.kod, c]));
+    const dipilih = new Set(baris.map((b) => b.pilih));
+    const ubah = [];
+    let sama = 0;
+    baris.forEach((b) => {
+      const c = namaKod.get(b.pilih);
+      if (!c) return;
+      if (c.sen !== b.sen) ubah.push({ nama: c.nama, dari: c.sen, ke: b.sen }); else sama++;
+    });
+    const baru = baris.filter((b) => b.pilih === 'baru-p' || b.pilih === 'baru-g');
+    const hilang = calon.filter((c) => c.kod.startsWith('p:') && !dipilih.has(c.kod));
+    // Pendapatan selepas kemas kini, dan pelarasan gaji pokok ikut gaji kasar.
+    const g = itemGaji();
+    let pokok = null;
+    if (g) {
+      const pend = g.pendapatan.map((r, n) => { const b = baris.find((x) => x.pilih === 'g:' + n); return b ? b.sen : keSen(r.amount); });
+      baris.filter((b) => b.pilih === 'baru-g').forEach((b) => pend.push(b.sen));
+      const jum = pend.reduce((a, c) => a + c, 0);
+      if (hasil.kasar !== null && jum !== hasil.kasar) {
+        let n = g.pendapatan.findIndex((r) => /gaji\s*pokok|basic/i.test(r.name));
+        if (n < 0) n = 0;
+        const ke = pend[n] + (hasil.kasar - jum);
+        if (ke >= 0) pokok = { n, nama: g.pendapatan[n].name, dari: pend[n], ke };
+      }
+    }
+    // Bersih selepas kemas kini, ikut MyBajet.
+    const kasarBaru = g ? g.pendapatan.reduce((a, r, n) => {
+      if (pokok && pokok.n === n) return a + pokok.ke;
+      const b = baris.find((x) => x.pilih === 'g:' + n);
+      return a + (b ? b.sen : keSen(r.amount));
+    }, 0) + baris.filter((b) => b.pilih === 'baru-g').reduce((a, b) => a + b.sen, 0) : 0;
+    const potongBaru = calon.filter((c) => c.kod.startsWith('p:')).reduce((a, c) => {
+      const b = baris.find((x) => x.pilih === c.kod);
+      if (b) return a + b.sen;
+      return a + (slip.hilang[c.kod] === 'kekal' ? c.sen : 0);
+    }, 0) + baris.filter((b) => b.pilih === 'baru-p').reduce((a, b) => a + b.sen, 0);
+    const potongLama = calon.filter((c) => c.kod.startsWith('p:')).reduce((a, c) => a + c.sen, 0);
+    const kasarLama = g ? g.pendapatan.reduce((a, r) => a + keSen(r.amount), 0) : 0;
+    // Semakan slip: kasar − potongan dalam slip = bersih dalam slip.
+    const potongSlip = baris.filter((b) => b.pilih.startsWith('p:') || b.pilih === 'baru-p').reduce((a, b) => a + b.sen, 0);
+    const buang = hilang.filter((c) => slip.hilang[c.kod] !== 'kekal');
+    return { ubah, sama, baru, hilang, buang, pokok, potongSlip, bersihLama: kasarLama - potongLama, bersihBaru: kasarBaru - potongBaru,
+      bil: ubah.length + baru.length + buang.length + (pokok ? 1 : 0) };
+  }
+
+  function pilihanSlip(b, r) {
+    const pil = [];
+    slip.calon.forEach((c) => {
+      const lain = slip.baris.some((x, n) => n !== r && x.pilih === c.kod);
+      if (lain) return;
+      pil.push([c.kod, t(c.kod.startsWith('p:') ? 'slipSamaPotong' : 'slipSamaPend', { n: c.nama })]);
+    });
+    pil.push(['baru-p', t('slipBaruPotong')], ['baru-g', t('slipBaruPend')], ['abai', t('slipAbai')]);
+    return '<select data-r="' + r + '" aria-label="' + esc(b.nama) + '">' +
+      pil.map(([v, l]) => '<option value="' + esc(v) + '"' + (v === b.pilih ? ' selected' : '') + '>' + esc(l) + '</option>').join('') + '</select>';
+  }
+
+  function paparSlip() {
+    const k = kiraSlip();
+    const { hasil, baris, calon } = slip;
+    const namaKod = new Map(calon.map((c) => [c.kod, c.nama]));
+    let h = '';
+    if (hasil.kasar !== null && hasil.bersih !== null) {
+      const kira = hasil.kasar - k.potongSlip;
+      const ok = kira === hasil.bersih;
+      h += '<div class="slip-semak ' + (ok ? 'ok' : 'beza') + '">' + (ok ? IKON_TANDA : IKON_AMARAN) + '<span>' +
+        (ok ? t('slipPadan', { k: fmt(hasil.kasar), p: fmt(k.potongSlip), b: fmt(hasil.bersih) })
+          : t('slipTakPadan', { k: fmt(hasil.kasar), p: fmt(k.potongSlip), c: fmt(kira), b: fmt(hasil.bersih), d: fmt(Math.abs(kira - hasil.bersih)) })) + '</span></div>';
+    } else {
+      h += '<p class="slip-semak neutral">' + esc(t('slipTiadaSemak')) + '</p>';
+    }
+    h += '<div class="slip-kiraan">' +
+      '<div><b class="ubah">' + (k.ubah.length + (k.pokok ? 1 : 0)) + '</b>' + esc(t('slipBerubah')) + '</div>' +
+      '<div><b>' + k.baru.length + '</b>' + esc(t('slipRowBaru')) + '</div>' +
+      '<div><b>' + k.sama + '</b>' + esc(t('slipSama')) + '</div></div>';
+    if (k.ubah.length || k.pokok) {
+      h += '<h3>' + esc(t('slipBerubahT')) + '</h3><div class="slip-ubah">' +
+        k.ubah.map((u) => '<span>' + esc(u.nama) + '</span><s>' + fmt(u.dari) + '</s><span aria-hidden="true">→</span><b>' + fmt(u.ke) + '</b>').join('') +
+        (k.pokok ? '<span>' + esc(k.pokok.nama) + ' <small>' + esc(t('slipIkutKasar')) + '</small></span><s>' + fmt(k.pokok.dari) + '</s><span aria-hidden="true">→</span><b>' + fmt(k.pokok.ke) + '</b>' : '') +
+        '</div>';
+    }
+    // Row slip yang tak padan sendiri: pilih apa ia.
+    const takPadan = baris.map((b, r) => [b, r]).filter(([b]) => !b.auto);
+    if (takPadan.length) {
+      h += '<h3>' + esc(t('slipBaruT', { n: takPadan.length })) + '</h3>' +
+        takPadan.map(([b, r]) => '<div class="slip-kotak"><div class="slip-baris"><b>' + esc(b.nama) + '</b><b>RM ' + fmt(b.sen) + '</b></div>' +
+          '<label class="slip-pilih"><span>' + esc(t('slipIniApa')) + '</span>' + pilihanSlip(b, r) + '</label></div>').join('');
+    }
+    if (k.hilang.length) {
+      h += '<h3>' + esc(t('slipHilangT', { n: k.hilang.length })) + '</h3>' +
+        k.hilang.map((c) => {
+          const kekal = slip.hilang[c.kod] === 'kekal';
+          return '<div class="slip-kotak"><div class="slip-baris"><b>' + esc(c.nama) + '</b><b>' + fmt(c.sen) + '</b></div>' +
+            '<div class="pilih dua slip-hilang">' +
+            '<label class="pil"><input type="radio" name="h-' + esc(c.kod) + '" value="buang" data-h="' + esc(c.kod) + '"' + (kekal ? '' : ' checked') + '><span>' + esc(t('slipBuang')) + '</span></label>' +
+            '<label class="pil"><input type="radio" name="h-' + esc(c.kod) + '" value="kekal" data-h="' + esc(c.kod) + '"' + (kekal ? ' checked' : '') + '><span>' + esc(t('slipKekal')) + '</span></label></div></div>';
+        }).join('');
+    }
+    const lain = baris.map((b, r) => [b, r]).filter(([b]) => b.auto);
+    if (lain.length) {
+      const singkat = lain.filter(([b]) => b.auto !== 'abai' && normNama(b.nama) !== normNama(namaKod.get(b.auto) || ''));
+      h += '<h3>' + esc(t('slipPadananT')) + '</h3>';
+      if (singkat.length) {
+        h += '<div class="slip-padan">' + singkat.slice(0, 4).map(([b]) => '<span>' + esc(b.nama) + '</span><span>' + esc(namaKod.get(b.pilih) || t('slipBaruPotong')) + '</span>').join('') + '</div>';
+        if (singkat.length > 4) h += '<p class="slip-lagi">' + esc(t('slipDanLagi', { n: singkat.length - 4 })) + '</p>';
+      }
+      h += '<details class="slip-semua"' + (slip.buka ? ' open' : '') + '><summary>' + esc(t('slipLihatSemua')) + '</summary>' +
+        lain.map(([b, r]) => '<label class="slip-pilih"><span>' + esc(b.nama) + ' · RM ' + fmt(b.sen) + '</span>' + pilihanSlip(b, r) + '</label>').join('') + '</details>';
+    }
+    h += '<div class="slip-bersih"><span>' + esc(t('gajiBersih')) + '</span><span>' +
+      (k.bersihBaru !== k.bersihLama ? '<s>' + fmt(k.bersihLama) + '</s> ' : '') + '<b>' + fmt(k.bersihBaru) + '</b></span></div>';
+    $('slipHasil').innerHTML = h;
+    $('slipGuna').textContent = k.bil ? t('slipKemas', { n: k.bil }) : t('slipTiadaUbah');
+  }
+
+  function bukaSlip() {
+    if (!itemGaji()) return;
+    $('slipTeks').value = '';
+    $('slipRalat').hidden = true;
+    $('slipLangkah1').hidden = false;
+    $('slipLangkah2').hidden = true;
+    $('slipKlip').hidden = !(navigator.clipboard && navigator.clipboard.readText);
+    slip = null;
+    slipH.showModal();
+    $('slipTeks').focus();
+  }
+
+  $('btnSlip').addEventListener('click', bukaSlip);
+  $('slipBatal').addEventListener('click', () => slipH.close());
+  $('slipKlip').addEventListener('click', async () => {
+    try { $('slipTeks').value = await navigator.clipboard.readText(); } catch (e) { toast(t('slipKlipGagal')); }
+  });
+  $('slipSemak').addEventListener('click', () => {
+    const hasil = huraiSlip($('slipTeks').value);
+    if (!hasil.baris.length && hasil.kasar === null) { $('slipRalat').textContent = t('slipKosong'); $('slipRalat').hidden = false; return; }
+    padankanSlip(hasil);
+    paparSlip();
+    $('slipLangkah1').hidden = true;
+    $('slipLangkah2').hidden = false;
+    slipH.scrollTop = 0;
+  });
+  $('slipKembali').addEventListener('click', () => { $('slipLangkah1').hidden = false; $('slipLangkah2').hidden = true; });
+  $('slipHasil').addEventListener('change', (e) => {
+    const s = e.target.closest('select[data-r]');
+    if (s) { slip.baris[Number(s.dataset.r)].pilih = s.value; slip.buka = !!e.target.closest('details'); paparSlip(); return; }
+    const h = e.target.closest('input[data-h]');
+    if (h) { slip.hilang[h.dataset.h] = h.value; paparSlip(); }
+  });
+
+  $('slipGuna').addEventListener('click', () => {
+    if (!slip) return;
+    const k = kiraSlip();
+    const sheet = sheetLihat();
+    const asal = { items: JSON.stringify(sheet.items), alias: Object.assign({}, data.aliasSlip), k: lihat };
+    const g = itemGaji();
+    const cariId = (kod) => sheet.items.find((i) => 'p:' + i.id === kod);
+    slip.baris.forEach((b) => {
+      const n = normNama(b.nama);
+      if (b.pilih.startsWith('p:')) {
+        const i = cariId(b.pilih);
+        if (!i) return;
+        i.amount = b.sen / 100;
+        if (normNama(i.name) !== n) data.aliasSlip[n] = i.name;
+      } else if (b.pilih.startsWith('g:') && g) {
+        const r = g.pendapatan[Number(b.pilih.slice(2))];
+        if (!r) return;
+        r.amount = b.sen / 100;
+        if (normNama(r.name) !== n) data.aliasSlip[n] = r.name;
+      } else if (b.pilih === 'baru-p') {
+        letakItem(sheet.items, { id: uid(), type: 'potong', name: b.nama, amount: b.sen / 100, group: '', note: '', paid: false });
+        delete data.aliasSlip[n];
+      } else if (b.pilih === 'baru-g' && g) {
+        g.pendapatan.push({ name: b.nama.slice(0, 60), amount: b.sen / 100 });
+        delete data.aliasSlip[n];
+      } else if (b.pilih === 'abai') {
+        data.aliasSlip[n] = '';
+      }
+    });
+    if (k.pokok && g && g.pendapatan[k.pokok.n]) g.pendapatan[k.pokok.n].amount = k.pokok.ke / 100;
+    const buang = new Set(k.buang.map((c) => c.kod));
+    sheet.items = sheet.items.filter((i) => !buang.has('p:' + i.id));
+    const alias = Object.keys(data.aliasSlip);
+    if (alias.length > 300) alias.slice(0, alias.length - 300).forEach((x) => delete data.aliasSlip[x]);
+    simpan();
+    slipH.close();
+    if (butiran.open) butiran.close();
+    papar();
+    if (!k.bil) { toast(t('slipTiadaUbahToast')); return; }
+    toast(t('slipDikemas', { n: k.bil }), () => {
+      if (!data.sheets[asal.k]) return;
+      data.sheets[asal.k].items = JSON.parse(asal.items);
+      data.aliasSlip = asal.alias;
+      simpan();
+      papar();
+    });
   });
 
   /* ---------- Urus kategori ---------- */
@@ -2835,7 +3217,7 @@
     }
   }
 
-  const isiFail = () => JSON.stringify({ app: 'mybajet', v: 1, diubah: data.diubah, sheets: data.sheets, gaji: data.gaji, kumpulan: data.kumpulan, hutang: data.hutang, gabungan: data.gabungan, tertunda: data.tertunda });
+  const isiFail = () => JSON.stringify({ app: 'mybajet', v: 1, diubah: data.diubah, sheets: data.sheets, gaji: data.gaji, kumpulan: data.kumpulan, hutang: data.hutang, gabungan: data.gabungan, tertunda: data.tertunda, aliasSlip: data.aliasSlip });
 
   async function tulisJauh() {
     if (selaras.fid) {
@@ -2864,7 +3246,7 @@
   // Ganti data peranti ini dengan data dari Drive.
   function gunaJauh(jauh, mesej) {
     const diUtama = lihat === null || lihat === kunciUtama();
-    data = { v: 1, sheets: bersihSheets(jauh.sheets), gaji: bersihGaji(jauh.gaji), kumpulan: bersihKumpulan(jauh.kumpulan), hutang: bersihHutang(jauh.hutang), gabungan: bersihGabungan(jauh.gabungan), tertunda: bersihTertunda(jauh.tertunda), diubah: Number(jauh.diubah) || Date.now() };
+    data = { v: 1, sheets: bersihSheets(jauh.sheets), gaji: bersihGaji(jauh.gaji), kumpulan: bersihKumpulan(jauh.kumpulan), hutang: bersihHutang(jauh.hutang), gabungan: bersihGabungan(jauh.gabungan), tertunda: bersihTertunda(jauh.tertunda), aliasSlip: bersihAlias(jauh.aliasSlip), diubah: Number(jauh.diubah) || Date.now() };
     kemasGabungan();
     pastikanKumpulan();
     simpan({ kekal: true });
@@ -2978,8 +3360,13 @@
     selaras.asas = null; // sambungan baru: bandingkan dengan Drive dari awal
     simpanSelaras();
     if (menu.open) menu.close();
-    await ambilEmel();
-    const hasil = await selaraskan();
+    const kosong = !senaraiKunci().length;
+    if (kosong) tunjukMuat(t('memuatDrive'));
+    let hasil;
+    try {
+      await ambilEmel();
+      hasil = await selaraskan();
+    } finally { tutupMuat(); }
     if (hasil === 'hantar' || hasil === 'sama') toast(t('disambung')); // 'muat' dah ada mesej sendiri
   }
   $('btnSambung').addEventListener('click', sambungDrive);

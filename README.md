@@ -18,6 +18,7 @@ Apps ringkas untuk jejak duit masuk, duit keluar dan bayaran bulanan. Ia laman w
 - **Bulan bayaran:** dalam Bayar / Terima bayaran, pilih masuk ke bulan semasa atau bulan seterusnya. Kalau sheet bulan seterusnya belum dibuka, bayaran disimpan (dijadualkan) dan masuk sendiri bila sheet itu dibuka. Tarikh bayaran untuk rekod sahaja.
 - **Gabung hutang:** dalam menu Hutang, **Gabungkan hutang** untuk satukan dua atau lebih hutang yang searah. Setiap bayaran dibahagi ikut baki, ikut peratus yang ditetapkan, atau habiskan yang kecil dulu. Bila satu hutang habis, bahagiannya pergi kepada hutang yang lain. **Pisahkan** bila-bila masa; bayaran lama kekal dengan pecahannya.
 - **Ulang bulanan:** butang **Ulang bulanan** / **Ubah ulang** pada kad hutang untuk tetapkan, ubah atau hentikan bayaran yang berulang setiap bulan.
+- **Tampal slip gaji:** tekan baris gaji > **Tampal slip gaji**. Salin teks slip gaji dan tampal. MyBajet semak kasar − potongan = bersih, padankan nama slip (termasuk nama yang disingkat) dengan potongan sedia ada, dan tunjuk apa yang berubah, row baru dan row yang tiada dalam slip sebelum disimpan. Padanan yang dipilih diingat untuk bulan seterusnya. Kalau gaji kasar berubah, bezanya masuk ke Gaji pokok.
 - **Kategori:** tiga titik > **Urus kategori** untuk tambah, tukar nama, susun dan padam kategori duit keluar.
 - Anak panah di atas untuk tengok bulan lain.
 

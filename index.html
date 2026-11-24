@@ -51,6 +51,7 @@ try {
       <button class="gaji" id="gaji" type="button"></button>
       <button class="selaras" id="btnSelaras" type="button" hidden>
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 18.5h10.5a4 4 0 0 0 .6-7.95A6 6 0 0 0 6.6 9.1 4.75 4.75 0 0 0 7 18.5z"/><path class="ok" d="M9.5 13.5l2 2 3.5-3.5"/><path class="perlu" d="M12 11v3M12 16.2v.1"/></svg>
+        <span class="donut" aria-hidden="true"></span>
         <span id="selarasTeks"></span>
       </button>
     </div>
@@ -112,6 +113,8 @@ try {
       <button class="btn" id="btnAkan" type="button"></button>
     </div>
   </div>
+
+  <footer class="kaki" id="kaki"></footer>
 
 </div>
 
@@ -403,9 +406,48 @@ try {
   </form>
 </dialog>
 
+<!-- Tampal slip gaji -->
+<dialog class="helai" id="slipHelai" aria-labelledby="slipTajuk">
+  <div id="slipLangkah1">
+    <h2 id="slipTajuk" data-i18n="slipTajuk">Tampal slip gaji</h2>
+    <p class="menu-nota" data-i18n="slipNota">Salin semua teks slip gaji (gaji bersih, gaji kasar dan potongan), kemudian tampal di bawah. Susunan dan huruf besar tak penting.</p>
+    <label class="medan"><span data-i18n="slipTeksL">Teks slip</span><textarea id="slipTeks" class="slip-teks" rows="12" autocomplete="off" spellcheck="false"></textarea></label>
+    <button class="btn slip-klip" id="slipKlip" type="button">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="8" y="3" width="8" height="4" rx="1"/><path d="M8 5H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/></svg>
+      <span data-i18n="slipKlip">Tampal dari papan klip</span>
+    </button>
+    <p class="ralat" id="slipRalat" role="alert" hidden></p>
+    <div class="borang-btn">
+      <span class="renggang"></span>
+      <button class="btn" id="slipBatal" type="button" data-i18n="batal">Batal</button>
+      <button class="btn utama" id="slipSemak" type="button" data-i18n="slipSemak">Semak</button>
+    </div>
+  </div>
+  <div id="slipLangkah2" hidden>
+    <h2 data-i18n="slipSemakTajuk">Semak perubahan</h2>
+    <div id="slipHasil"></div>
+    <div class="borang-btn">
+      <span class="renggang"></span>
+      <button class="btn" id="slipKembali" type="button" data-i18n="kembali">Kembali</button>
+      <button class="btn utama" id="slipGuna" type="button"></button>
+    </div>
+  </div>
+</dialog>
+
+<!-- Sedang memuat -->
+<div class="memuat" id="memuat" role="status" aria-live="polite" hidden>
+  <span class="donut besar" aria-hidden="true"></span>
+  <span id="memuatTeks"></span>
+</div>
+
 <!-- Butiran gaji -->
 <dialog class="helai" id="butiranHelai" aria-labelledby="butiranTajuk">
   <h2 id="butiranTajuk"></h2>
+  <button class="slip-btn" id="btnSlip" type="button">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="6" y="4" width="12" height="17" rx="2"/><path d="M9 4V3h6v1M9 10h6M9 14h6M9 18h3"/></svg>
+    <span><span data-i18n="slipTajuk">Tampal slip gaji</span><small data-i18n="slipBtnNota">Kemas kini jumlah dari slip bulan ini</small></span>
+    <span aria-hidden="true">›</span>
+  </button>
   <div class="b-bersih">
     <span data-i18n="gajiBersih">Gaji bersih</span>
     <strong id="bBersih"></strong>
