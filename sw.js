@@ -1,9 +1,9 @@
 /* Simpan fail apps dalam telefon supaya boleh buka tanpa internet.
-   Papar dari simpanan dulu (laju), kemudian ambil versi baru di belakang tabir.
-   Jadi bila fail di GitHub dikemas kini, perubahan nampak pada bukaan seterusnya. */
+   Ambil dari internet dulu (supaya versi baru terus nampak); kalau tiada internet
+   atau lambat lebih 4 saat, guna salinan tersimpan. */
 // Apps lain di alamat github.io yang sama ada simpanan sendiri; hanya urus yang bermula dengan awalan ini.
 const AWALAN = 'bajet-bulanan-';
-const CACHE = AWALAN + 'v17';
+const CACHE = AWALAN + 'v18';
 const FAIL = [
   './',
   'index.html',
@@ -17,8 +17,13 @@ const FAIL = [
   'apple-touch-icon.png',
 ];
 
+// cache: 'reload' supaya fail diambil terus dari GitHub, bukan salinan lama dalam cache pelayar.
 self.addEventListener('install', (e) => {
-  e.waitUntil(caches.open(CACHE).then((c) => c.addAll(FAIL)).then(() => self.skipWaiting()));
+  e.waitUntil(
+    caches.open(CACHE)
+      .then((c) => Promise.all(FAIL.map((f) => fetch(new Request(f, { cache: 'reload' })).then((res) => { if (res.ok) return c.put(f, res); }))))
+      .then(() => self.skipWaiting())
+  );
 });
 
 self.addEventListener('activate', (e) => {
@@ -35,13 +40,16 @@ self.addEventListener('fetch', (e) => {
 
   e.respondWith(
     caches.open(CACHE).then(async (cache) => {
-      const tersimpan = await cache.match(req, { ignoreSearch: true });
-      const rangkaian = fetch(req)
+      const rangkaian = fetch(req, { cache: 'no-cache' })
         .then((res) => {
           if (res && res.ok) cache.put(req, res.clone());
           return res;
         })
         .catch(() => null);
+      const lambat = new Promise((ok) => setTimeout(() => ok(null), 4000));
+      const res = await Promise.race([rangkaian, lambat]);
+      if (res) return res;
+      const tersimpan = await cache.match(req, { ignoreSearch: true });
       if (tersimpan) { e.waitUntil(rangkaian); return tersimpan; }
       return (await rangkaian) || (await cache.match('index.html')) || Response.error();
     })

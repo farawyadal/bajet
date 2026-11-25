@@ -20,7 +20,7 @@
   const KUNCI_SIMPAN = 'bajet-bulanan-v1';
   const KUNCI_TETAPAN = 'bajet-bulanan-tetapan';
   // Versi aplikasi untuk footer. Naikkan bersama CACHE dalam sw.js setiap kali dikemas kini.
-  const VERSI = 'v17';
+  const VERSI = 'v18';
 
   const $ = (id) => document.getElementById(id);
 
@@ -150,6 +150,8 @@
       dipindahJadual: 'Bayaran dipindah ke {s} (dijadualkan)',
       tandaDahBayar: 'Tanda RM {j} dah dibayar',
       ditandaDahBayar: '{n} bayaran ditanda dah dibayar',
+      versiBaru: 'Semak versi baru',
+      memuatVersi: 'Memuat versi terbaru…',
       hentikanUlang: 'Hentikan ulang',
       jumlahPct: 'Jumlah',
       fArah: 'Siapa hutang siapa',
@@ -498,6 +500,8 @@
       dipindahJadual: 'Payment moved to {s} (scheduled)',
       tandaDahBayar: 'Mark RM {j} as paid',
       ditandaDahBayar: '{n} payments marked as paid',
+      versiBaru: 'Check for new version',
+      memuatVersi: 'Loading the latest version…',
       hentikanUlang: 'Stop repeating',
       jumlahPct: 'Total',
       fArah: 'Who owes whom',
@@ -3557,6 +3561,29 @@
   window.addEventListener('online', () => { if (selaras.aktif) selaraskan(); });
 
   if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost')) {
-    window.addEventListener('load', () => { navigator.serviceWorker.register('sw.js').catch(() => {}); });
+    // Bila versi baru mengambil alih, muat semula sekali supaya terus guna versi baru.
+    const adaPengawal = !!navigator.serviceWorker.controller;
+    let dahMuat = false;
+    navigator.serviceWorker.addEventListener('controllerchange', () => {
+      if (!adaPengawal || dahMuat) return;
+      dahMuat = true;
+      location.reload();
+    });
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('sw.js', { updateViaCache: 'none' }).then((reg) => {
+        // Apps yang dibuka semula dari latar belakang: semak versi baru.
+        document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') reg.update().catch(() => {}); });
+      }).catch(() => {});
+    });
   }
+
+  // Butang dalam Tetapan: buang salinan tersimpan dan muat versi terbaru dari internet.
+  $('btnVersiBaru').addEventListener('click', async () => {
+    tunjukMuat(t('memuatVersi'));
+    try {
+      if ('caches' in window) { const ks = await caches.keys(); await Promise.all(ks.filter((k) => k.startsWith('bajet-bulanan-')).map((k) => caches.delete(k))); }
+      if ('serviceWorker' in navigator) { const r = await navigator.serviceWorker.getRegistration(); if (r) await r.unregister(); }
+    } catch (e) { /* teruskan muat semula */ }
+    location.reload();
+  });
 })();
