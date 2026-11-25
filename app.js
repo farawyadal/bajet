@@ -20,7 +20,7 @@
   const KUNCI_SIMPAN = 'bajet-bulanan-v1';
   const KUNCI_TETAPAN = 'bajet-bulanan-tetapan';
   // Versi aplikasi untuk footer. Naikkan bersama CACHE dalam sw.js setiap kali dikemas kini.
-  const VERSI = 'v16';
+  const VERSI = 'v17';
 
   const $ = (id) => document.getElementById(id);
 
@@ -148,6 +148,8 @@
       dipindahDari: 'dipindah dari {s}',
       pindahKe: 'Pindah ke {s}',
       dipindahJadual: 'Bayaran dipindah ke {s} (dijadualkan)',
+      tandaDahBayar: 'Tanda RM {j} dah dibayar',
+      ditandaDahBayar: '{n} bayaran ditanda dah dibayar',
       hentikanUlang: 'Hentikan ulang',
       jumlahPct: 'Jumlah',
       fArah: 'Siapa hutang siapa',
@@ -494,6 +496,8 @@
       dipindahDari: 'moved from {s}',
       pindahKe: 'Move to {s}',
       dipindahJadual: 'Payment moved to {s} (scheduled)',
+      tandaDahBayar: 'Mark RM {j} as paid',
+      ditandaDahBayar: '{n} payments marked as paid',
       hentikanUlang: 'Stop repeating',
       jumlahPct: 'Total',
       fArah: 'Who owes whom',
@@ -2627,8 +2631,13 @@
     const h0 = s.ahli[0];
     const wa = s.arah === 'masuk' && baki > 0
       ? '<button class="btn h-wa" type="button" data-wa="' + kod + '">' + IKON_WA + esc(t('ingatkan')) + '</button>' : '';
-    const bayarBtn = baki > 0
-      ? '<button class="btn utama h-bayar" type="button" data-bayar="' + kod + '">' + esc(s.arah === 'masuk' ? t('terimaBayaran') : t('bayarH')) + '</button>' : '';
+    // Baki yang dah ada bayaran belum ditanda selesai: tawar tanda selesai, bukan bayar baru.
+    const ruang = ruangSasaran(s);
+    const belum = belumDitanda(s);
+    const tandaBtn = baki > 0 && ruang <= 0 && belum.length
+      ? '<button class="btn utama" type="button" data-tanda="' + kod + '">' + esc(t('tandaDahBayar', { j: fmt(belum.reduce((a, b) => a + keSen(b.item.amount), 0)) })) + '</button>' : '';
+    const bayarBtn = baki > 0 && ruang > 0
+      ? '<button class="btn utama h-bayar" type="button" data-bayar="' + kod + '">' + esc(s.arah === 'masuk' ? t('terimaBayaran') : t('bayarH')) + '</button>' : tandaBtn;
     const ulangBtn = baki > 0
       ? '<button class="btn" type="button" data-ulang="' + kod + '">' + esc(s.ulang ? t('ubahUlang') : t('ulangBulanan')) + '</button>' : '';
     const pisahBtn = s.jenis === 'g' ? '<button class="btn" type="button" data-pisah="' + s.id + '">' + esc(t('pisahkan')) + '</button>' : '';
@@ -2695,6 +2704,14 @@
     if (ge) { bukaGabung(ge.dataset.gedit); return; }
     const by = e.target.closest('[data-bayar]');
     if (by) { bukaBayar(by.dataset.bayar); return; }
+    const td = e.target.closest('[data-tanda]');
+    if (td) {
+      const s = sasaran(td.dataset.tanda);
+      const belum = s ? belumDitanda(s) : [];
+      belum.forEach((b) => { b.item.paid = true; });
+      if (belum.length) { selepasHutang(); toast(t('ditandaDahBayar', { n: belum.length })); }
+      return;
+    }
     const wa = e.target.closest('[data-wa]');
     if (wa) { hantarWa(sasaran(wa.dataset.wa)); return; }
     const ul = e.target.closest('[data-ulang]');
@@ -2812,6 +2829,18 @@
   });
 
   // Peringatan WhatsApp: buka WhatsApp dengan mesej siap ditulis. Tanpa nombor, pilih kenalan dalam WhatsApp.
+  // Bayaran aku dalam sheet yang belum ditanda selesai (setiap item sekali).
+  function belumDitanda(s) {
+    const lihatId = new Set();
+    const keluar = [];
+    s.ahli.forEach((h) => bayaranHutang(h).forEach((b) => {
+      if (b.kira || b.jadual || lihatId.has(b.item.id)) return;
+      if (s.jenis === 'g' ? b.item.gabungan !== s.id : !b.item.hutang) return;
+      lihatId.add(b.item.id); keluar.push(b);
+    }));
+    return keluar;
+  }
+
   function hantarWa(s) {
     if (!s) return;
     const teks = t('waTeks', { j: fmt(bakiSasaran(s)) });
@@ -3026,7 +3055,8 @@
           (s.jenis === 'g' ? ' <small class="b-lencana">' + s.ahli.length + '</small>' : '') + '</span><span class="b-pilih-baki">' + esc(t('bakiH')) + ' <b>RM ' + fmt(bakiSasaran(s)) + '</b></span></label>';
       }).join('')
       : '<p class="kosong">' + esc(t('tiadaAktifBayar')) + '</p>';
-    if (!hBayar.querySelector('input[name="pilihH"]:checked')) { const f = hBayar.querySelector('input[name="pilihH"]'); if (f) f.checked = true; }
+    // Jangan pilih hutang lain secara senyap bila hutang yang diminta tiada dalam senarai.
+    if (!pilih && !hBayar.querySelector('input[name="pilihH"]:checked')) { const f = hBayar.querySelector('input[name="pilihH"]'); if (f) f.checked = true; }
     $('bLabelJumlah').textContent = bArah === 'masuk' ? t('fTerimaBerapa') : t('fBayarBerapa');
     $('bTajuk').textContent = bArah === 'masuk' ? t('terimaBayaran') : t('bayarH');
     kiraBayar();
