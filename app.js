@@ -20,8 +20,7 @@
   const KUNCI_SIMPAN = 'bajet-bulanan-v1';
   const KUNCI_TETAPAN = 'bajet-bulanan-tetapan';
   // Versi aplikasi untuk footer. Naikkan bersama CACHE dalam sw.js setiap kali dikemas kini.
-  const VERSI = 'v15';
-  const TARIKH_VERSI = [2026, 11, 25];
+  const VERSI = 'v16';
 
   const $ = (id) => document.getElementById(id);
 
@@ -139,6 +138,16 @@
       slipTiadaUbah: 'Tiada perubahan, simpan padanan',
       slipTiadaUbahToast: 'Semua jumlah dah sama dengan slip',
       slipDikemas: 'Slip gaji: {n} perubahan disimpan',
+      bulanL: 'Bulan',
+      ubBulanNota: 'Tekan ‹ atau › untuk pindah sebulan ke belakang atau ke depan. Bulan yang belum dibuka jadi bayaran dijadualkan.',
+      dahDibayar: 'Dah dibayar',
+      dahDibayarTerus: 'Dah dibayar, tanda selesai terus',
+      bulanLepasL: 'bulan lepas',
+      bulanSekarang: 'bulan sekarang',
+      dijadualkanL: 'dijadualkan',
+      dipindahDari: 'dipindah dari {s}',
+      pindahKe: 'Pindah ke {s}',
+      dipindahJadual: 'Bayaran dipindah ke {s} (dijadualkan)',
       hentikanUlang: 'Hentikan ulang',
       jumlahPct: 'Jumlah',
       fArah: 'Siapa hutang siapa',
@@ -177,8 +186,6 @@
       bayaranDipadam: 'Bayaran dipadam',
       ketikUbah: 'Tekan untuk ubah',
       fTarikhBayar: 'Tarikh bayaran',
-      tarikhNota: 'Bayaran diletak dalam sheet bulan tarikh ini.',
-      tiadaSheetBulan: 'Tiada sheet {b}. Bayaran kekal dalam {s}.',
       dipindahKe: 'Bayaran dipindah ke {s}',
       waTeks: 'Salam\nSekadar peringatan, hutang anda masih berbaki RM{j}. Sila jelaskan keseluruhan atau sebahagian hutang tersebut.\nTerima kasih.\n\n_Peringatan ini dihantar secara automatik melalui aplikasi MyBajet_',
       tiadaAktifBayar: 'Tiada hutang yang belum selesai untuk dipilih.',
@@ -477,6 +484,16 @@
       slipTiadaUbah: 'No changes, save matches',
       slipTiadaUbahToast: 'All amounts already match the payslip',
       slipDikemas: 'Payslip: {n} changes saved',
+      bulanL: 'Month',
+      ubBulanNota: 'Tap ‹ or › to move it one month back or forward. A month not opened yet makes it a scheduled payment.',
+      dahDibayar: 'Already paid',
+      dahDibayarTerus: 'Already paid, mark as done',
+      bulanLepasL: 'last month',
+      bulanSekarang: 'current month',
+      dijadualkanL: 'scheduled',
+      dipindahDari: 'moved from {s}',
+      pindahKe: 'Move to {s}',
+      dipindahJadual: 'Payment moved to {s} (scheduled)',
       hentikanUlang: 'Stop repeating',
       jumlahPct: 'Total',
       fArah: 'Who owes whom',
@@ -515,8 +532,6 @@
       bayaranDipadam: 'Payment deleted',
       ketikUbah: 'Tap to edit',
       fTarikhBayar: 'Payment date',
-      tarikhNota: 'The payment goes into the sheet for this date\'s month.',
-      tiadaSheetBulan: 'There is no {b} sheet. The payment stays in {s}.',
       dipindahKe: 'Payment moved to {s}',
       waTeks: 'Salam\nSekadar peringatan, hutang anda masih berbaki RM{j}. Sila jelaskan keseluruhan atau sebahagian hutang tersebut.\nTerima kasih.\n\n_Peringatan ini dihantar secara automatik melalui aplikasi MyBajet_',
       tiadaAktifBayar: 'There are no unsettled debts to choose from.',
@@ -733,8 +748,7 @@
     document.querySelectorAll('[data-i18n]').forEach((e) => { e.textContent = t(e.dataset.i18n); });
     document.querySelectorAll('[data-i18n-ph]').forEach((e) => { e.placeholder = t(e.dataset.i18nPh); });
     document.querySelectorAll('[data-i18n-aria]').forEach((e) => { e.setAttribute('aria-label', t(e.dataset.i18nAria)); });
-    const [vy, vm, vd] = TARIKH_VERSI;
-    $('kaki').textContent = 'MyBajet · ' + VERSI + ' · ' + vd + ' ' + t('bulanPendek')[vm - 1] + ' ' + vy + ' · ©' + new Date().getFullYear();
+    document.querySelectorAll('[data-kaki]').forEach((e) => { e.textContent = 'MyBajet · ' + VERSI + ' · ©' + new Date().getFullYear(); });
   }
 
   // Donut pusing di tengah skrin semasa memuat sesuatu yang ambil masa.
@@ -797,6 +811,14 @@
     if (m > 11) { m = 0; y += 1; }
     return kunci(y, m);
   }
+
+  function kunciSebelum(k) {
+    let { y, m } = pecah(k);
+    m -= 1;
+    if (m < 0) { m = 11; y -= 1; }
+    return kunci(y, m);
+  }
+  const namaSheetPendek = (k) => { const { y, m } = pecah(k); return t('bulanPendek')[m] + ' ' + y; };
 
   // Bulan gaji yang sedang berjalan pada tarikh t.
   function kunciSemasa(tarikh) {
@@ -1035,20 +1057,6 @@
     let pos = -1;
     items.forEach((i, n) => { if (i.type === baru.type && (baru.type !== 'out' || i.group === baru.group)) pos = n; });
     if (pos >= 0) items.splice(pos + 1, 0, baru); else items.push(baru);
-  }
-  // Sheet untuk tarikh bayaran (ikut bulan kalendar), atau null kalau sheet itu tiada.
-  const sheetTarikh = (iso) => (iso && data.sheets[iso.slice(0, 7)] ? iso.slice(0, 7) : null);
-  // Tetapkan tarikh bayaran dan pindahkan item ke sheet bulan itu. Pulangkan mesej untuk toast, atau ''.
-  function aturTarikhBayaran(item, dariK, iso) {
-    if (!iso) return '';
-    item.tarikh = iso;
-    const ke = sheetTarikh(iso);
-    if (!ke) { const [y, m] = iso.split('-').map(Number); return t('tiadaSheetBulan', { b: t('bulan')[m - 1] + ' ' + y, s: namaSheet(dariK) }); }
-    if (ke === dariK) return '';
-    const dari = data.sheets[dariK].items;
-    dari.splice(dari.indexOf(item), 1);
-    letakItem(data.sheets[ke].items, item);
-    return t('dipindahKe', { s: namaSheet(ke) });
   }
   const tarikhLalaiBayaran = (item, k) => item.tarikh || (() => { const { y, m } = pecah(k); const d = tarikhGaji(y, m); return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0'); })();
 
@@ -1797,7 +1805,7 @@
           }
         }
         Object.assign(item, nilai);
-        if ((item.hutang || item.gabungan) && $('fTarikhB').value && $('fTarikhB').value !== tarikhLalaiBayaran(item, lihat)) pesan = aturTarikhBayaran(item, lihat, $('fTarikhB').value);
+        if ((item.hutang || item.gabungan) && $('fTarikhB').value) item.tarikh = $('fTarikhB').value; // untuk rekod sahaja
       }
     } else {
       const baru = Object.assign({ id: uid() }, nilai);
@@ -2706,7 +2714,34 @@
     const s = data.sheets[ubSasaran.k];
     return s ? s.items.find((i) => i.id === ubSasaran.id) : null;
   }
-  const namaLokasi = (k) => (k === 'jadual' ? namaSheet(data.tertunda.find((y) => y.id === ubSasaran.id).kunci) : namaSheet(k));
+  const kunciLokasi = (k) => (k === 'jadual' ? data.tertunda.find((y) => y.id === ubSasaran.id).kunci : k);
+  const namaLokasi = (k) => namaSheet(kunciLokasi(k));
+  let ubKe = null; // bulan sasaran dalam dialog ubah
+
+  // Bulan yang boleh dituju: sheet yang wujud, atau sebulan selepas sheet terakhir (jadi dijadualkan).
+  const bolehKe = (k) => !!data.sheets[k] || k === kunciSelepas(kunciAkhir());
+  function paparUbBulan() {
+    const i = itemUb();
+    const asal = kunciLokasi(ubSasaran.k);
+    const ada = !!data.sheets[ubKe];
+    const sub = ubKe === asal ? (ada ? t('bulanSekarang') : t('dijadualkanL')) : t('dipindahDari', { s: namaSheet(asal) }) + (ada ? '' : ', ' + t('dijadualkanL'));
+    $('ubBulanNama').innerHTML = esc(namaSheet(ubKe)) + '<small>' + esc(sub) + '</small>';
+    $('ubBulanNama').classList.toggle('pindah', ubKe !== asal);
+    const sb = kunciSebelum(ubKe);
+    const sl = kunciSelepas(ubKe);
+    $('ubSebelum').disabled = !bolehKe(sb);
+    $('ubSelepas').disabled = !bolehKe(sl);
+    $('ubSebelum').setAttribute('aria-label', t('pindahKe', { s: namaSheet(sb) }));
+    $('ubSelepas').setAttribute('aria-label', t('pindahKe', { s: namaSheet(sl) }));
+    $('ubMedanBayar').hidden = !(i && i.type === 'out' && ada);
+  }
+  $('ubSebelum').addEventListener('click', () => {
+    ubKe = kunciSebelum(ubKe);
+    // Pindah ke bulan lepas: bayaran aku dah berlaku, tanda selesai.
+    if (ubKe < kunciUtama()) $('ubDahBayar').checked = true;
+    paparUbBulan();
+  });
+  $('ubSelepas').addEventListener('click', () => { ubKe = kunciSelepas(ubKe); paparUbBulan(); });
 
   function bukaUbahBayaran(k, id) {
     ubSasaran = { k, id };
@@ -2714,8 +2749,10 @@
     if (!i) return;
     $('ubNota').textContent = t('ubahBayaranNota', { n: i.name, s: namaLokasi(k) });
     $('ubJumlah').value = i.amount.toFixed(2);
-    $('ubMedanTarikh').hidden = k === 'jadual';
-    if (k !== 'jadual') $('ubTarikh').value = tarikhLalaiBayaran(i, k);
+    $('ubTarikh').value = k === 'jadual' ? (i.tarikh || '') : tarikhLalaiBayaran(i, k);
+    $('ubDahBayar').checked = !!i.paid;
+    ubKe = kunciLokasi(k);
+    paparUbBulan();
     $('ubRalat').hidden = true;
     ubB.showModal();
     $('ubJumlah').focus();
@@ -2744,11 +2781,17 @@
       if (hu.s.jenis === 'g') i.pecahan = keRm(agihan(hu.s, keSen(j), hu.had));
     }
     i.amount = j;
+    if ($('ubTarikh').value) i.tarikh = $('ubTarikh').value; // untuk rekod sahaja
     let pesan = '';
-    if (ubSasaran.k !== 'jadual') {
-      const iso = $('ubTarikh').value;
-      pesan = iso && iso !== tarikhLalaiBayaran(i, ubSasaran.k) ? aturTarikhBayaran(i, ubSasaran.k, iso) : '';
+    const asal = kunciLokasi(ubSasaran.k);
+    if (ubKe !== asal && bolehKe(ubKe)) {
+      // Keluarkan dari tempat asal, letak dalam sheet sasaran atau jadualkan.
+      if (ubSasaran.k === 'jadual') data.tertunda = data.tertunda.filter((y) => y.id !== ubSasaran.id);
+      else { const a = data.sheets[asal].items; a.splice(a.indexOf(i), 1); }
+      if (data.sheets[ubKe]) { letakItem(data.sheets[ubKe].items, i); pesan = t('dipindahKe', { s: namaSheet(ubKe) }); }
+      else { i.paid = false; data.tertunda.push({ id: uid(), kunci: ubKe, item: i }); pesan = t('dipindahJadual', { s: namaSheet(ubKe) }); }
     }
+    if (i.type === 'out' && data.sheets[ubKe]) i.paid = $('ubDahBayar').checked;
     ubB.close();
     selepasHutang();
     toast(pesan || t('bayaranDisimpan'));
@@ -2991,13 +3034,16 @@
 
   function paparBulanB() {
     const semasa = kunciUtama();
+    const lepas = kunciSebelum(semasa);
     const depan = kunciSelepas(semasa);
-    const pil = [
-      { k: semasa, sub: t('bulanSemasaL') },
-      { k: depan, sub: data.sheets[depan] ? t('dahDibuka') : t('belumDibuka') },
-    ];
-    $('bBulan').innerHTML = pil.map((p, n) =>
-      '<label class="pil"><input type="radio" name="bulanB" value="' + p.k + '"' + (n === 0 ? ' checked' : '') + '><span>' + esc(namaSheet(p.k)) + '<small>' + esc(p.sub) + '</small></span></label>').join('');
+    const pil = [];
+    if (data.sheets[lepas]) pil.push({ k: lepas, sub: t('bulanLepasL') });
+    pil.push({ k: semasa, sub: t('bulanSemasaL'), pilih: true });
+    pil.push({ k: depan, sub: data.sheets[depan] ? t('dahDibuka') : t('belumDibuka') });
+    const tiga = pil.length === 3;
+    $('bBulan').classList.toggle('tiga', tiga);
+    $('bBulan').innerHTML = pil.map((p) =>
+      '<label class="pil"><input type="radio" name="bulanB" value="' + p.k + '"' + (p.pilih ? ' checked' : '') + '><span>' + esc(tiga ? namaSheetPendek(p.k) : namaSheet(p.k)) + '<small>' + esc(p.sub) + '</small></span></label>').join('');
   }
 
   function kiraBayar() {
@@ -3024,6 +3070,7 @@
     } else $('bPecahan').hidden = true;
     const k = bulanDipilihB();
     const ada = !!data.sheets[k];
+    $('bMedanBayar').hidden = !(bArah === 'keluar' && ada);
     $('bNotaJadual').hidden = ada;
     if (!ada) $('bNotaJadual').lastChild.textContent = t('notaJadual', { s: namaSheet(k) });
     $('bMasuk').textContent = ada ? t('masukKe', { s: namaSheet(k) }) : t('simpanUntuk', { s: namaSheet(k) });
@@ -3036,6 +3083,7 @@
     hBayar.querySelector('input[name="arahB"][value="' + (s ? s.arah : hTab) + '"]').checked = true;
     $('bJumlah').value = s && s.ulang ? Math.min(keSen(s.ulang), ruangSasaran(s)) / 100 : '';
     $('bTarikh').value = hariIniIso();
+    $('bDahBayar').checked = false;
     paparBulanB();
     paparPilihanBayar(kod || null);
     hBayar.showModal();
@@ -3044,7 +3092,11 @@
 
   hBayar.querySelectorAll('input[name="arahB"]').forEach((r) => r.addEventListener('change', () => paparPilihanBayar(null)));
   $('bSenaraiH').addEventListener('change', kiraBayar);
-  $('bBulan').addEventListener('change', kiraBayar);
+  $('bBulan').addEventListener('change', () => {
+    // Bulan lepas: bayaran dah berlaku, jadi tanda selesai terus.
+    $('bDahBayar').checked = bulanDipilihB() < kunciUtama();
+    kiraBayar();
+  });
   $('bJumlah').addEventListener('input', kiraBayar);
   hBayar.querySelectorAll('[data-cepat]').forEach((b) => b.addEventListener('click', () => { $('bJumlah').value = b.dataset.cepat; kiraBayar(); }));
   $('bPenuh').addEventListener('click', () => { const s = sasaranDipilihB(); if (s) { $('bJumlah').value = (ruangSasaran(s) / 100).toFixed(2); kiraBayar(); } });
@@ -3079,6 +3131,7 @@
     const k = bulanDipilihB();
     const baru = itemBayaran(s, keSen(j), $('bTarikh').value || hariIniIso());
     if (baru.type === 'out' && !data.kumpulan.includes(baru.group)) data.kumpulan.push(baru.group);
+    if (baru.type === 'out' && data.sheets[k] && $('bDahBayar').checked) baru.paid = true;
     if (data.sheets[k]) letakItem(data.sheets[k].items, baru);
     else data.tertunda.push({ id: uid(), kunci: k, item: baru });
     hBayar.close();

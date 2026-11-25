@@ -114,7 +114,7 @@ try {
     </div>
   </div>
 
-  <footer class="kaki" id="kaki"></footer>
+  <footer class="kaki" id="kaki" data-kaki></footer>
 
 </div>
 
@@ -158,6 +158,7 @@ try {
     <label class="medan" id="medanTarikhB" hidden>
       <span data-i18n="fTarikhBayar">Tarikh bayaran</span>
       <input id="fTarikhB" type="date">
+      <small class="medan-nota" data-i18n="tarikhRekod">Untuk rekod sahaja.</small>
     </label>
 
     <label class="semak" id="medanBayar">
@@ -250,6 +251,7 @@ try {
     <span class="renggang"></span>
     <button class="btn" id="btnTutupMenu" type="button" data-i18n="tutup">Tutup</button>
   </div>
+  <p class="kaki menu-kaki" data-kaki></p>
 </dialog>
 
 <!-- Tarikh gaji -->
@@ -340,6 +342,7 @@ try {
       <legend data-i18n="masukBulan">Masuk ke bulan</legend>
       <div id="bBulan" class="b-bulan-pil"></div>
     </fieldset>
+    <label class="semak" id="bMedanBayar" hidden><input id="bDahBayar" type="checkbox"><span data-i18n="dahDibayarTerus">Dah dibayar, tanda selesai terus</span></label>
     <p class="b-jadual" id="bNotaJadual" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 10h16M9 3v4M15 3v4"/></svg><span></span></p>
     <label class="semak"><input id="bUlang" type="checkbox"><span data-i18n="ulangKotak">Ulang jumlah ini setiap bulan sehingga habis</span></label>
     <p class="ralat" id="bRalat" role="alert" hidden></p>
@@ -356,7 +359,17 @@ try {
     <h2 id="ubTajuk" data-i18n="ubahBayaran">Ubah bayaran</h2>
     <p class="menu-nota" id="ubNota"></p>
     <label class="medan"><span data-i18n="fJumlah">Jumlah (RM)</span><input id="ubJumlah" type="text" inputmode="decimal" autocomplete="off"></label>
-    <label class="medan" id="ubMedanTarikh"><span data-i18n="fTarikhBayar">Tarikh bayaran</span><input id="ubTarikh" type="date"><small class="medan-nota" data-i18n="tarikhNota">Bayaran diletak dalam sheet bulan tarikh ini.</small></label>
+    <fieldset class="ub-bulan">
+      <legend data-i18n="bulanL">Bulan</legend>
+      <div class="ub-bulan-baris">
+        <button class="ub-anak" id="ubSebelum" type="button">‹</button>
+        <div class="ub-bulan-nama" id="ubBulanNama" aria-live="polite"></div>
+        <button class="ub-anak" id="ubSelepas" type="button">›</button>
+      </div>
+      <small class="medan-nota" data-i18n="ubBulanNota">Tekan ‹ atau › untuk pindah sebulan ke belakang atau ke depan. Bulan yang belum dibuka jadi bayaran dijadualkan.</small>
+    </fieldset>
+    <label class="semak" id="ubMedanBayar"><input id="ubDahBayar" type="checkbox"><span data-i18n="dahDibayar">Dah dibayar</span></label>
+    <label class="medan" id="ubMedanTarikh"><span data-i18n="fTarikhBayar">Tarikh bayaran</span><input id="ubTarikh" type="date"><small class="medan-nota" data-i18n="tarikhRekod">Untuk rekod sahaja.</small></label>
     <p class="ralat" id="ubRalat" role="alert" hidden></p>
     <div class="borang-btn">
       <button class="btn bahaya" id="ubPadam" type="button" data-i18n="padam">Padam</button>

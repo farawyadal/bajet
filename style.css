@@ -1169,3 +1169,20 @@ dialog.helai.helai-tinggi { min-height: 70dvh; }
 .slip-bersih { display: flex; justify-content: space-between; align-items: baseline; margin-top: 14px; padding: 10px 12px; border-radius: 10px; background: var(--kertas); font-size: 0.875rem; }
 .slip-bersih s { color: var(--dakwat-2); margin-right: 6px; }
 .slip-bersih b { font-size: 1.125rem; font-family: var(--angka); }
+
+/* Pilih bulan: tiga lajur bila ada bulan lepas */
+.b-bulan-pil.tiga { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; }
+.b-bulan-pil.tiga .pil span { min-height: 56px; font-size: 0.875rem; }
+
+/* Ubah bayaran: pindah bulan */
+.ub-bulan { margin: 0 0 14px; padding: 0; border: 0; min-width: 0; }
+.ub-bulan legend { padding: 0; margin-bottom: 6px; font-size: 0.875rem; font-weight: 600; }
+.ub-bulan-baris { display: grid; grid-template-columns: 52px minmax(0, 1fr) 52px; gap: 6px; }
+.ub-anak { min-height: 56px; border: 1.5px solid var(--dakwat); border-radius: 10px; background: var(--permukaan); color: var(--dakwat); font-size: 1.5rem; font-weight: 700; }
+.ub-anak:disabled { border-color: var(--garis); color: var(--garis); cursor: default; }
+.ub-bulan-nama { display: grid; place-items: center; min-height: 56px; padding: 4px; border: 1.5px solid var(--garis); border-radius: 10px; font-weight: 600; text-align: center; line-height: 1.2; }
+.ub-bulan-nama small { font-weight: 400; font-size: 0.75rem; color: var(--dakwat-2); }
+.ub-bulan-nama.pindah { background: var(--timbul); border-color: var(--timbul); color: var(--timbul-teks); }
+.ub-bulan-nama.pindah small { color: inherit; opacity: 0.85; }
+.menu-kaki { margin: 14px 0 0; padding-top: 10px; border-top: 1px solid var(--garis); }
+#ubMedanBayar, #bMedanBayar { margin-bottom: 14px; }
